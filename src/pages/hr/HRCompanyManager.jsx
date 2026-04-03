@@ -228,35 +228,7 @@ const HRCompanyManager = () => {
             {/* Form đăng ký/cập nhật - Chỉ hiển thị khi KHÔNG có yêu cầu pending */}
             {!company?.isPendingRegistration && (
                 <>
-                    {/* Hiển thị trạng thái xác thực nếu đã có công ty */}
-                    {hasCompany && company && (
-                        <Alert
-                            message={company.isVerified ? 'Công ty đã được xác thực' : 'Đang chờ xác thực'}
-                            description={
-                                company.isVerified
-                                    ? 'Công ty của bạn đã được admin xác thực và có thể hoạt động bình thường.'
-                                    : (
-                                        <div>
-                                            <p>Công ty của bạn đang chờ admin xác thực. Vui lòng kiên nhẫn chờ đợi.</p>
-                                            <p className="mt-2">
-                                                <strong>Lưu ý:</strong> Bạn vẫn có thể đăng tin tuyển dụng ngay bây giờ,
-                                                nhưng tin tuyển dụng sẽ chỉ được hiển thị công khai sau khi công ty được xác thực.
-                                            </p>
-                                            <Button
-                                                size="small"
-                                                onClick={checkAndFetchCompany}
-                                                className="mt-2"
-                                            >
-                                                Kiểm tra lại trạng thái
-                                            </Button>
-                                        </div>
-                                    )
-                            }
-                            type={company.isVerified ? 'success' : 'warning'}
-                            showIcon
-                            className="mb-6"
-                        />
-                    )}
+
 
                     <Card>
                         <Form

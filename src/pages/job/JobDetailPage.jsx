@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import { MapPin, DollarSign, Calendar, Clock, Building2, ArrowLeft, CheckCircle, Share2, Briefcase, FileText, Send, User } from 'lucide-react';
@@ -17,6 +17,8 @@ const JobDetailPage = () => {
     const [isApplying, setIsApplying] = useState(false);
     const [showApplyModal, setShowApplyModal] = useState(false);
 
+    const queryClient = useQueryClient();
+
     const { data: job, isLoading, isError } = useQuery({
         queryKey: ['job', id],
         queryFn: async () => {
@@ -24,6 +26,20 @@ const JobDetailPage = () => {
             return res.data.data ? res.data.data : res.data;
         }
     });
+
+    const { data: myResumes } = useQuery({
+        queryKey: ['my-history'],
+        queryFn: async () => {
+            if (!isAuthenticated) return [];
+            const role = user?.role?.name || user?.role || '';
+            if (role !== 'CANDIDATE' && role !== 'ROLE_CANDIDATE') return [];
+            const res = await axiosClient.get(ENDPOINTS.RESUMES.MY_HISTORY);
+            return res.data?.data?.result || res.data?.result || res.data?.data || res.data || [];
+        },
+        enabled: isAuthenticated
+    });
+
+    const isApplied = myResumes?.some(resume => (resume.job?.id === Number(id)) || (resume.jobId === Number(id)) || (resume.job?.id === id) || (resume.jobId === id));
 
     const uploadResumeMutation = useMutation({
         mutationFn: async (file) => {
@@ -45,6 +61,7 @@ const JobDetailPage = () => {
             toast.success('Ứng tuyển thành công! Nhà tuyển dụng sẽ sớm liên hệ với bạn.');
             setShowApplyModal(false);
             setCvFile(null);
+            queryClient.invalidateQueries({ queryKey: ['my-history'] });
         },
         onError: (error) => {
             toast.error(error.response?.data?.message || 'Có lỗi xảy ra khi ứng tuyển. Vui lòng thử lại.');
@@ -162,20 +179,34 @@ const JobDetailPage = () => {
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-secondary-100">
-                                <button
-                                    onClick={() => {
-                                        if (!isAuthenticated) {
-                                            toast.info("Vui lòng đăng nhập để ứng tuyển");
-                                            navigate('/login', { state: { from: `/jobs/${id}` } });
-                                        } else {
+                                {isApplied ? (
+                                    <div className="flex-1 bg-emerald-50 text-emerald-600 font-bold py-3.5 px-8 rounded-xl border border-emerald-200 flex items-center justify-center gap-2 cursor-default">
+                                        <CheckCircle className="w-5 h-5" />
+                                        Đã ứng tuyển
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            if (!isAuthenticated) {
+                                                toast.info("Vui lòng đăng nhập để ứng tuyển");
+                                                navigate('/login', { state: { from: `/jobs/${id}` } });
+                                                return;
+                                            }
+                                            
+                                            const role = user?.role?.name || user?.role || '';
+                                            if (role === 'HR' || role === 'ROLE_HR' || role === 'ADMIN' || role === 'ROLE_ADMIN') {
+                                                toast.error("Tài khoản nhà tuyển dụng/quản trị viên không thể ứng tuyển công việc!");
+                                                return;
+                                            }
+
                                             setShowApplyModal(true);
-                                        }
-                                    }}
-                                    className="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-brand-200 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
-                                >
-                                    <Send className="w-5 h-5" />
-                                    Ứng tuyển ngay
-                                </button>
+                                        }}
+                                        className="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-brand-200 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                                    >
+                                        <Send className="w-5 h-5" />
+                                        Ứng tuyển ngay
+                                    </button>
+                                )}
                                 <button className="px-6 py-3.5 rounded-xl border border-secondary-200 text-secondary-600 font-bold hover:bg-secondary-50 transition-colors flex items-center justify-center gap-2">
                                     <Share2 className="w-5 h-5" />
                                     Chia sẻ

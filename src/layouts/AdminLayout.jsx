@@ -14,6 +14,7 @@ import {
     HomeOutlined
 } from '@ant-design/icons';
 import { useAuth } from '../context/AuthContext';
+import NotificationDropdown from '../components/NotificationDropdown';
 
 const { Header, Sider, Content } = Layout;
 
@@ -121,6 +122,7 @@ const AdminLayout = () => {
                     />
 
                     <div className="flex items-center gap-4 pr-4">
+                        <NotificationDropdown />
                         <span className="text-sm font-medium text-gray-600 hidden sm:block">
                             Xin chào, {user?.name || 'Admin'}
                         </span>
