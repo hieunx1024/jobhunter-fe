@@ -6,6 +6,7 @@ import AdminTable from '../../components/AdminTable';
 import axios from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import dayjs from 'dayjs';
+import { useAuth } from '../../context/AuthContext';
 
 const { TextArea } = Input;
 
@@ -13,6 +14,7 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const HRJobManagement = () => {
+    const { user } = useAuth();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
@@ -76,6 +78,13 @@ const HRJobManagement = () => {
         fetchPostingStats();
         fetchCompanies();
         fetchSkills();
+
+        // Listen for window focus to automatically update stats if they bought a package in another tab
+        const handleFocus = () => {
+            fetchPostingStats();
+        };
+        window.addEventListener('focus', handleFocus);
+        return () => window.removeEventListener('focus', handleFocus);
     }, [pagination.current, pagination.pageSize]);
 
     const fetchPostingStats = async () => {
@@ -88,8 +97,23 @@ const HRJobManagement = () => {
     };
 
     const handleCreate = () => {
+        if (postingStats.remainingPosts !== -1 && postingStats.remainingPosts <= 0) {
+            Modal.confirm({
+                title: 'Nâng cấp gói dịch vụ',
+                content: 'Bạn đã hết lượt đăng tin trong gói hiện tại. Vui lòng nâng cấp gói dịch vụ để tiếp tục đăng tin.',
+                okText: 'Nâng cấp ngay',
+                cancelText: 'Hủy',
+                onOk: () => {
+                    navigate('/hr/pricing');
+                }
+            });
+            return;
+        }
         setEditingJob(null);
         form.resetFields();
+        if (user?.company?.id) {
+            form.setFieldsValue({ company: user.company.id });
+        }
         setIsModalOpen(true);
     };
 
@@ -271,15 +295,34 @@ const HRJobManagement = () => {
                     </Form.Item>
 
                     <Form.Item name="company" label="Công ty" rules={[{ required: true, message: 'Vui lòng chọn công ty' }]}>
-                        <Select placeholder="Chọn công ty">
+                        <Select placeholder="Chọn công ty" disabled={!!user?.company?.id}>
                             {companies.map(c => (
                                 <Option key={c.id} value={c.id}>{c.name}</Option>
                             ))}
                         </Select>
                     </Form.Item>
 
-                    <Form.Item name="location" label="Địa điểm" rules={[{ required: true, message: 'Vui lòng nhập địa điểm' }]}>
-                        <Input placeholder="Ví dụ: Hà Nội, Hồ Chí Minh" />
+                    <Form.Item name="location" label="Địa điểm" rules={[{ required: true, message: 'Vui lòng chọn hoặc nhập địa điểm' }]}>
+                        <Select 
+                            placeholder="Chọn địa điểm" 
+                            showSearch 
+                            allowClear
+                            options={[
+                                { label: 'Hà Nội', value: 'Hà Nội' },
+                                { label: 'Hồ Chí Minh', value: 'Hồ Chí Minh' },
+                                { label: 'Đà Nẵng', value: 'Đà Nẵng' },
+                                { label: 'Hải Phòng', value: 'Hải Phòng' },
+                                { label: 'Cần Thơ', value: 'Cần Thơ' },
+                                { label: 'Bình Dương', value: 'Bình Dương' },
+                                { label: 'Đồng Nai', value: 'Đồng Nai' },
+                                { label: 'Huế', value: 'Huế' },
+                                { label: 'Toàn quốc (Remote)', value: 'Remote' },
+                                { label: 'Khác', value: 'Khác' },
+                            ]}
+                            filterOption={(input, option) =>
+                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                            }
+                        />
                     </Form.Item>
 
                     <Form.Item name="salary" label="Mức lương (VND)">
