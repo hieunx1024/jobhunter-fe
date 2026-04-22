@@ -11,19 +11,34 @@ export default {
       },
       colors: {
         brand: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+          50: '#f0f4f8',
+          100: '#d9e2ec',
+          200: '#bcccdc',
+          300: '#9fb3c8',
+          400: '#829ab1',
+          500: '#627d98',
+          600: '#486581', // Professional Slate Blue
+          700: '#334e68',
+          800: '#243b53',
+          900: '#102a43', // Midnight Blue / Navy
+          950: '#05192d',
+          DEFAULT: '#102a43',
         },
-        secondary: { // Slate
+        // Professional Navy Blue Palette for Primary
+        navy: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+          950: '#082f49',
+        },
+        secondary: { // Slate Blue
           50: '#f8fafc',
           100: '#f1f5f9',
           200: '#e2e8f0',
@@ -36,9 +51,11 @@ export default {
           900: '#0f172a',
           950: '#020617',
         },
-        accent: { // Emerald
-          500: '#10b981',
-          600: '#059669',
+        // Main Primary Color as defined by user (Midnight Blue)
+        'jobhunter-blue': {
+          DEFAULT: '#0F172A',
+          light: '#334155',
+          dark: '#020617',
         }
       },
       animation: {

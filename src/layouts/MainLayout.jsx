@@ -27,17 +27,16 @@ const MainLayout = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-secondary-50 font-sans text-secondary-900 overflow-x-hidden selection:bg-brand-500/30 selection:text-brand-900">
+        <div className="min-h-screen flex flex-col bg-white font-sans text-secondary-800 overflow-x-hidden selection:bg-brand-100 selection:text-brand-900">
             <Header />
             <main className="flex-grow w-full">
                 <Outlet />
             </main>
             <Footer />
 
-            {/* Ambient Background Gradient for subtle effect */}
-            <div className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 opacity-40">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-100 rounded-full blur-[128px] transform translate-x-1/3 -translate-y-1/3" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-100 rounded-full blur-[128px] transform -translate-x-1/3 translate-y-1/3" />
+            {/* Subtle Ambient Background */}
+            <div className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 opacity-30">
+                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-50 rounded-full blur-[160px] transform translate-x-1/2 -translate-y-1/2" />
             </div>
         </div>
     );

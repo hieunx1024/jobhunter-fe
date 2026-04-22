@@ -43,7 +43,7 @@ const Header = () => {
     const hasPendingRegistration = myRegistrations?.result?.some(r => r.status === 'PENDING');
     const shouldShowRegisterCompany = user?.role?.name === 'HR' && !user?.company && !hasPendingRegistration;
 
-    const isActive = (path) => location.pathname === path;
+    const isActive = (path) => location.pathname.startsWith(path);
 
     return (
         <header className="bg-white/90 backdrop-blur-md border-b border-secondary-200 sticky top-0 z-50 transition-all duration-300">
@@ -60,25 +60,39 @@ const Header = () => {
                             </span>
                         </Link>
 
-                        <nav className="hidden md:flex gap-8">
+                        <nav className="hidden md:flex gap-8 h-16">
                             <Link
                                 to="/jobs"
-                                className={`text-sm font-medium transition-colors hover:text-brand-600 ${isActive('/jobs') ? 'text-brand-600' : 'text-secondary-600'}`}
+                                className={`text-sm font-bold transition-all hover:text-brand-600 flex items-center relative h-full group ${isActive('/jobs') ? 'text-brand-600' : 'text-secondary-600'}`}
                             >
                                 Việc làm
+                                {isActive('/jobs') && (
+                                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-600 rounded-t-full shadow-[0_-2px_8px_rgba(37,99,235,0.4)]" />
+                                )}
+                                <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-brand-600 rounded-t-full transition-all duration-300 group-hover:w-full ${isActive('/jobs') ? 'hidden' : ''}`} />
                             </Link>
+
                             <Link
                                 to="/companies"
-                                className={`text-sm font-medium transition-colors hover:text-brand-600 ${isActive('/companies') ? 'text-brand-600' : 'text-secondary-600'}`}
+                                className={`text-sm font-bold transition-all hover:text-brand-600 flex items-center relative h-full group ${isActive('/companies') ? 'text-brand-600' : 'text-secondary-600'}`}
                             >
                                 Công ty
+                                {isActive('/companies') && (
+                                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-600 rounded-t-full shadow-[0_-2px_8px_rgba(37,99,235,0.4)]" />
+                                )}
+                                <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-brand-600 rounded-t-full transition-all duration-300 group-hover:w-full ${isActive('/companies') ? 'hidden' : ''}`} />
                             </Link>
+
                             {shouldShowRegisterCompany && (
                                 <Link
                                     to="/hr/register-company"
-                                    className={`text-sm font-medium transition-colors hover:text-brand-600 ${isActive('/hr/register-company') ? 'text-brand-600' : 'text-secondary-600'}`}
+                                    className={`text-sm font-bold transition-all hover:text-brand-600 flex items-center relative h-full group ${isActive('/hr/register-company') ? 'text-brand-600' : 'text-secondary-600'}`}
                                 >
                                     Đăng ký Cty
+                                    {isActive('/hr/register-company') && (
+                                        <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-600 rounded-t-full shadow-[0_-2px_8px_rgba(37,99,235,0.4)]" />
+                                    )}
+                                    <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-brand-600 rounded-t-full transition-all duration-300 group-hover:w-full ${isActive('/hr/register-company') ? 'hidden' : ''}`} />
                                 </Link>
                             )}
                         </nav>

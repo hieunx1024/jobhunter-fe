@@ -87,30 +87,35 @@ const JobDetailPage = () => {
     };
 
     if (isLoading) return (
-        <div className="min-h-screen flex items-center justify-center bg-secondary-50">
-            <div className="w-16 h-16 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin"></div>
+        <div className="min-h-screen flex items-center justify-center bg-slate-50">
+            <div className="w-16 h-16 border-4 border-slate-200 border-t-slate-900 rounded-full animate-spin"></div>
         </div>
     );
 
     if (isError || !job) return (
         <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
-            <div className="bg-red-50 p-6 rounded-full mb-6">
-                <FileText className="w-12 h-12 text-red-500" />
+            <div className="bg-rose-50 p-6 rounded-full mb-6">
+                <FileText className="w-12 h-12 text-rose-500" />
             </div>
-            <h2 className="text-2xl font-bold text-secondary-900 mb-2">Không tìm thấy công việc này</h2>
-            <p className="text-secondary-500 mb-8 max-w-md">Công việc có thể đã hết hạn hoặc bị xóa. Vui lòng quay lại tìm kiếm công việc khác.</p>
-            <button onClick={() => navigate('/jobs')} className="btn btn-primary">
-                Quay lại danh sách việc làm
+            <h2 className="text-2xl font-black text-slate-900 mb-2">Không tìm thấy công việc này</h2>
+            <p className="text-slate-500 mb-8">Công việc có thể đã bị xóa hoặc không tồn tại.</p>
+            <button
+                onClick={() => navigate(-1)}
+                className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all"
+            >
+                Quay lại
             </button>
         </div>
     );
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
-            {/* Navigation */}
-            <button onClick={() => navigate(-1)} className="group flex items-center text-secondary-500 hover:text-brand-600 mb-8 transition-colors font-medium">
-                <div className="p-2 rounded-full bg-white border border-secondary-200 group-hover:border-brand-200 mr-3 shadow-sm transition-all">
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <button
+                onClick={() => navigate(-1)}
+                className="flex items-center text-slate-600 font-bold mb-8 group hover:text-slate-900 transition-colors"
+            >
+                <div className="p-3 rounded-xl bg-white border border-slate-100 group-hover:border-slate-200 mr-4 shadow-sm transition-all">
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-slate-900" />
                 </div>
                 Quay lại danh sách
             </button>
@@ -119,63 +124,63 @@ const JobDetailPage = () => {
                 {/* Main Content */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Header Card */}
-                    <div className="bg-white rounded-3xl shadow-sm border border-secondary-200 p-8 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-brand-50 to-transparent rounded-bl-full -mr-16 -mt-16 pointer-events-none opacity-50"></div>
+                    <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-10 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-32 pointer-events-none"></div>
 
                         <div className="relative z-10">
-                            <div className="flex flex-col md:flex-row gap-6 items-start mb-6">
-                                <div className="w-20 h-20 md:w-24 md:h-24 bg-white border border-secondary-100 shadow-md rounded-2xl flex items-center justify-center p-3 shrink-0">
+                            <div className="flex flex-col md:flex-row gap-8 items-start mb-10">
+                                <div className="w-24 h-24 md:w-32 md:h-32 bg-white border border-slate-100 shadow-xl shadow-slate-200/50 rounded-3xl flex items-center justify-center p-4 shrink-0 overflow-hidden">
                                     {job.company?.logo ? (
                                         <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain" />
                                     ) : (
-                                        <Building2 className="w-10 h-10 text-brand-300" />
+                                        <Building2 className="w-12 h-12 text-slate-200" />
                                     )}
                                 </div>
                                 <div className="flex-1">
-                                    <h1 className="text-2xl md:text-3xl font-bold text-secondary-900 mb-2 leading-tight">{job.name}</h1>
-                                    <Link to={`/companies/${job.company?.id}`} className="text-lg text-brand-600 font-medium hover:text-brand-700 transition-colors inline-flex items-center gap-1 group">
+                                    <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 leading-tight tracking-tight uppercase">{job.name}</h1>
+                                    <Link to={`/companies/${job.company?.id}`} className="text-xl text-blue-600 font-black hover:text-blue-700 transition-colors inline-flex items-center gap-2 group">
                                         {job.company?.name || 'Công ty ẩn danh'}
-                                        <ArrowLeft className="w-4 h-4 rotate-180 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-1 transition-all" />
+                                        <ArrowLeft className="w-5 h-5 rotate-180 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all font-bold" />
                                     </Link>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                                <div className="flex items-center text-secondary-700 bg-secondary-50 px-4 py-3 rounded-xl border border-secondary-100">
-                                    <DollarSign className="w-5 h-5 mr-3 text-emerald-500 shrink-0" />
-                                    <div>
-                                        <p className="text-xs text-secondary-400 font-medium uppercase tracking-wider mb-0.5">Mức lương</p>
-                                        <p className="font-semibold">{job.salary ? `${job.salary.toLocaleString()} VNĐ` : 'Thỏa thuận'}</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <DollarSign className="w-4 h-4 text-emerald-500" />
+                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Mức lương</p>
                                     </div>
+                                    <p className="font-black text-slate-900">{job.salary ? `${job.salary.toLocaleString()} VND` : 'Thỏa thuận'}</p>
                                 </div>
-                                <div className="flex items-center text-secondary-700 bg-secondary-50 px-4 py-3 rounded-xl border border-secondary-100">
-                                    <MapPin className="w-5 h-5 mr-3 text-brand-500 shrink-0" />
-                                    <div>
-                                        <p className="text-xs text-secondary-400 font-medium uppercase tracking-wider mb-0.5">Địa điểm</p>
-                                        <p className="font-semibold truncate">{job.location}</p>
+                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <MapPin className="w-4 h-4 text-blue-500" />
+                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Địa điểm</p>
                                     </div>
+                                    <p className="font-black text-slate-900 truncate">{job.location}</p>
                                 </div>
-                                <div className="flex items-center text-secondary-700 bg-secondary-50 px-4 py-3 rounded-xl border border-secondary-100">
-                                    <Briefcase className="w-5 h-5 mr-3 text-blue-500 shrink-0" />
-                                    <div>
-                                        <p className="text-xs text-secondary-400 font-medium uppercase tracking-wider mb-0.5">Kinh nghiệm</p>
-                                        <p className="font-semibold">{job.level}</p>
+                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Briefcase className="w-4 h-4 text-indigo-500" />
+                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Cấp độ</p>
                                     </div>
+                                    <p className="font-black text-slate-900">{job.level}</p>
                                 </div>
-                                <div className="flex items-center text-secondary-700 bg-secondary-50 px-4 py-3 rounded-xl border border-secondary-100">
-                                    <Clock className="w-5 h-5 mr-3 text-orange-500 shrink-0" />
-                                    <div>
-                                        <p className="text-xs text-secondary-400 font-medium uppercase tracking-wider mb-0.5">Hạn nộp</p>
-                                        <p className="font-semibold">{job.endDate ? format(new Date(job.endDate), 'dd/MM/yyyy') : 'N/A'}</p>
+                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Clock className="w-4 h-4 text-orange-500" />
+                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Hạn nộp</p>
                                     </div>
+                                    <p className="font-black text-slate-900">{job.endDate ? format(new Date(job.endDate), 'dd/MM/yyyy') : 'N/A'}</p>
                                 </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-secondary-100">
+                            <div className="flex flex-col sm:flex-row gap-4 pt-10 border-t border-slate-50">
                                 {isApplied ? (
-                                    <div className="flex-1 bg-emerald-50 text-emerald-600 font-bold py-3.5 px-8 rounded-xl border border-emerald-200 flex items-center justify-center gap-2 cursor-default">
-                                        <CheckCircle className="w-5 h-5" />
-                                        Đã ứng tuyển
+                                    <div className="flex-1 bg-slate-900 text-white font-bold py-5 px-10 rounded-2xl flex items-center justify-center gap-3 cursor-default shadow-xl shadow-slate-900/20">
+                                        <CheckCircle className="w-6 h-6 text-emerald-400" />
+                                        Ứng tuyển thành công
                                     </div>
                                 ) : (
                                     <button
@@ -185,23 +190,21 @@ const JobDetailPage = () => {
                                                 navigate('/login', { state: { from: `/jobs/${id}` } });
                                                 return;
                                             }
-
                                             const role = user?.role?.name || user?.role || '';
                                             if (role === 'HR' || role === 'ROLE_HR' || role === 'ADMIN' || role === 'ROLE_ADMIN') {
                                                 toast.error("Tài khoản nhà tuyển dụng/quản trị viên không thể ứng tuyển công việc!");
                                                 return;
                                             }
-
                                             setShowApplyModal(true);
                                         }}
-                                        className="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg shadow-brand-200 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                                        className="flex-1 bg-slate-900 text-white font-black py-5 px-10 rounded-2xl shadow-2xl shadow-slate-900/30 hover:bg-slate-800 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 active:scale-[0.98]"
                                     >
-                                        <Send className="w-5 h-5" />
+                                        <Send className="w-6 h-6" />
                                         Ứng tuyển ngay
                                     </button>
                                 )}
-                                <button className="px-6 py-3.5 rounded-xl border border-secondary-200 text-secondary-600 font-bold hover:bg-secondary-50 transition-colors flex items-center justify-center gap-2">
-                                    <Share2 className="w-5 h-5" />
+                                <button className="px-10 py-5 rounded-2xl border border-slate-200 text-slate-600 font-black hover:bg-slate-50 transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
+                                    <Share2 className="w-6 h-6" />
                                     Chia sẻ
                                 </button>
                             </div>
@@ -217,8 +220,8 @@ const JobDetailPage = () => {
                                 </div>
                                 Chi tiết công việc
                             </h2>
-                            <div className="prose prose-secondary max-w-none text-secondary-600 whitespace-pre-line leading-relaxed">
-                                {job.description}
+                            <div className="prose prose-slate max-w-none text-slate-600 whitespace-pre-wrap leading-relaxed space-y-4">
+                                {job.description?.replace(/\\n|\\r\\n/g, '\n')}
                             </div>
                         </div>
 
@@ -226,14 +229,14 @@ const JobDetailPage = () => {
 
                         <div>
                             <h2 className="text-xl font-bold text-secondary-900 mb-6 flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-accent-100 flex items-center justify-center text-accent-600">
+                                <div className="w-8 h-8 rounded-lg bg-secondary-100 flex items-center justify-center text-secondary-600">
                                     <CheckCircle className="w-5 h-5" />
                                 </div>
                                 Yêu cầu ứng viên
                             </h2>
-                            <div className="prose prose-secondary max-w-none text-secondary-600 whitespace-pre-line leading-relaxed">
-                                {job.requirements || (
-                                    <p className="italic text-secondary-400">Vui lòng tham khảo phần mô tả chi tiết ở trên.</p>
+                            <div className="prose prose-slate max-w-none text-slate-600 whitespace-pre-wrap leading-relaxed space-y-4">
+                                {job.requirements ? job.requirements.replace(/\\n|\\r\\n/g, '\n') : (
+                                    <p className="italic text-slate-400">Vui lòng tham khảo phần mô tả chi tiết ở trên.</p>
                                 )}
                             </div>
                         </div>
@@ -242,36 +245,42 @@ const JobDetailPage = () => {
 
                 {/* Sidebar */}
                 <div className="lg:col-span-1 space-y-6">
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-secondary-200 sticky top-24">
-                        <h3 className="font-bold text-secondary-900 mb-6 text-lg">Thông tin công ty</h3>
-                        <div className="flex items-center gap-4 mb-6">
-                            <div className="w-14 h-14 bg-secondary-50 rounded-xl flex items-center justify-center border border-secondary-100 shrink-0">
+                    <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 sticky top-24">
+                        <h3 className="font-black text-slate-900 mb-8 text-xl uppercase tracking-tight">Thông tin công ty</h3>
+                        <div className="flex items-center gap-6 mb-8">
+                            <div className="w-20 h-20 bg-white shadow-xl shadow-slate-100 border border-slate-50 rounded-2xl flex items-center justify-center p-3 shrink-0 overflow-hidden">
                                 {job.company?.logo ? (
-                                    <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain p-1" />
+                                    <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain" />
                                 ) : (
-                                    <Building2 className="w-7 h-7 text-secondary-400" />
+                                    <Building2 className="w-10 h-10 text-slate-200" />
                                 )}
                             </div>
                             <div className="overflow-hidden">
-                                <p className="font-bold text-secondary-900 truncate" title={job.company?.name}>{job.company?.name}</p>
-                                <Link to={`/companies/${job.company?.id}`} className="text-brand-600 text-sm font-medium hover:underline flex items-center gap-1">
+                                <p className="font-black text-slate-900 text-lg leading-tight mb-2 truncate" title={job.company?.name}>{job.company?.name}</p>
+                                <Link to={`/companies/${job.company?.id}`} className="text-blue-600 text-sm font-bold hover:underline flex items-center gap-1">
                                     Xem hồ sơ công ty
                                 </Link>
                             </div>
                         </div>
 
-                        <div className="space-y-4 text-sm text-secondary-600 bg-secondary-50/50 p-4 rounded-xl border border-secondary-100/50">
+                        <div className="space-y-6 text-sm text-slate-500 bg-slate-50/50 p-6 rounded-2xl border border-slate-100/50">
                             <div>
-                                <span className="font-semibold text-secondary-900 block mb-1">Địa chỉ</span>
-                                <span className="leading-relaxed">{job.company?.address || 'Chưa cập nhật'}</span>
+                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest block mb-1">Địa chỉ</span>
+                                <span className="font-medium text-slate-700 leading-relaxed block">{job.company?.address || 'Chưa cập nhật'}</span>
                             </div>
                             <div>
-                                <span className="font-semibold text-secondary-900 block mb-1">Quy mô</span>
-                                <span>50-100 nhân viên</span>
+                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest block mb-1">Quy mô</span>
+                                <span className="font-medium text-slate-700">50-500 nhân viên</span>
                             </div>
                             <div>
-                                <span className="font-semibold text-secondary-900 block mb-1">Website</span>
-                                <a href="#" className="text-brand-600 hover:underline truncate block">Visit website</a>
+                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest block mb-1">Email liên hệ</span>
+                                <span className="font-bold text-blue-600 truncate block" title={job.createdBy}>
+                                    {job.createdBy || 'hr@company.com'}
+                                </span>
+                            </div>
+                            <div>
+                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest block mb-1">Website</span>
+                                <a href="#" className="text-blue-600 font-bold hover:underline truncate block">Visit website</a>
                             </div>
                         </div>
                     </div>
@@ -284,17 +293,21 @@ const JobDetailPage = () => {
                     <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-8 relative animate-scale-in">
                         <button
                             onClick={() => setShowApplyModal(false)}
-                            className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary-100 text-secondary-400 hover:text-secondary-600 transition-colors"
+                            className="absolute top-6 right-6 p-2.5 rounded-full hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-all border border-transparent hover:border-slate-100"
                         >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.1" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
                         </button>
 
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Send className="w-8 h-8" />
+                        <div className="text-center mb-10">
+                            <div className="w-16 h-16 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-slate-100">
+                                <Send className="w-7 h-7" />
                             </div>
-                            <h3 className="text-2xl font-bold text-secondary-900">Ứng tuyển công việc</h3>
-                            <p className="text-secondary-500 mt-2">Gửi hồ sơ của bạn tới <span className="font-semibold text-secondary-900">{job.company?.name}</span></p>
+                            <h3 className="text-2xl font-black text-slate-900 tracking-tight uppercase">Ứng tuyển công việc</h3>
+                            <p className="text-slate-500 mt-2 font-medium italic">
+                                Gửi hồ sơ của bạn tới <span className="font-bold text-slate-900">{job.company?.name}</span>
+                            </p>
                         </div>
 
                         <form onSubmit={handleApply}>
@@ -307,7 +320,7 @@ const JobDetailPage = () => {
                                             value={selectedCvId}
                                             onChange={(e) => {
                                                 setSelectedCvId(e.target.value);
-                                                if (e.target.value) setCvFile(null); // Reset new file if selecting existing
+                                                if (e.target.value) setCvFile(null);
                                             }}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg font-medium text-secondary-700"
                                         >
@@ -322,8 +335,8 @@ const JobDetailPage = () => {
                                 )}
 
                                 {!selectedCvId && (
-                                    <div className="relative group mt-2">
-                                        <div className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all cursor-pointer ${cvFile ? 'border-emerald-500 bg-emerald-50' : 'border-secondary-300 hover:border-brand-500 hover:bg-brand-50'}`}>
+                                    <div className="relative group">
+                                        <div className={`border-2 border-dashed rounded-[2rem] p-10 text-center transition-all cursor-pointer ${cvFile ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-slate-900 hover:bg-slate-50'}`}>
                                             <input
                                                 type="file"
                                                 accept=".pdf,.doc,.docx"
@@ -332,19 +345,19 @@ const JobDetailPage = () => {
                                             />
                                             {cvFile ? (
                                                 <div className="flex flex-col items-center text-emerald-600 animate-fade-in">
-                                                    <div className="p-3 bg-white rounded-full shadow-sm mb-3">
+                                                    <div className="p-4 bg-white rounded-2xl shadow-xl shadow-emerald-100 border border-emerald-100 mb-4">
                                                         <CheckCircle className="w-8 h-8" />
                                                     </div>
-                                                    <span className="font-bold text-secondary-900 truncate max-w-[200px] block">{cvFile.name}</span>
-                                                    <span className="text-xs mt-1">Click để thay đổi file</span>
+                                                    <span className="font-black text-slate-900 truncate max-w-[200px] block">{cvFile.name}</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest mt-2 opacity-60">Click để thay đổi file</span>
                                                 </div>
                                             ) : (
-                                                <div className="flex flex-col items-center text-secondary-500">
-                                                    <div className="p-3 bg-secondary-100 rounded-full mb-3 group-hover:bg-white group-hover:shadow-sm transition-colors">
-                                                        <FileText className="w-8 h-8 text-secondary-400 group-hover:text-brand-500 transition-colors" />
+                                                <div className="flex flex-col items-center text-slate-500">
+                                                    <div className="p-4 bg-slate-50 rounded-2xl mb-4 group-hover:bg-white group-hover:shadow-xl group-hover:shadow-slate-200 transition-all">
+                                                        <FileText className="w-8 h-8 text-slate-300 group-hover:text-slate-900 transition-colors" />
                                                     </div>
-                                                    <span className="font-medium group-hover:text-brand-600 transition-colors">Click để chọn file hoặc kéo thả</span>
-                                                    <span className="text-xs text-secondary-400 mt-2">Hỗ trợ PDF, DOC. Tối đa 5MB</span>
+                                                    <span className="font-bold text-slate-900 tracking-tight group-hover:text-slate-600 transition-colors">Tải lên hồ sơ ứng tuyển</span>
+                                                    <span className="text-[10px] uppercase font-black tracking-widest text-slate-400 mt-2">Hỗ trợ PDF, DOC. Tối đa 5MB</span>
                                                 </div>
                                             )}
                                         </div>
@@ -352,22 +365,22 @@ const JobDetailPage = () => {
                                 )}
                             </div>
 
-                            <div className="flex gap-3">
+                            <div className="flex gap-4">
                                 <button
                                     type="button"
                                     onClick={() => setShowApplyModal(false)}
-                                    className="flex-1 px-4 py-3 text-secondary-600 bg-secondary-100 hover:bg-secondary-200 rounded-xl font-bold transition-colors"
+                                    className="flex-1 px-8 py-4 text-slate-500 bg-slate-50 hover:bg-slate-100 rounded-2xl font-bold transition-all active:scale-[0.98]"
                                 >
                                     Hủy bỏ
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={isApplying}
-                                    className="flex-1 px-4 py-3 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-lg shadow-brand-200"
+                                    className="flex-1 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black h-14 hover:bg-slate-800 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xl shadow-slate-900/20 active:scale-[0.98]"
                                 >
                                     {isApplying ? (
                                         <>
-                                            <Clock className="w-5 h-5 mr-2 animate-spin" />
+                                            <div className="w-5 h-5 mr-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                                             Đang gửi...
                                         </>
                                     ) : (

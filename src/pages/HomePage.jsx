@@ -39,37 +39,35 @@ const HomePage = () => {
     return (
         <div className="space-y-20 pb-20">
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-indigo-800 rounded-3xl text-white isolate shadow-2xl shadow-brand-900/20 mx-4 mt-8">
-                {/* Abstract Background Pattern */}
+            <section className="relative overflow-hidden bg-brand-900 rounded-3xl text-white isolate shadow-2xl shadow-brand-900/20 mx-4 mt-8">
+                {/* Abstract Background Pattern - More Subtle */}
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
-                    <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
-                    </svg>
+                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_120%,rgba(72,101,129,0.3),transparent)]"></div>
                 </div>
 
-                <div className="relative z-10 px-6 py-20 md:py-32 text-center max-w-5xl mx-auto space-y-8">
+                <div className="relative z-10 px-6 py-20 md:py-32 text-center max-w-5xl mx-auto space-y-10">
                     <div className="space-y-6 animate-slide-up">
-                        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-snug text-white">
-                            Tìm Kiếm <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-green-400">Cơ Hội Nghề Nghiệp</span> <br className="hidden md:block" /> Tốt Nhất Cho Bạn
+                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-snug text-white">
+                            Tìm Kiếm Cơ Hội Nghề Nghiệp <br className="hidden md:block" /> <span className="text-brand-300">Tốt Nhất Cho Bạn</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed font-light">
+                        <p className="text-lg md:text-xl text-brand-100/80 max-w-2xl mx-auto leading-relaxed font-light">
                             Khám phá hàng ngàn công việc IT hấp dẫn từ các công ty công nghệ hàng đầu. Phát triển sự nghiệp của bạn ngay hôm nay.
                         </p>
                     </div>
 
-                    <div className="bg-white/10 backdrop-blur-md p-2 rounded-2xl shadow-xl max-w-4xl mx-auto flex flex-col md:flex-row gap-2 animate-slide-up border border-white/20" style={{ animationDelay: '0.1s' }}>
-                        <div className="flex-1 flex items-center px-4 py-3 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-transparent focus-within:border-brand-500 focus-within:ring-4 focus-within:ring-brand-500/20">
+                    <div className="bg-white/10 backdrop-blur-md p-2 rounded-2xl shadow-2xl max-w-4xl mx-auto flex flex-col md:flex-row gap-2 animate-slide-up border border-white/10" style={{ animationDelay: '0.1s' }}>
+                        <div className="flex-1 flex items-center px-4 py-3 bg-white rounded-xl shadow-sm transition-all border border-transparent focus-within:ring-2 focus-within:ring-brand-400">
                             <Search className="text-secondary-400 mr-3 h-5 w-5" />
                             <input
                                 type="text"
-                                placeholder="Tìm kiếm theo tên công việc, kỹ năng..."
+                                placeholder="Tên công việc, kỹ năng..."
                                 className="w-full text-secondary-900 placeholder:text-secondary-400 bg-transparent outline-none font-medium"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                             />
                         </div>
-                        <div className="flex-1 flex items-center px-4 py-3 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-transparent focus-within:border-brand-500 focus-within:ring-4 focus-within:ring-brand-500/20">
+                        <div className="flex-1 flex items-center px-4 py-3 bg-white rounded-xl shadow-sm transition-all border border-transparent focus-within:ring-2 focus-within:ring-brand-400">
                             <MapPin className="text-secondary-400 mr-3 h-5 w-5" />
                             <select
                                 className="w-full text-secondary-900 bg-white outline-none font-medium cursor-pointer"
@@ -80,13 +78,12 @@ const HomePage = () => {
                                 <option value="Hà Nội">Hà Nội</option>
                                 <option value="Hồ Chí Minh">Hồ Chí Minh</option>
                                 <option value="Đà Nẵng">Đà Nẵng</option>
-                                <option value="Cần Thơ">Cần Thơ</option>
                                 <option value="Remote">Remote</option>
                             </select>
                         </div>
                         <button
                             onClick={handleSearch}
-                            className="bg-accent-600 hover:bg-accent-500 text-white font-bold py-4 px-8 rounded-xl transition duration-300 shadow-lg shadow-accent-600/30 flex items-center justify-center gap-2 transform active:scale-95"
+                            className="bg-brand-700 hover:bg-brand-800 text-white font-bold py-4 px-10 rounded-xl transition-all duration-300 shadow-lg flex items-center justify-center gap-2 transform active:scale-95"
                         >
                             <Search className="h-5 w-5" />
                             Tìm Kiếm
@@ -94,11 +91,11 @@ const HomePage = () => {
 
                     </div>
 
-                    <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-white animate-slide-up pt-4" style={{ animationDelay: '0.2s' }}>
-                        <span className="opacity-90">Phổ biến:</span>
+                    <div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-white/70 animate-slide-up pt-4" style={{ animationDelay: '0.2s' }}>
+                        <span>Phổ biến:</span>
                         <div className="flex gap-3">
-                            {['Java', 'ReactJS', 'Python', 'Tester', 'Project Manager'].map((tag) => (
-                                <a key={tag} href="#" className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition-colors border border-white/20 text-white text-xs">
+                            {['Java', 'ReactJS', 'Python', 'NodeJS'].map((tag) => (
+                                <a key={tag} href="#" className="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full transition-colors border border-white/10 text-white/90 text-xs">
                                     {tag}
                                 </a>
                             ))}
@@ -110,17 +107,17 @@ const HomePage = () => {
             {/* Stats Section */}
             <section className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
                 {[
-                    { label: "Việc làm", value: "10k+", icon: Briefcase, color: "text-blue-600", bg: "bg-blue-50" },
-                    { label: "Công ty", value: "500+", icon: Building2, color: "text-indigo-600", bg: "bg-indigo-50" },
-                    { label: "Ứng viên", value: "1M+", icon: Users, color: "text-emerald-600", bg: "bg-emerald-50" },
-                    { label: "Ứng tuyển", value: "50k+", icon: TrendingUp, color: "text-orange-600", bg: "bg-orange-50" },
+                    { label: "Việc làm", value: "10k+", icon: Briefcase, color: "text-brand-900", bg: "bg-brand-50" },
+                    { label: "Công ty", value: "500+", icon: Building2, color: "text-brand-900", bg: "bg-brand-50" },
+                    { label: "Ứng viên", value: "1M+", icon: Users, color: "text-brand-900", bg: "bg-brand-50" },
+                    { label: "Ứng tuyển", value: "50k+", icon: TrendingUp, color: "text-brand-900", bg: "bg-brand-50" },
                 ].map((stat, index) => (
-                    <div key={index} className="flex flex-col md:flex-row items-center md:items-start gap-4 p-6 rounded-2xl bg-white border border-secondary-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
+                    <div key={index} className="flex flex-col md:flex-row items-center md:items-start gap-4 p-6 rounded-2xl bg-white border border-secondary-100 shadow-sm hover:shadow-md transition-all">
                         <div className={`w-12 h-12 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center mb-2 md:mb-0`}>
                             <stat.icon className="h-6 w-6" />
                         </div>
                         <div className="text-center md:text-left">
-                            <p className="text-2xl font-bold text-secondary-900 tracking-tight">{stat.value}</p>
+                            <p className="text-2xl font-bold text-brand-900 tracking-tight">{stat.value}</p>
                             <p className="text-secondary-500 text-sm font-medium">{stat.label}</p>
                         </div>
                     </div>

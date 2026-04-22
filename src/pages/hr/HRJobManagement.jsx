@@ -230,27 +230,22 @@ const HRJobManagement = () => {
 
     return (
         <div className="animate-fade-in pb-8">
-            <div className="mb-8 p-8 rounded-[2rem] bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-lg relative overflow-hidden">
-                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                    <div>
-                        <h1 className="text-3xl font-extrabold mb-2 text-white">Quản lý Tin tuyển dụng</h1>
-                        <p className="text-blue-100 mb-4">Tạo mới, chỉnh sửa và theo dõi các tin đăng tuyển dụng của công ty bạn.</p>
-                        <div className="flex flex-wrap items-center gap-3">
-                            <div className="px-4 py-1.5 rounded-xl text-sm font-bold bg-white/20 backdrop-blur-md border border-white/30 text-white shadow-sm flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-blue-300"></span> Đã đăng: {postingStats.usedPosts}
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                    <div className="flex-grow">
+                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Quản lý Tin tuyển dụng</h1>
+                        <p className="text-slate-500 font-medium mb-6">Tạo mới và theo dõi các tin đăng tuyển dụng của công ty bạn.</p>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-slate-50 text-slate-400 border border-slate-100 flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div> Đã đăng: {postingStats.usedPosts}
                             </div>
-                            <div className={`px-4 py-1.5 rounded-xl text-sm font-bold backdrop-blur-md border shadow-sm flex items-center gap-2 ${postingStats.remainingPosts === -1
-                                ? 'bg-emerald-500/20 border-emerald-400/30 text-emerald-50'
-                                : postingStats.remainingPosts > 0
-                                    ? 'bg-emerald-500/20 border-emerald-400/30 text-emerald-50'
-                                    : 'bg-red-500/20 border-red-400/30 text-red-50'
-                                }`}>
-                                <span className={`w-2 h-2 rounded-full ${postingStats.remainingPosts > 0 || postingStats.remainingPosts === -1 ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
+                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-slate-50 text-slate-400 border border-slate-100 flex items-center gap-2">
+                                <div className={`w-1.5 h-1.5 rounded-full ${postingStats.remainingPosts > 0 || postingStats.remainingPosts === -1 ? 'bg-emerald-400' : 'bg-red-400'}`}></div>
                                 Còn lại: {postingStats.remainingPosts === -1 ? 'Không giới hạn' : postingStats.remainingPosts}
                             </div>
-                            <div className="px-4 py-1.5 rounded-xl text-sm font-bold bg-purple-500/20 backdrop-blur-md border border-purple-400/30 text-purple-50 shadow-sm flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-purple-400"></span> Gói: {postingStats.packageName}
+                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200 flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div> Gói: {postingStats.packageName}
                             </div>
                         </div>
                     </div>
@@ -259,7 +254,7 @@ const HRJobManagement = () => {
                         icon={<PlusOutlined />} 
                         onClick={handleCreate} 
                         size="large"
-                        className="rounded-xl font-semibold shadow-md bg-white text-blue-600 hover:bg-blue-50 border-0 h-12 px-6"
+                        className="rounded-2xl font-bold bg-slate-900 text-white hover:bg-slate-800 border-0 h-14 px-8 shadow-lg shadow-slate-900/20"
                     >
                         Đăng tin tuyển dụng
                     </Button>

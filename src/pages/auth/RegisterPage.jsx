@@ -56,9 +56,9 @@ const RegisterPage = () => {
                     <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
                         Đăng ký tài khoản
                     </h2>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 text-sm text-secondary-500">
                         Đã có tài khoản? <Link to="/login"
-                            className="font-medium text-blue-600 hover:text-blue-500">Đăng
+                            className="font-medium text-brand-600 hover:text-brand-700">Đăng
                             nhập</Link>
                     </p>
                 </div>
@@ -101,18 +101,18 @@ const RegisterPage = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Bạn là?</label>
                         <div className="grid grid-cols-2 gap-4">
                             <div
-                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'CANDIDATE' ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500' : 'border-gray-200 hover:border-blue-300'}`}
+                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'CANDIDATE' ? 'border-brand-600 bg-brand-50 ring-1 ring-brand-600' : 'border-secondary-200 hover:border-brand-300'}`}
                                 onClick={() => setValue('role', 'CANDIDATE')}
                             >
-                                <p className="font-bold text-gray-800">Ứng viên</p>
-                                <p className="text-xs text-gray-500">Tôi đang tìm việc</p>
+                                <p className="font-bold text-secondary-800">Ứng viên</p>
+                                <p className="text-xs text-secondary-500">Tôi đang tìm việc</p>
                             </div>
                             <div
-                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'RECRUITER' ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500' : 'border-gray-200 hover:border-blue-300'}`}
+                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'RECRUITER' ? 'border-brand-600 bg-brand-50 ring-1 ring-brand-600' : 'border-secondary-200 hover:border-brand-300'}`}
                                 onClick={() => setValue('role', 'RECRUITER')}
                             >
-                                <p className="font-bold text-gray-800">Nhà tuyển dụng</p>
-                                <p className="text-xs text-gray-500">Tôi muốn đăng tin</p>
+                                <p className="font-bold text-secondary-800">Nhà tuyển dụng</p>
+                                <p className="text-xs text-secondary-500">Tôi muốn đăng tin</p>
                             </div>
                         </div>
                         <input type="hidden" {...register('role')} />
@@ -193,7 +193,7 @@ const RegisterPage = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300"
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-brand-900 hover:bg-brand-800 disabled:opacity-50 transition-all duration-200"
                         >
                             {loading ? 'Đăng ký...' : 'Đăng ký'}
                         </button>

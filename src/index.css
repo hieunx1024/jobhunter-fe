@@ -3,7 +3,7 @@
 
 @layer base {
   body {
-    @apply bg-secondary-50 text-secondary-900 font-sans antialiased;
+    @apply bg-white text-secondary-800 font-sans antialiased;
   }
 
   h1,
@@ -12,7 +12,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold tracking-tight text-secondary-900;
+    @apply font-bold tracking-tight text-brand-900;
   }
 
   /* Smooth scrolling for anchor links */
@@ -25,28 +25,28 @@
 
   /* Common Button Styles */
   .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200;
+    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 bg-brand-600 text-white hover:bg-brand-700 focus:ring-brand-500;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-brand-900 text-white hover:bg-brand-800 hover:-translate-y-0.5 active:translate-y-0 focus:ring-brand-500;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 bg-white text-secondary-700 hover:bg-secondary-50 border-secondary-300 focus:ring-brand-500;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-secondary-200 text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-white text-secondary-700 hover:bg-secondary-50 hover:-translate-y-0.5 active:translate-y-0 focus:ring-brand-500;
   }
 
   .btn-accent {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 bg-accent-600 text-white hover:bg-accent-500 focus:ring-accent-500;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-secondary-100 text-secondary-900 hover:bg-secondary-200 focus:ring-secondary-500;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 bg-transparent border-brand-600 text-brand-600 hover:bg-brand-50 focus:ring-brand-500;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border-2 border-brand-900 text-sm font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-transparent text-brand-900 hover:bg-brand-50 focus:ring-brand-500;
   }
 
   /* Card Styles */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-secondary-200 overflow-hidden transition-shadow duration-300 hover:shadow-md;
+    @apply bg-white rounded-xl shadow-sm border border-secondary-100 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-secondary-200;
   }
 
   /* Input Styles */

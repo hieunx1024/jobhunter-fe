@@ -103,26 +103,30 @@ const RecruiterLayout = () => {
     return (
         <Layout style={{ minHeight: '100vh', background: '#f8fafc' }}>
             {/* Custom CSS overrides for AntD Menu to match the new gradient theme */}
-            <style>
+        <style>
                 {`
                 .modern-hr-menu .ant-menu-item-selected {
-                    background: linear-gradient(90deg, #eff6ff 0%, #e0e7ff 100%) !important;
-                    color: #4f46e5 !important;
-                    font-weight: 600;
-                    border-right: 3px solid #4f46e5;
+                    background-color: #f1f5f9 !important; /* slate-100 */
+                    color: #0d9488 !important; /* teal-600 */
+                    font-weight: 700;
+                    border-right: 4px solid #0d9488;
                 }
                 .modern-hr-menu .ant-menu-item-selected .anticon {
-                    color: #4f46e5 !important;
+                    color: #0d9488 !important;
                 }
                 .modern-hr-menu .ant-menu-item:hover:not(.ant-menu-item-selected) {
-                    color: #4f46e5 !important;
+                    color: #0d9488 !important;
                     background-color: #f8fafc !important;
                 }
                 .modern-hr-menu .ant-menu-item {
-                    border-radius: 0 16px 16px 0 !important;
-                    margin-right: 16px !important;
-                    width: calc(100% - 16px) !important;
-                    transition: all 0.3s ease;
+                    border-radius: 12px !important;
+                    margin: 4px 12px !important;
+                    width: calc(100% - 24px) !important;
+                    transition: all 0.2s ease;
+                    height: 48px !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    font-weight: 500;
                 }
                 .modern-sider .ant-layout-sider-children {
                     display: flex;
@@ -137,21 +141,19 @@ const RecruiterLayout = () => {
                 onCollapse={(value) => setCollapsed(value)}
                 theme="light" 
                 width={260}
-                className="modern-sider shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20 border-r border-gray-100"
+                className="modern-sider shadow-sm z-20 border-r border-slate-100"
                 style={{ background: '#ffffff', position: 'sticky', top: 0, height: '100vh' }}
             >
-                <div className="h-24 flex items-center justify-center border-b border-gray-50 flex-shrink-0">
-                    <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100 px-4 mt-2'}`}>
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                            <span className="text-white font-black text-xl">H</span>
+                <div className="h-20 flex items-center px-8 border-b border-slate-100 flex-shrink-0">
+                    <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100'}`}>
+                        <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10">
+                            <span className="text-white font-black text-lg">H</span>
                         </div>
-                        <h1 className="text-2xl font-black bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent m-0 whitespace-nowrap tracking-tight">
-                            HR Portal
-                        </h1>
+                        <h1 className="text-xl font-bold text-slate-900 m-0 tracking-tight">HR Portal</h1>
                     </div>
                     {collapsed && (
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 mt-2">
-                            <span className="text-white font-black text-xl">H</span>
+                        <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10 mx-auto">
+                            <span className="text-white font-black text-lg">H</span>
                         </div>
                     )}
                 </div>
@@ -166,23 +168,23 @@ const RecruiterLayout = () => {
                     />
                 </div>
 
-                <div className="p-4 border-t border-gray-50 flex-shrink-0 bg-white">
+                <div className="p-6 border-t border-slate-100 flex-shrink-0 bg-white">
                     <Dropdown menu={userMenu} placement="top" trigger={['click']}>
-                        <div className={`flex items-center gap-3 cursor-pointer hover:bg-indigo-50 p-2 rounded-2xl transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
-                            <div className="p-0.5 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 shadow-sm flex-shrink-0">
+                        <div className={`flex items-center gap-4 cursor-pointer hover:bg-slate-50 p-2 rounded-[1.25rem] transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
+                            <div className="p-0.5 rounded-full bg-slate-100 flex-shrink-0">
                                 <Avatar
-                                    size={38}
-                                    style={{ background: '#fff', color: '#4f46e5', fontWeight: 'bold' }}
+                                    size={40}
+                                    style={{ background: '#0d9488', color: '#fff', fontWeight: 'bold' }}
                                 >
                                     {user?.name?.charAt(0)?.toUpperCase()}
                                 </Avatar>
                             </div>
                             {!collapsed && (
-                                <div className="flex flex-col overflow-hidden">
-                                    <span className="text-sm font-bold text-gray-800 truncate" title={user?.name}>
+                                <div className="flex flex-col overflow-hidden text-left">
+                                    <span className="text-sm font-bold text-slate-800 truncate" title={user?.name}>
                                         {user?.name || 'Recruiter'}
                                     </span>
-                                    <span className="text-xs font-medium text-indigo-500 truncate" title={user?.company?.name || 'Người tuyển dụng'}>
+                                    <span className="text-[10px] font-bold text-slate-400 truncate uppercase tracking-widest leading-tight">
                                         {user?.company ? user.company.name : 'Người tuyển dụng'}
                                     </span>
                                 </div>

@@ -214,14 +214,15 @@ const CandidateProfilePage = () => {
             )}
 
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-xl p-8 text-white">
-                <div className="flex items-center space-x-4">
-                    <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-lg flex items-center justify-center text-3xl font-bold border-4 border-white/30">
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
+                <div className="relative z-10 flex items-center space-x-6">
+                    <div className="w-24 h-24 rounded-[2rem] bg-slate-900 flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-slate-900/20">
                         {user?.name?.charAt(0).toUpperCase() || 'U'}
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold mb-1">Hồ sơ cá nhân</h1>
-                        <p className="text-blue-100">Quản lý thông tin và CV của bạn</p>
+                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-1">Hồ sơ cá nhân</h1>
+                        <p className="text-slate-500 font-medium tracking-wide uppercase text-[10px]">Quản lý thông tin và CV của bạn</p>
                     </div>
                 </div>
             </div>
@@ -328,7 +329,7 @@ const CandidateProfilePage = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                                className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg shadow-slate-900/10 active:scale-[0.98]"
                             >
                                 {loading ? (
                                     <>
@@ -338,7 +339,7 @@ const CandidateProfilePage = () => {
                                 ) : (
                                     <>
                                         <Save className="w-5 h-5" />
-                                        <span>Lưu thông tin</span>
+                                        <span>Cập nhật hồ sơ</span>
                                     </>
                                 )}
                             </button>

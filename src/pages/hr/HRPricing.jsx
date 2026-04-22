@@ -83,14 +83,14 @@ const HRPricing = () => {
 
     return (
         <div className="animate-fade-in pb-12">
-            <div className="mb-12 p-10 rounded-[2.5rem] bg-gradient-to-br from-indigo-600 via-purple-600 to-fuchsia-600 text-white shadow-xl relative overflow-hidden flex flex-col items-center text-center">
-                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+            <div className="mb-10 p-10 rounded-[2rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden flex flex-col items-center text-center">
+                <div className="absolute top-0 right-0 w-32 h-full bg-indigo-50/20 skew-x-[-20deg] translate-x-16"></div>
+                <div className="absolute bottom-0 left-0 w-32 h-full bg-purple-50/20 skew-x-[20deg] -translate-x-16"></div>
                 
                 <div className="relative z-10 max-w-2xl">
-                    <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white tracking-tight">Nâng Tầm Tuyển Dụng</h1>
-                    <p className="text-purple-100 text-lg md:text-xl">
-                        Chọn gói dịch vụ phù hợp nhất với quy mô và nhu cầu tuyển dụng của doanh nghiệp bạn. Linh hoạt, tiết kiệm và hiệu quả.
+                    <h1 className="text-4xl md:text-5xl font-black mb-4 text-slate-900 tracking-tight">Nâng Tầm Tuyển Dụng</h1>
+                    <p className="text-slate-500 text-lg font-medium">
+                        Chọn gói dịch vụ phù hợp nhất để tối ưu hóa quy trình tuyển dụng và tiếp cận nhân tài hiệu quả hơn.
                     </p>
                 </div>
             </div>

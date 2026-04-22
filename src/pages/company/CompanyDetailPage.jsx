@@ -52,28 +52,35 @@ const CompanyDetailPage = () => {
             </div>
 
             {/* Cover Image */}
-            <div className="h-64 bg-gradient-to-r from-blue-600 to-purple-600 rounded-b-3xl -mx-4 sm:-mx-6 lg:-mx-8 mb-12 relative">
+            <div className="h-64 bg-brand-900 rounded-b-3xl -mx-4 sm:-mx-6 lg:-mx-8 mb-12 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-[100px] -mr-48 -mt-48"></div>
+                </div>
             </div>
 
             <div className="container mx-auto px-4 -mt-24 relative z-10">
                 <div className="bg-white rounded-2xl shadow-lg border p-8 flex flex-col md:flex-row items-start gap-8">
-                    <div className="w-32 h-32 bg-white rounded-xl shadow p-2 flex items-center justify-center -mt-16 md:mt-0">
+                    <div className="w-32 h-32 bg-white rounded-xl shadow p-2 flex items-center justify-center -mt-16 md:mt-0 overflow-hidden">
                         {/* Logo */}
-                        <Building className="w-16 h-16 text-gray-400" />
+                        {company.logo ? (
+                            <img src={company.logo} alt={company.name} className="w-full h-full object-contain" />
+                        ) : (
+                            <Building className="w-16 h-16 text-gray-400" />
+                        )}
                     </div>
                     <div className="flex-1">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">{company.name}</h1>
-                        <div className="flex flex-wrap gap-6 text-gray-600">
+                        <h1 className="text-3xl font-bold text-secondary-900 mb-2">{company.name}</h1>
+                        <div className="flex flex-wrap gap-6 text-secondary-600">
                             <div className="flex items-center">
-                                <MapPin className="w-4 h-4 mr-2 text-red-500" />
+                                <MapPin className="w-4 h-4 mr-2 text-secondary-400" />
                                 {company.address}
                             </div>
                             <div className="flex items-center">
-                                <Globe className="w-4 h-4 mr-2 text-blue-500" />
+                                <Globe className="w-4 h-4 mr-2 text-brand-600" />
                                 <a href="#" className="hover:underline">Website</a>
                             </div>
                             <div className="flex items-center">
-                                <Users className="w-4 h-4 mr-2 text-green-500" />
+                                <Users className="w-4 h-4 mr-2 text-secondary-400" />
                                 100-500 nhân viên
                             </div>
                         </div>
@@ -84,14 +91,14 @@ const CompanyDetailPage = () => {
                     {/* Left: Description */}
                     <div className="md:col-span-2">
                         <div className="bg-white rounded-2xl shadow-sm border p-8 mb-8">
-                            <h2 className="text-xl font-bold text-gray-900 mb-6 border-l-4 border-blue-600 pl-4">Giới thiệu công ty</h2>
-                            <div className="prose text-gray-700 whitespace-pre-line">
-                                {company.description || 'Chưa có thông tin giới thiệu.'}
+                            <h2 className="text-xl font-bold text-secondary-900 mb-6 border-l-4 border-brand-900 pl-4">Giới thiệu công ty</h2>
+                            <div className="prose text-secondary-700 whitespace-pre-wrap">
+                                {company.description ? company.description.replace(/\\n|\\r\\n/g, '\n') : 'Chưa có thông tin giới thiệu.'}
                             </div>
                         </div>
 
                         <div className="bg-white rounded-2xl shadow-sm border p-8">
-                            <h2 className="text-xl font-bold text-gray-900 mb-6 border-l-4 border-orange-600 pl-4">Tuyển dụng ({jobsData?.meta?.total || 0})</h2>
+                            <h2 className="text-xl font-bold text-secondary-900 mb-6 border-l-4 border-brand-600 pl-4">Tuyển dụng ({jobsData?.meta?.total || 0})</h2>
 
                             <div className="space-y-4">
                                 {isLoadingJobs ? (
@@ -116,7 +123,9 @@ const CompanyDetailPage = () => {
                             </p>
                             <div className="space-y-2 text-sm">
                                 <p className="font-semibold">Email:</p>
-                                <p className="text-blue-600">hr@{company.name.toLowerCase().replace(/\s/g, '')}.com</p>
+                                <p className="text-blue-600 truncate" title={jobsData?.result?.[0]?.createdBy || company.createdBy}>
+                                    {jobsData?.result?.[0]?.createdBy || company.createdBy || 'hr@company.com'}
+                                </p>
                             </div>
                         </div>
                     </div>

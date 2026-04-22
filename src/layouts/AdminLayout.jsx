@@ -93,32 +93,47 @@ const AdminLayout = () => {
     };
 
     return (
-        <Layout style={{ minHeight: '100vh', background: '#f8fafc' }}>
-            {/* Custom CSS overrides for AntD Menu to match the new gradient theme */}
+        <Layout style={{ minHeight: '100vh', background: '#f5f7f9' }}>
             <style>
                 {`
-                .modern-admin-menu .ant-menu-item-selected {
-                    background: linear-gradient(90deg, #eff6ff 0%, #e0e7ff 100%) !important;
-                    color: #4f46e5 !important;
-                    font-weight: 600;
-                    border-right: 3px solid #4f46e5;
+                .admin-sider .ant-menu {
+                    background: transparent !important;
+                    border-inline-end: none !important;
                 }
-                .modern-admin-menu .ant-menu-item-selected .anticon {
-                    color: #4f46e5 !important;
-                }
-                .modern-admin-menu .ant-menu-item:hover:not(.ant-menu-item-selected) {
-                    color: #4f46e5 !important;
-                    background-color: #f8fafc !important;
-                }
-                .modern-admin-menu .ant-menu-item {
-                    border-radius: 0 16px 16px 0 !important;
-                    margin-right: 16px !important;
+                .admin-sider .ant-menu-item {
+                    height: 48px !important;
+                    line-height: 48px !important;
+                    margin-block: 4px !important;
+                    border-radius: 8px !important;
                     width: calc(100% - 16px) !important;
-                    transition: all 0.3s ease;
+                    margin-inline: 8px !important;
+                    color: #94a3b8 !important;
                 }
-                .modern-sider .ant-layout-sider-children {
-                    display: flex;
-                    flex-direction: column;
+                .admin-sider .ant-menu-item.ant-menu-item-selected {
+                    background-color: #1e1b4b !important; /* Deep Indigo */
+                    color: #ffffff !important;
+                    font-weight: 600;
+                }
+                .admin-sider .ant-menu-item-selected .anticon {
+                    color: #ffffff !important;
+                }
+                .admin-sider .ant-menu-item:hover:not(.ant-menu-item-selected) {
+                    background-color: rgba(255, 255, 255, 0.05) !important;
+                    color: #f1f5f9 !important;
+                }
+                /* Authoritative Table Styles for all Admin pages */
+                .ant-table-wrapper .ant-table {
+                    background: #ffffff !important;
+                    border-radius: 12px !important;
+                }
+                .ant-table-header .ant-table-cell {
+                    background: #f8fafc !important;
+                    color: #475569 !important;
+                    font-weight: 600 !important;
+                    border-bottom: 1px solid #e2e8f0 !important;
+                }
+                .ant-table-cell {
+                    border-bottom: 1px solid #e0e0e0 !important; /* Managed Grey Lines */
                 }
                 `}
             </style>
@@ -127,58 +142,54 @@ const AdminLayout = () => {
                 collapsible 
                 collapsed={collapsed} 
                 onCollapse={(value) => setCollapsed(value)}
-                theme="light" 
+                theme="dark" 
                 width={260}
-                className="modern-sider shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20 border-r border-gray-100"
-                style={{ background: '#ffffff', position: 'sticky', top: 0, height: '100vh' }}
+                className="admin-sider shadow-2xl"
+                style={{ background: '#0f172a', position: 'sticky', top: 0, height: '100vh', zIndex: 100 }}
             >
-                <div className="h-24 flex items-center justify-center border-b border-gray-50 flex-shrink-0">
-                    <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100 px-4 mt-2'}`}>
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                            <span className="text-white font-black text-xl">A</span>
+                <div className="h-20 flex items-center px-6 border-b border-white/5 mb-6">
+                    <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100'}`}>
+                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
+                            <span className="text-slate-900 font-bold text-lg">A</span>
                         </div>
-                        <h1 className="text-2xl font-black bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent m-0 whitespace-nowrap tracking-tight">
-                            Admin Portal
-                        </h1>
+                        <h1 className="text-lg font-bold text-white m-0 tracking-tight">Admin Portal</h1>
                     </div>
                     {collapsed && (
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 mt-2">
-                            <span className="text-white font-black text-xl">A</span>
+                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center mx-auto">
+                            <span className="text-slate-900 font-bold text-lg">A</span>
                         </div>
                     )}
                 </div>
                 
-                <div className="py-6 flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar">
+                <div className="flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar">
                     <Menu
-                        theme="light"
+                        theme="dark"
                         mode="inline"
                         selectedKeys={[selectedKey]}
                         items={items}
-                        className="modern-admin-menu border-r-0"
+                        className="border-r-0"
                     />
                 </div>
 
-                <div className="p-4 border-t border-gray-50 flex-shrink-0 bg-white">
-                    <div className="mb-2 flex justify-center">
+                <div className="p-4 border-t border-white/5 bg-[#0f172a]">
+                    <div className="mb-4 flex justify-center">
                         <NotificationDropdown />
                     </div>
                     <Dropdown menu={userMenu} placement="top" trigger={['click']}>
-                        <div className={`flex items-center gap-3 cursor-pointer hover:bg-indigo-50 p-2 rounded-2xl transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
-                            <div className="p-0.5 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 shadow-sm flex-shrink-0">
-                                <Avatar
-                                    size={38}
-                                    style={{ background: '#fff', color: '#4f46e5', fontWeight: 'bold' }}
-                                >
-                                    {user?.name?.charAt(0)?.toUpperCase()}
-                                </Avatar>
-                            </div>
+                        <div className={`flex items-center gap-3 cursor-pointer hover:bg-white/5 p-2 rounded-xl transition-all duration-200 ${collapsed ? 'justify-center' : ''}`}>
+                            <Avatar
+                                size={32}
+                                className="bg-slate-700 text-white font-bold"
+                            >
+                                {user?.name?.charAt(0)?.toUpperCase()}
+                            </Avatar>
                             {!collapsed && (
-                                <div className="flex flex-col overflow-hidden">
-                                    <span className="text-sm font-bold text-gray-800 truncate" title={user?.name}>
+                                <div className="flex flex-col text-left overflow-hidden">
+                                    <span className="text-sm font-semibold text-slate-200 truncate">
                                         {user?.name || 'Admin'}
                                     </span>
-                                    <span className="text-xs font-medium text-indigo-500 truncate" title="Hệ thống">
-                                        Quản trị viên
+                                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+                                        QUẢN TRỊ VIÊN
                                     </span>
                                 </div>
                             )}

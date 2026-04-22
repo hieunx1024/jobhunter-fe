@@ -54,8 +54,8 @@ const LoginPage = () => {
                     <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
                         Đăng nhập
                     </h2>
-                    <p className="mt-2 text-sm text-gray-600">
-                        Hoặc <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">đăng ký tài
+                    <p className="mt-2 text-sm text-secondary-500">
+                        Hoặc <Link to="/register" className="font-medium text-brand-600 hover:text-brand-700">đăng ký tài
                             khoản mới</Link>
                     </p>
                 </div>
@@ -119,7 +119,7 @@ const LoginPage = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300"
+                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-brand-900 hover:bg-brand-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:opacity-50 transition-all duration-200"
                         >
                             {loading ? 'Đang xử lý...' : 'Đăng nhập'}
                         </button>

@@ -58,15 +58,16 @@ const SavedJobsPage = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-                <div className="flex items-center justify-between">
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-800 mb-2">Việc làm đã lưu</h1>
-                        <p className="text-gray-600">Quản lý danh sách các công việc bạn quan tâm</p>
+                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Việc làm đã lưu</h1>
+                        <p className="text-slate-500 font-medium">Quản lý danh sách các công việc bạn quan tâm</p>
                     </div>
-                    <div className="text-right">
-                        <p className="text-4xl font-bold text-blue-600">{savedJobs.length}</p>
-                        <p className="text-sm text-gray-500">Việc làm đã lưu</p>
+                    <div className="bg-slate-50 px-8 py-3 rounded-2xl border border-slate-100 text-center">
+                        <p className="text-3xl font-black text-slate-900 leading-none mb-1">{savedJobs.length}</p>
+                        <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Việc làm đã lưu</p>
                     </div>
                 </div>
             </div>
@@ -79,7 +80,7 @@ const SavedJobsPage = () => {
                     <p className="text-gray-500 mb-6">Hãy khám phá và lưu lại những công việc bạn quan tâm</p>
                     <Link
                         to="/jobs"
-                        className="inline-block px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                        className="inline-block px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-[0.98]"
                     >
                         Khám phá việc làm
                     </Link>
@@ -197,7 +198,7 @@ const SavedJobsPage = () => {
                                     </div>
                                     <Link
                                         to={`/jobs/${job.id}`}
-                                        className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                                        className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-[0.98]"
                                     >
                                         Ứng tuyển ngay
                                     </Link>

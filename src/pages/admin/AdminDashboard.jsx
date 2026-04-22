@@ -21,14 +21,14 @@ const AdminDashboard = () => {
         })
     });
 
-    const StatCard = ({ icon: Icon, label, value, color }) => (
-        <div className="bg-white p-6 rounded-xl shadow-sm border flex items-center justify-between">
-            <div>
-                <p className="text-gray-500 text-sm font-medium">{label}</p>
-                <p className="text-3xl font-bold text-gray-800 mt-2">{value !== undefined ? value : '...'}</p>
+    const StatCard = ({ icon: Icon, label, value, color, iconColor }) => (
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-6">
+            <div className={`w-14 h-14 rounded-2xl ${color} flex items-center justify-center shrink-0`}>
+                <Icon className={`w-7 h-7 ${iconColor}`} />
             </div>
-            <div className={`p-4 rounded-full ${color}`}>
-                <Icon className="w-8 h-8 text-white" />
+            <div className="overflow-hidden">
+                <p className="text-slate-500 text-xs font-bold uppercase tracking-wider">{label}</p>
+                <p className="text-2xl font-bold text-slate-900 mt-1 truncate">{value !== undefined ? value : '...'}</p>
             </div>
         </div>
     );
@@ -38,89 +38,112 @@ const AdminDashboard = () => {
     };
 
     const chartData = [
-        { name: 'Tổng Users', value: statsData?.totalUsers || 0 },
-        { name: 'Công Ty', value: statsData?.totalCompanies || 0 },
-        { name: 'Việc Làm', value: statsData?.totalJobs || 0 },
-        { name: 'Hồ Sơ', value: statsData?.totalResumes || 0 },
-        { name: 'User Mua Gói', value: statsData?.totalSubscribedUsers || 0 },
+        { name: 'Người dùng', value: statsData?.totalUsers || 0 },
+        { name: 'Công ty', value: statsData?.totalCompanies || 0 },
+        { name: 'Việc làm', value: statsData?.totalJobs || 0 },
+        { name: 'Ứng tuyển', value: statsData?.totalResumes || 0 },
+        { name: 'Đã mua gói', value: statsData?.totalSubscribedUsers || 0 },
     ];
 
     return (
-        <div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-8">Dashboard</h1>
+        <div className="space-y-10">
+            <header>
+                <h1 className="text-3xl font-bold text-slate-900 tracking-tight m-0 uppercase">Tổng quan hệ thống</h1>
+                <p className="text-slate-500 mt-1">Theo dõi các chỉ số vận hành chính của nền tảng JobHunter.</p>
+            </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 <StatCard
                     icon={Users}
-                    label="Tổng Users"
+                    label="Tổng người dùng"
                     value={statsData?.totalUsers}
-                    color="bg-blue-500"
+                    color="bg-indigo-50"
+                    iconColor="text-indigo-600"
                 />
                 <StatCard
                     icon={Building}
-                    label="Tổng Công Ty"
+                    label="Hệ thống công ty"
                     value={statsData?.totalCompanies}
-                    color="bg-orange-500"
+                    color="bg-slate-100"
+                    iconColor="text-slate-600"
                 />
                 <StatCard
                     icon={Briefcase}
-                    label="Tổng Việc Làm"
+                    label="Tin tuyển dụng"
                     value={statsData?.totalJobs}
-                    color="bg-green-500"
+                    color="bg-emerald-50"
+                    iconColor="text-emerald-600"
                 />
                 <StatCard
                     icon={FileText}
-                    label="Hồ Sơ Ứng Tuyển"
+                    label="Hồ sơ ứng tuyển"
                     value={statsData?.totalResumes}
-                    color="bg-purple-500"
+                    color="bg-amber-50"
+                    iconColor="text-amber-600"
                 />
                 <StatCard
                     icon={UserCheck}
-                    label="User Đã Mua Gói"
+                    label="User trả phí"
                     value={statsData?.totalSubscribedUsers}
-                    color="bg-indigo-500"
+                    color="bg-indigo-900/5"
+                    iconColor="text-indigo-900"
                 />
                 <StatCard
                     icon={DollarSign}
-                    label="Tổng Doanh Thu"
+                    label="Doanh thu tổng"
                     value={statsData?.totalRevenue !== undefined ? formatCurrency(statsData.totalRevenue) : '...'}
-                    color="bg-red-500"
+                    color="bg-rose-50"
+                    iconColor="text-rose-600"
                 />
             </div>
 
             {/* Component Biểu Đồ */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border mt-8">
-                <h2 className="text-xl font-bold text-gray-800 mb-6">Biểu đồ thống kê tổng quan</h2>
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 mt-8">
+                <header className="flex items-center justify-between mb-10">
+                    <h2 className="text-xl font-bold text-slate-900 m-0">Biểu đồ tăng trưởng</h2>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100">
+                            <div className="w-2.5 h-2.5 rounded-full bg-indigo-900/80"></div>
+                            <span className="text-xs font-bold text-slate-600 uppercase tracking-tighter">Số lượng</span>
+                        </div>
+                    </div>
+                </header>
                 <div className="h-80 w-full">
-                    <ResponsiveContainer width="100%" height={320} minHeight={320} minWidth={0}>
+                    <ResponsiveContainer width="100%" height={320}>
                         <BarChart
                             data={chartData}
-                            margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+                            margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
                         >
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
                             <XAxis
                                 dataKey="name"
                                 axisLine={false}
                                 tickLine={false}
-                                tick={{ fill: '#6B7280', fontSize: 14 }}
-                                dy={10}
+                                tick={{ fill: '#94A3B8', fontSize: 12, fontWeight: 500 }}
+                                dy={15}
                             />
                             <YAxis
                                 axisLine={false}
                                 tickLine={false}
-                                tick={{ fill: '#6B7280', fontSize: 14 }}
+                                tick={{ fill: '#94A3B8', fontSize: 12, fontWeight: 500 }}
                                 allowDecimals={false}
                             />
                             <Tooltip
-                                cursor={{ fill: '#F3F4F6' }}
-                                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
+                                cursor={{ fill: '#F8FAFC' }}
+                                contentStyle={{ 
+                                    borderRadius: '12px', 
+                                    border: '1px solid #E2E8F0',
+                                    boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                                    padding: '12px 16px'
+                                }}
+                                itemStyle={{ fontWeight: 700, color: '#1E1B4B' }}
                             />
                             <Bar
                                 dataKey="value"
-                                fill="#4F46E5"
+                                fill="#1E1B4B"
                                 radius={[6, 6, 0, 0]}
-                                maxBarSize={60}
-                                name="Số lượng"
+                                maxBarSize={48}
+                                name="Giá trị"
                             />
                         </BarChart>
                     </ResponsiveContainer>

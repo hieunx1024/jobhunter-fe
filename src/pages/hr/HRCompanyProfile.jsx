@@ -106,8 +106,14 @@ const HRCompanyProfile = () => {
     }
 
     return (
-        <div>
-            <h1 className="text-2xl font-bold mb-6">Hồ sơ Công ty</h1>
+        <div className="animate-fade-in pb-8">
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-full bg-teal-50/20 skew-x-[-20deg] translate-x-16"></div>
+                <div className="relative z-10">
+                    <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Hồ sơ Công ty</h1>
+                    <p className="text-slate-500 font-medium">Quản lý thông tin hiển thị của doanh nghiệp trên hệ thống.</p>
+                </div>
+            </div>
 
             <Card>
                 <Form

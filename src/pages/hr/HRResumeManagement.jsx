@@ -226,30 +226,32 @@ const HRResumeManagement = () => {
 
     return (
         <div className="animate-fade-in pb-8">
-            <div className="mb-8 p-8 rounded-[2rem] bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg relative overflow-hidden">
-                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="mb-10 p-10 rounded-[2rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-full bg-teal-50/20 skew-x-[-20deg] translate-x-16"></div>
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
-                        <h1 className="text-3xl font-extrabold mb-2 text-white">Quản lý Ứng viên</h1>
-                        <p className="text-emerald-100 max-w-xl">Kiểm duyệt và quản lý hồ sơ ứng viên đăng ký trực tuyến cho các vị trí tuyển dụng của công ty.</p>
+                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Quản lý Ứng viên</h1>
+                        <p className="text-slate-500 font-medium max-w-xl">Kiểm duyệt và quản lý hồ sơ ứng viên đăng ký trực tuyến cho các vị trí tuyển dụng của công ty.</p>
                     </div>
-                    <Space className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 shadow-sm">
-                        <span className="text-emerald-50 font-medium whitespace-nowrap">Bộ lọc:</span>
-                        <Select
-                            placeholder="Tất cả trạng thái"
-                            allowClear
-                            style={{ width: 180 }}
-                            onChange={setFilterStatus}
-                            value={filterStatus}
-                            className="rounded-xl shadow-sm [&_.ant-select-selector]:rounded-xl [&_.ant-select-selector]:border-transparent"
-                            bordered={false}
-                        >
-                            <Option value="PENDING">Chờ xử lý</Option>
-                            <Option value="REVIEWING">Đang xem xét</Option>
-                            <Option value="APPROVED">Đã duyệt</Option>
-                            <Option value="REJECTED">Từ chối</Option>
-                        </Select>
-                    </Space>
+                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
+                        <div className="flex items-center gap-3">
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Bộ lọc:</span>
+                            <Select
+                                placeholder="Tất cả trạng thái"
+                                allowClear
+                                style={{ width: 180 }}
+                                onChange={setFilterStatus}
+                                value={filterStatus}
+                                className="custom-select"
+                                bordered={false}
+                            >
+                                <Option value="PENDING">Chờ xử lý</Option>
+                                <Option value="REVIEWING">Đang xem xét</Option>
+                                <Option value="APPROVED">Đã duyệt</Option>
+                                <Option value="REJECTED">Từ chối</Option>
+                            </Select>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -134,15 +134,15 @@ const UserManagement = () => {
             dataIndex: 'gender',
             key: 'gender',
             render: (text) => {
-                let color = text === 'MALE' ? 'blue' : text === 'FEMALE' ? 'pink' : 'default';
-                return <Tag color={color}>{text}</Tag>;
+                let color = text === 'MALE' ? '#1e293b' : text === 'FEMALE' ? '#475569' : '#94a3b8';
+                return <Tag color={color} className="uppercase font-bold text-[10px] tracking-wider">{text}</Tag>;
             }
         },
         {
             title: 'Role',
             dataIndex: 'role',
             key: 'role',
-            render: (role) => role ? <Tag color="geekblue">{role.name}</Tag> : 'N/A',
+            render: (role) => role ? <Tag color="#0f172a" className="font-bold text-[10px] tracking-wider uppercase">{role.name}</Tag> : 'N/A',
         },
         {
             title: 'Hành động',
@@ -153,7 +153,7 @@ const UserManagement = () => {
                         icon={<EditOutlined />}
                         onClick={() => showModal(record)}
                         type="text"
-                        className="text-blue-600"
+                        className="text-slate-600 hover:text-indigo-900 transition-colors"
                     />
                     <Popconfirm
                         title="Xóa user này?"
@@ -172,35 +172,48 @@ const UserManagement = () => {
     const total = data?.data?.meta?.total || 0;
 
     return (
-        <Card title="Quản lý User" extra={
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => showModal()}>
-                Thêm mới
-            </Button>
-        }>
-            <div className="mb-4 flex gap-4">
-                <Input.Search
-                    placeholder="Tìm kiếm theo tên hoặc email..."
-                    onSearch={handleSearch}
-                    enterButton={<SearchOutlined />}
-                    allowClear
-                    className="max-w-md"
-                />
-            </div>
+        <div className="space-y-6">
+            <header className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight m-0">Quản lý người dùng</h1>
+                    <p className="text-slate-500 mt-1">Quản lý tài khoản và phân quyền cho toàn bộ hệ thống.</p>
+                </div>
+                <Button 
+                    type="primary" 
+                    icon={<PlusOutlined />} 
+                    onClick={() => showModal()}
+                    className="bg-slate-900 hover:bg-slate-800 h-10 px-6 font-bold flex items-center gap-2 border-0"
+                >
+                    Thêm mới
+                </Button>
+            </header>
 
-            <Table
-                columns={columns}
-                dataSource={dataSource}
-                rowKey="id"
-                pagination={{
-                    current: pagination.current,
-                    pageSize: pagination.pageSize,
-                    total: total,
-                    showSizeChanger: true,
-                }}
-                loading={isLoading}
-                onChange={handleTableChange}
-                scroll={{ x: 800 }}
-            />
+            <Card className="shadow-sm border-slate-100">
+                <div className="mb-6">
+                    <Input
+                        placeholder="Tìm kiếm theo tên hoặc email..."
+                        onChange={(e) => handleSearch(e.target.value)}
+                        prefix={<SearchOutlined className="text-slate-400" />}
+                        allowClear
+                        className="max-w-md h-10"
+                    />
+                </div>
+
+                <Table
+                    columns={columns}
+                    dataSource={dataSource}
+                    rowKey="id"
+                    pagination={{
+                        current: pagination.current,
+                        pageSize: pagination.pageSize,
+                        total: total,
+                        showSizeChanger: true,
+                    }}
+                    loading={isLoading}
+                    onChange={handleTableChange}
+                    scroll={{ x: 800 }}
+                />
+            </Card>
 
             <Modal
                 title={editingId ? "Cập nhật User" : "Tạo User mới"}
@@ -272,7 +285,7 @@ const UserManagement = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-        </Card>
+        </div>
     );
 };
 

@@ -63,41 +63,41 @@ const CandidateDashboard = () => {
             title: 'Tổng số đơn',
             value: stats.total,
             icon: FileText,
-            color: 'from-blue-500 to-blue-600',
-            bgColor: 'bg-blue-50',
-            textColor: 'text-blue-600'
+            accentColor: 'blue-500',
+            bgColor: 'bg-slate-50',
+            textColor: 'text-slate-600'
         },
         {
             title: 'Chờ xử lý',
             value: stats.pending,
             icon: Clock,
-            color: 'from-yellow-500 to-yellow-600',
-            bgColor: 'bg-yellow-50',
-            textColor: 'text-yellow-600'
+            accentColor: 'amber-500',
+            bgColor: 'bg-slate-50',
+            textColor: 'text-slate-600'
         },
         {
             title: 'Đang xem xét',
             value: stats.reviewing,
             icon: Eye,
-            color: 'from-purple-500 to-purple-600',
-            bgColor: 'bg-purple-50',
-            textColor: 'text-purple-600'
+            accentColor: 'sky-500',
+            bgColor: 'bg-slate-50',
+            textColor: 'text-slate-600'
         },
         {
             title: 'Đã chấp nhận',
             value: stats.approved,
             icon: CheckCircle,
-            color: 'from-green-500 to-green-600',
-            bgColor: 'bg-green-50',
-            textColor: 'text-green-600'
+            accentColor: 'emerald-500',
+            bgColor: 'bg-slate-50',
+            textColor: 'text-slate-600'
         },
         {
             title: 'Bị từ chối',
             value: stats.rejected,
             icon: XCircle,
-            color: 'from-red-500 to-red-600',
-            bgColor: 'bg-red-50',
-            textColor: 'text-red-600'
+            accentColor: 'slate-300',
+            bgColor: 'bg-slate-50',
+            textColor: 'text-slate-600'
         }
     ];
 
@@ -149,19 +149,16 @@ const CandidateDashboard = () => {
                     return (
                         <div
                             key={index}
-                            className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+                            className="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all duration-300 overflow-hidden group"
                         >
-                            <div className={`h-2 bg-gradient-to-r ${stat.color}`}></div>
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-4">
-                                    <div className={`p-3 rounded-lg ${stat.bgColor} group-hover:scale-110 transition-transform duration-300`}>
-                                        <Icon className={`w-6 h-6 ${stat.textColor}`} />
+                                    <div className={`p-2.5 rounded-xl ${stat.bgColor} border border-slate-100`}>
+                                        <Icon className="w-5 h-5 text-slate-400" />
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-3xl font-bold text-gray-800">{stat.value}</p>
-                                    </div>
+                                    <p className="text-3xl font-black text-slate-900 leading-none">{stat.value}</p>
                                 </div>
-                                <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.title}</p>
                             </div>
                         </div>
                     );
@@ -169,15 +166,15 @@ const CandidateDashboard = () => {
             </div>
 
             {/* Recent Applications */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6">
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                <div className="px-8 py-6 border-b border-slate-100">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-2xl font-bold text-white">Đơn ứng tuyển gần đây</h2>
+                        <h2 className="text-xl font-black text-slate-900 tracking-tight">Đơn ứng tuyển gần đây</h2>
                         <Link
                             to="/candidate/applications"
-                            className="px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-all font-medium text-sm"
+                            className="text-sky-600 hover:text-sky-700 transition-all font-bold text-sm"
                         >
-                            Xem tất cả
+                            Xem tất cả hồ sơ
                         </Link>
                     </div>
                 </div>
@@ -189,7 +186,7 @@ const CandidateDashboard = () => {
                             <p className="text-gray-500 text-lg">Bạn chưa ứng tuyển công việc nào</p>
                             <Link
                                 to="/jobs"
-                                className="inline-block mt-4 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all"
+                                className="inline-block mt-6 px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-[0.98]"
                             >
                                 Khám phá việc làm
                             </Link>
@@ -235,23 +232,25 @@ const CandidateDashboard = () => {
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Link
                     to="/jobs"
-                    className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-8 text-white hover:shadow-2xl transition-all duration-300 group"
+                    className="bg-white border border-slate-100 rounded-[2rem] p-10 shadow-sm hover:shadow-md transition-all group relative overflow-hidden"
                 >
-                    <Briefcase className="w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-xl font-bold mb-2">Tìm việc làm mới</h3>
-                    <p className="text-blue-100">Khám phá hàng nghìn cơ hội việc làm phù hợp với bạn</p>
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-sky-50 rounded-bl-[4rem] group-hover:scale-110 transition-transform"></div>
+                    <Briefcase className="w-12 h-12 mb-6 text-sky-600 relative z-10" />
+                    <h3 className="text-2xl font-black mb-3 text-slate-900 relative z-10">Tìm việc làm mới</h3>
+                    <p className="text-slate-500 font-medium relative z-10">Khám phá hàng nghìn cơ hội việc làm phù hợp với năng lực của bạn.</p>
                 </Link>
 
                 <Link
                     to="/candidate/profile"
-                    className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl p-8 text-white hover:shadow-2xl transition-all duration-300 group"
+                    className="bg-white border border-slate-100 rounded-[2rem] p-10 shadow-sm hover:shadow-md transition-all group relative overflow-hidden"
                 >
-                    <FileText className="w-12 h-12 mb-4 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-xl font-bold mb-2">Cập nhật hồ sơ</h3>
-                    <p className="text-indigo-100">Hoàn thiện thông tin cá nhân và tải lên CV của bạn</p>
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-bl-[4rem] group-hover:scale-110 transition-transform"></div>
+                    <FileText className="w-12 h-12 mb-6 text-slate-400 relative z-10" />
+                    <h3 className="text-2xl font-black mb-3 text-slate-900 relative z-10">Cập nhật hồ sơ</h3>
+                    <p className="text-slate-500 font-medium relative z-10">Hoàn thiện thông tin cá nhân và quản lý danh sách CV của bạn.</p>
                 </Link>
             </div>
         </div>
