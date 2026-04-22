@@ -20,7 +20,11 @@ const NotificationDropdown = () => {
         refetchInterval: 60000 
     });
 
-    const sortedNotifications = notifications ? [...notifications].sort((a, b) => {
+    const notificationsArray = Array.isArray(notifications) 
+        ? notifications 
+        : (notifications?.data || notifications?.result || []);
+        
+    const sortedNotifications = notificationsArray.length > 0 ? [...notificationsArray].sort((a, b) => {
         // Just fallback sort if backend didn't sort
         return new Date(b.createdAt) - new Date(a.createdAt);
     }).slice(0, 50) : [];
@@ -68,9 +72,9 @@ const NotificationDropdown = () => {
             open={open}
             onOpenChange={setOpen}
             placement="bottomRight"
-            overlayInnerStyle={{ padding: 0 }}
+            styles={{ body: { padding: 0 } }}
         >
-            <Badge count={notifications?.length || 0} size="small" style={{ marginRight: '16px' }}>
+            <Badge count={sortedNotifications.length || 0} size="small" style={{ marginRight: '16px' }}>
                 <BellOutlined style={{ fontSize: '20px', cursor: 'pointer', color: '#595959', marginRight: '16px' }} />
             </Badge>
         </Popover>

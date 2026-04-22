@@ -36,88 +36,79 @@ const CandidateLayout = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+        <div className="min-h-screen bg-[#f8fafc] flex">
             {/* Sidebar */}
-            <aside className="fixed left-0 top-0 h-screen w-64 bg-white shadow-xl border-r border-gray-200 z-50">
+            <aside className="fixed left-0 top-0 h-screen w-64 bg-white shadow-[4px_0_24px_rgba(0,0,0,0.02)] border-r border-gray-100 z-50 flex flex-col">
                 {/* Logo */}
-                <div className="h-16 flex items-center justify-center border-b border-gray-200 bg-gradient-to-r from-blue-600 to-indigo-600">
-                    <h1 className="text-2xl font-bold text-white">JobHunter</h1>
-                </div>
-
-                {/* User Info */}
-                <div className="p-6 border-b border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                            {user?.name?.charAt(0).toUpperCase() || 'U'}
+                <div className="h-24 flex items-center justify-center border-b border-gray-50 flex-shrink-0">
+                    <div className="flex items-center gap-3 px-4 mt-2">
+                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                            <span className="text-white font-black text-xl">C</span>
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-gray-900 truncate">{user?.name || 'User'}</p>
-                            <p className="text-xs text-gray-500 truncate">{user?.email}</p>
-                        </div>
+                        <h1 className="text-2xl font-black bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent m-0 tracking-tight">
+                            Candidate
+                        </h1>
                     </div>
                 </div>
 
                 {/* Navigation */}
-                <nav className="p-4 space-y-2">
-                    {menuItems.map((item) => {
-                        const Icon = item.icon;
-                        const active = isActive(item.path, item.exact);
+                <nav className="p-4 flex-grow overflow-y-auto mt-2">
+                    <ul className="space-y-1">
+                        {menuItems.map((item) => {
+                            const Icon = item.icon;
+                            const active = isActive(item.path, item.exact);
 
-                        return (
-                            <Link
-                                key={item.path}
-                                to={item.path}
-                                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${active
-                                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30'
-                                    : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
-                                    }`}
-                            >
-                                <Icon className="w-5 h-5" />
-                                <span className="font-medium">{item.label}</span>
-                            </Link>
-                        );
-                    })}
+                            return (
+                                <li key={item.path}>
+                                    <Link
+                                        to={item.path}
+                                        className={`flex items-center space-x-3 px-4 py-3 rounded-2xl transition-all duration-300 ${active
+                                            ? 'bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-600 font-bold border-r-2 border-indigo-600'
+                                            : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600 font-medium'
+                                            }`}
+                                    >
+                                        <Icon className="w-5 h-5" />
+                                        <span>{item.label}</span>
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </nav>
 
-                {/* Logout Button */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
-                    <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-all duration-200"
-                    >
-                        <LogOut className="w-5 h-5" />
-                        <span className="font-medium">Đăng xuất</span>
-                    </button>
+                {/* User Info & Actions Bottom */}
+                <div className="p-4 border-t border-gray-50 flex-shrink-0 bg-white">
+                     <div className="flex justify-center mb-4 gap-4">
+                        <button className="relative p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all">
+                            <Bell className="w-5 h-5" />
+                            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 border border-white rounded-full"></span>
+                        </button>
+                        <button 
+                            onClick={handleLogout}
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                            title="Đăng xuất"
+                        >
+                            <LogOut className="w-5 h-5" />
+                        </button>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50/50 border border-gray-100">
+                        <div className="p-0.5 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 shadow-sm flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-indigo-600 font-bold text-lg">
+                                {user?.name?.charAt(0).toUpperCase() || 'U'}
+                            </div>
+                        </div>
+                        <div className="flex flex-col overflow-hidden">
+                            <span className="text-sm font-bold text-gray-800 truncate" title={user?.name}>{user?.name || 'User'}</span>
+                            <span className="text-xs font-medium text-gray-500 truncate" title={user?.email}>{user?.email}</span>
+                        </div>
+                    </div>
                 </div>
             </aside>
 
             {/* Main Content */}
-            <div className="ml-64">
-                {/* Top Bar */}
-                <header className="h-16 bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
-                    <div className="h-full px-8 flex items-center justify-between">
-                        <div>
-                            <h2 className="text-xl font-bold text-gray-800">
-                                {menuItems.find(item => isActive(item.path, item.exact))?.label || 'Candidate Dashboard'}
-                            </h2>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <button className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
-                                <Bell className="w-5 h-5" />
-                                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                            </button>
-                            <Link
-                                to="/"
-                                className="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                            >
-                                Về trang chủ
-                            </Link>
-                        </div>
-                    </div>
-                </header>
-
-                {/* Page Content */}
-                <main className="p-8">
+            <div className="ml-64 flex-1 flex flex-col min-h-screen">
+                <main className="p-8 flex-1">
                     <Outlet />
                 </main>
             </div>

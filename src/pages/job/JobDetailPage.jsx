@@ -14,10 +14,21 @@ const JobDetailPage = () => {
     const navigate = useNavigate();
     const { isAuthenticated, user } = useAuth();
     const [cvFile, setCvFile] = useState(null);
+    const [selectedCvId, setSelectedCvId] = useState('');
     const [isApplying, setIsApplying] = useState(false);
     const [showApplyModal, setShowApplyModal] = useState(false);
 
     const queryClient = useQueryClient();
+
+    const { data: profile } = useQuery({
+        queryKey: ['profile', user?.id],
+        queryFn: async () => {
+            if (!isAuthenticated) return null;
+            const res = await axiosClient.get(ENDPOINTS.PROFILE.BASE);
+            return res.data.data ? res.data.data : res.data;
+        },
+        enabled: !!user?.id
+    });
 
     const { data: job, isLoading, isError } = useQuery({
         queryKey: ['job', id],
@@ -28,7 +39,7 @@ const JobDetailPage = () => {
     });
 
     const { data: myResumes } = useQuery({
-        queryKey: ['my-history'],
+        queryKey: ['my-history', user?.id],
         queryFn: async () => {
             if (!isAuthenticated) return [];
             const role = user?.role?.name || user?.role || '';
@@ -41,53 +52,35 @@ const JobDetailPage = () => {
 
     const isApplied = myResumes?.some(resume => (resume.job?.id === Number(id)) || (resume.jobId === Number(id)) || (resume.job?.id === id) || (resume.jobId === id));
 
-    const uploadResumeMutation = useMutation({
-        mutationFn: async (file) => {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('folder', 'resumes');
-            const res = await axiosClient.post(ENDPOINTS.FILES.UPLOAD, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
-            return res.data.data ? res.data.data.fileName : res.data.fileName;
-        }
-    });
-
-    const applyJobMutation = useMutation({
-        mutationFn: async (payload) => {
-            return axiosClient.post(ENDPOINTS.RESUMES.BASE, payload);
-        },
-        onSuccess: () => {
-            toast.success('Ứng tuyển thành công! Nhà tuyển dụng sẽ sớm liên hệ với bạn.');
-            setShowApplyModal(false);
-            setCvFile(null);
-            queryClient.invalidateQueries({ queryKey: ['my-history'] });
-        },
-        onError: (error) => {
-            toast.error(error.response?.data?.message || 'Có lỗi xảy ra khi ứng tuyển. Vui lòng thử lại.');
-        }
-    });
-
     const handleApply = async (e) => {
         e.preventDefault();
-        if (!cvFile) {
-            toast.error('Vui lòng chọn CV để tải lên.');
+        if (!selectedCvId && !cvFile) {
+            toast.error('Vui lòng chọn CV để tải lên hoặc chọn từ thư viện của bạn.');
             return;
         }
 
         setIsApplying(true);
         try {
-            const fileName = await uploadResumeMutation.mutateAsync(cvFile);
-            await applyJobMutation.mutateAsync({
-                url: fileName,
-                job: { id: job.id },
-                company: { id: job.company?.id }, // Ensure company ID is sent
-                user: { id: user.id },
-                email: user.email,
-                status: "PENDING"
+            const formData = new FormData();
+            formData.append('jobId', job.id);
+            if (selectedCvId) {
+                formData.append('userCvId', selectedCvId);
+            } else if (cvFile) {
+                formData.append('file', cvFile);
+            }
+
+            await axiosClient.post(`${ENDPOINTS.RESUMES.BASE}/apply`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
             });
+
+            toast.success('Ứng tuyển thành công! Nhà tuyển dụng sẽ sớm liên hệ với bạn.');
+            setShowApplyModal(false);
+            setCvFile(null);
+            setSelectedCvId('');
+            queryClient.invalidateQueries({ queryKey: ['my-history'] });
         } catch (error) {
             console.error("Apply error:", error);
+            toast.error(error.response?.data?.message || 'Có lỗi xảy ra khi ứng tuyển. Vui lòng thử lại.');
         } finally {
             setIsApplying(false);
         }
@@ -192,7 +185,7 @@ const JobDetailPage = () => {
                                                 navigate('/login', { state: { from: `/jobs/${id}` } });
                                                 return;
                                             }
-                                            
+
                                             const role = user?.role?.name || user?.role || '';
                                             if (role === 'HR' || role === 'ROLE_HR' || role === 'ADMIN' || role === 'ROLE_ADMIN') {
                                                 toast.error("Tài khoản nhà tuyển dụng/quản trị viên không thể ứng tuyển công việc!");
@@ -306,34 +299,57 @@ const JobDetailPage = () => {
 
                         <form onSubmit={handleApply}>
                             <div className="mb-8">
-                                <label className="block text-sm font-bold text-secondary-700 mb-3">Tải lên CV của bạn (PDF)</label>
-                                <div className="relative group">
-                                    <div className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all cursor-pointer ${cvFile ? 'border-emerald-500 bg-emerald-50' : 'border-secondary-300 hover:border-brand-500 hover:bg-brand-50'}`}>
-                                        <input
-                                            type="file"
-                                            accept=".pdf,.doc,.docx"
-                                            onChange={(e) => setCvFile(e.target.files[0])}
-                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                        />
-                                        {cvFile ? (
-                                            <div className="flex flex-col items-center text-emerald-600 animate-fade-in">
-                                                <div className="p-3 bg-white rounded-full shadow-sm mb-3">
-                                                    <CheckCircle className="w-8 h-8" />
-                                                </div>
-                                                <span className="font-bold text-secondary-900 truncate max-w-[200px] block">{cvFile.name}</span>
-                                                <span className="text-xs mt-1">Click để thay đổi file</span>
-                                            </div>
-                                        ) : (
-                                            <div className="flex flex-col items-center text-secondary-500">
-                                                <div className="p-3 bg-secondary-100 rounded-full mb-3 group-hover:bg-white group-hover:shadow-sm transition-colors">
-                                                    <FileText className="w-8 h-8 text-secondary-400 group-hover:text-brand-500 transition-colors" />
-                                                </div>
-                                                <span className="font-medium group-hover:text-brand-600 transition-colors">Click để chọn file hoặc kéo thả</span>
-                                                <span className="text-xs text-secondary-400 mt-2">Hỗ trợ PDF, DOC. Tối đa 5MB</span>
-                                            </div>
-                                        )}
+                                <label className="block text-sm font-bold text-secondary-700 mb-3">CV ứng tuyển</label>
+
+                                {profile?.cvs && profile.cvs.length > 0 && (
+                                    <div className="mb-4">
+                                        <select
+                                            value={selectedCvId}
+                                            onChange={(e) => {
+                                                setSelectedCvId(e.target.value);
+                                                if (e.target.value) setCvFile(null); // Reset new file if selecting existing
+                                            }}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg font-medium text-secondary-700"
+                                        >
+                                            <option value="">-- Tải lên CV mới --</option>
+                                            {profile.cvs.map(cv => (
+                                                <option key={cv.id} value={cv.id}>
+                                                    {cv.fileName} {cv.isDefault ? "(Mặc định)" : ""}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
-                                </div>
+                                )}
+
+                                {!selectedCvId && (
+                                    <div className="relative group mt-2">
+                                        <div className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all cursor-pointer ${cvFile ? 'border-emerald-500 bg-emerald-50' : 'border-secondary-300 hover:border-brand-500 hover:bg-brand-50'}`}>
+                                            <input
+                                                type="file"
+                                                accept=".pdf,.doc,.docx"
+                                                onChange={(e) => setCvFile(e.target.files[0])}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                            />
+                                            {cvFile ? (
+                                                <div className="flex flex-col items-center text-emerald-600 animate-fade-in">
+                                                    <div className="p-3 bg-white rounded-full shadow-sm mb-3">
+                                                        <CheckCircle className="w-8 h-8" />
+                                                    </div>
+                                                    <span className="font-bold text-secondary-900 truncate max-w-[200px] block">{cvFile.name}</span>
+                                                    <span className="text-xs mt-1">Click để thay đổi file</span>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col items-center text-secondary-500">
+                                                    <div className="p-3 bg-secondary-100 rounded-full mb-3 group-hover:bg-white group-hover:shadow-sm transition-colors">
+                                                        <FileText className="w-8 h-8 text-secondary-400 group-hover:text-brand-500 transition-colors" />
+                                                    </div>
+                                                    <span className="font-medium group-hover:text-brand-600 transition-colors">Click để chọn file hoặc kéo thả</span>
+                                                    <span className="text-xs text-secondary-400 mt-2">Hỗ trợ PDF, DOC. Tối đa 5MB</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex gap-3">

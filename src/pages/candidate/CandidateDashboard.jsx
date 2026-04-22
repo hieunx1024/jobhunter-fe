@@ -137,10 +137,10 @@ const CandidateDashboard = () => {
     return (
         <div className="space-y-8">
             {/* Welcome Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-xl p-8 text-white">
+            {/* <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-xl p-8 text-white">
                 <h1 className="text-3xl font-bold mb-2">Xin chào, {user?.name}! 👋</h1>
                 <p className="text-blue-100">Chào mừng bạn quay trở lại với JobHunter. Hãy theo dõi tiến trình ứng tuyển của bạn.</p>
-            </div>
+            </div> */}
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">

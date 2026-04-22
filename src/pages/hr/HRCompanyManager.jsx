@@ -196,19 +196,31 @@ const HRCompanyManager = () => {
     }
 
     return (
-        <div>
-            <h1 className="text-2xl font-bold mb-6">
-                {hasCompany ? 'Quản lý Công ty' : 'Đăng ký Công ty'}
-            </h1>
+        <div className="animate-fade-in pb-8">
+            <div className="mb-8 p-8 rounded-[2rem] bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+                <div className="relative z-10">
+                    <h1 className="text-3xl font-extrabold mb-2 text-white">
+                        {hasCompany ? 'Quản lý Công ty' : 'Đăng ký Công ty'}
+                    </h1>
+                    <p className="text-orange-100 max-w-xl">
+                        {hasCompany ? 'Cập nhật thông tin doanh nghiệp để thu hút nhiều ứng viên tiềm năng hơn.' : 'Điền thông tin doanh nghiệp của bạn để bắt đầu tuyển dụng.'}
+                    </p>
+                </div>
+            </div>
 
             {/* Thông báo quy định */}
             <Alert
-                message="Quy định quan trọng"
-                description="Mỗi tài khoản HR chỉ được đại diện cho một doanh nghiệp duy nhất. Sau khi đăng ký, bạn chỉ có thể chỉnh sửa thông tin công ty đó, không thể chuyển sang công ty khác."
+                message={
+                    <span className="font-bold text-blue-800">Quy định quan trọng</span>
+                }
+                description={
+                    <span className="text-blue-700">Mỗi tài khoản HR chỉ được đại diện cho một doanh nghiệp duy nhất. Sau khi đăng ký, bạn chỉ có thể chỉnh sửa thông tin công ty đó, không thể chuyển sang công ty khác.</span>
+                }
                 type="info"
-                icon={<InfoCircleOutlined />}
+                icon={<InfoCircleOutlined className="text-blue-500 mt-1" />}
                 showIcon
-                className="mb-6"
+                className="mb-8 rounded-2xl border-blue-100 bg-blue-50"
             />
 
             {/* Hiển thị thông báo khi có yêu cầu đăng ký đang chờ duyệt */}

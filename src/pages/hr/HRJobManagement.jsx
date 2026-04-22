@@ -229,29 +229,44 @@ const HRJobManagement = () => {
     ];
 
     return (
-        <div>
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-4">
-                    <h1 className="text-2xl font-bold">Quản lý Tin tuyển dụng</h1>
-                    <div className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-600">
-                        Đã đăng: {postingStats.usedPosts}
+        <div className="animate-fade-in pb-8">
+            <div className="mb-8 p-8 rounded-[2rem] bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                    <div>
+                        <h1 className="text-3xl font-extrabold mb-2 text-white">Quản lý Tin tuyển dụng</h1>
+                        <p className="text-blue-100 mb-4">Tạo mới, chỉnh sửa và theo dõi các tin đăng tuyển dụng của công ty bạn.</p>
+                        <div className="flex flex-wrap items-center gap-3">
+                            <div className="px-4 py-1.5 rounded-xl text-sm font-bold bg-white/20 backdrop-blur-md border border-white/30 text-white shadow-sm flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-blue-300"></span> Đã đăng: {postingStats.usedPosts}
+                            </div>
+                            <div className={`px-4 py-1.5 rounded-xl text-sm font-bold backdrop-blur-md border shadow-sm flex items-center gap-2 ${postingStats.remainingPosts === -1
+                                ? 'bg-emerald-500/20 border-emerald-400/30 text-emerald-50'
+                                : postingStats.remainingPosts > 0
+                                    ? 'bg-emerald-500/20 border-emerald-400/30 text-emerald-50'
+                                    : 'bg-red-500/20 border-red-400/30 text-red-50'
+                                }`}>
+                                <span className={`w-2 h-2 rounded-full ${postingStats.remainingPosts > 0 || postingStats.remainingPosts === -1 ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
+                                Còn lại: {postingStats.remainingPosts === -1 ? 'Không giới hạn' : postingStats.remainingPosts}
+                            </div>
+                            <div className="px-4 py-1.5 rounded-xl text-sm font-bold bg-purple-500/20 backdrop-blur-md border border-purple-400/30 text-purple-50 shadow-sm flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-purple-400"></span> Gói: {postingStats.packageName}
+                            </div>
+                        </div>
                     </div>
-                    <div className={`px-3 py-1 rounded-full text-sm font-medium ${postingStats.remainingPosts === -1
-                        ? 'bg-green-100 text-green-600'
-                        : postingStats.remainingPosts > 0
-                            ? 'bg-green-100 text-green-600'
-                            : 'bg-red-100 text-red-600'
-                        }`}>
-                        Còn lại: {postingStats.remainingPosts === -1 ? 'Không giới hạn' : postingStats.remainingPosts}
-                    </div>
-                    <div className="px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-600">
-                        Gói: {postingStats.packageName}
-                    </div>
+                    <Button 
+                        type="primary" 
+                        icon={<PlusOutlined />} 
+                        onClick={handleCreate} 
+                        size="large"
+                        className="rounded-xl font-semibold shadow-md bg-white text-blue-600 hover:bg-blue-50 border-0 h-12 px-6"
+                    >
+                        Đăng tin tuyển dụng
+                    </Button>
                 </div>
-                <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-                    Đăng tin tuyển dụng
-                </Button>
             </div>
+
+            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-50">
 
             <AdminTable
                 columns={columns}
@@ -279,6 +294,7 @@ const HRJobManagement = () => {
                     </div>
                 )}
             />
+            </div>
 
             <Modal
                 title={editingJob ? 'Chỉnh sửa công việc' : 'Đăng tin tuyển dụng mới'}

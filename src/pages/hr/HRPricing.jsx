@@ -82,49 +82,43 @@ const HRPricing = () => {
     };
 
     return (
-        <div style={{ padding: '40px', background: '#f5f5f5', minHeight: '80vh' }}>
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-                <Title level={2}>Bảng giá & Gói dịch vụ JobHunter</Title>
-                <Text type="secondary" style={{ fontSize: '16px' }}>
-                    Chọn các gói dịch vụ linh hoạt phù hợp với nhu cầu tuyển dụng của doanh nghiệp bạn.
-                </Text>
+        <div className="animate-fade-in pb-12">
+            <div className="mb-12 p-10 rounded-[2.5rem] bg-gradient-to-br from-indigo-600 via-purple-600 to-fuchsia-600 text-white shadow-xl relative overflow-hidden flex flex-col items-center text-center">
+                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+                
+                <div className="relative z-10 max-w-2xl">
+                    <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white tracking-tight">Nâng Tầm Tuyển Dụng</h1>
+                    <p className="text-purple-100 text-lg md:text-xl">
+                        Chọn gói dịch vụ phù hợp nhất với quy mô và nhu cầu tuyển dụng của doanh nghiệp bạn. Linh hoạt, tiết kiệm và hiệu quả.
+                    </p>
+                </div>
             </div>
 
-            <Row gutter={[24, 24]} justify="center">
+            <Row gutter={[32, 32]} justify="center" className="px-4">
                 {plans.map((plan) => (
                     <Col xs={24} md={8} key={plan.id}>
-                        <Card
-                            hoverable
-                            style={{
-                                height: '100%',
-                                borderRadius: '12px',
-                                borderColor: plan.recommended ? '#1890ff' : '#e8e8e8',
-                                borderWidth: plan.recommended ? '2px' : '1px',
-                                display: 'flex',
-                                flexDirection: 'column'
-                            }}
-                            styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column' } }}
-                        >
+                        <div className={`relative h-full transition-all duration-300 rounded-[2rem] p-8 flex flex-col items-center bg-white ${plan.recommended ? 'shadow-2xl scale-105 border-2 border-indigo-500 z-10' : 'shadow-md hover:shadow-xl border border-gray-100 mt-4'}`}>
                             {plan.recommended && (
-                                <Tag color="blue" style={{ position: 'absolute', top: '-12px', right: '40%', fontSize: '14px', padding: '4px 12px' }}>
-                                    <StarFilled /> TỐT NHẤT
-                                </Tag>
+                                <div className="absolute -top-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold px-6 py-1.5 rounded-full text-sm shadow-md flex items-center gap-2">
+                                    <StarFilled /> LỰA CHỌN TỐT NHẤT
+                                </div>
                             )}
-                            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                                <Title level={3} style={{ margin: 0 }}>{plan.name}</Title>
-                                <Title level={2} style={{ color: '#1890ff', margin: '16px 0' }}>
-                                    {plan.price.toLocaleString()} đ
-                                    <span style={{ fontSize: '14px', color: '#8c8c8c' }}> / tháng</span>
-                                </Title>
+                            
+                            <div className="text-center w-full mb-8">
+                                <h3 className={`text-xl font-bold uppercase tracking-wider mb-4 ${plan.recommended ? 'text-indigo-600' : 'text-gray-500'}`}>{plan.name}</h3>
+                                <div className="flex justify-center items-end gap-1">
+                                    <span className="text-4xl font-extrabold text-gray-900">{plan.price.toLocaleString()}</span>
+                                    <span className="text-gray-500 font-medium mb-1 tracking-wider"> VND</span>
+                                </div>
+                                <p className="text-gray-400 mt-2 text-sm">/tháng</p>
                             </div>
 
-                            <div style={{ flex: 1, marginBottom: '24px' }}>
+                            <div className="w-full flex-grow space-y-4 mb-8">
                                 {plan.features.map((item, index) => (
-                                    <div key={index} style={{ padding: '8px 0' }}>
-                                        <Text>
-                                            <CheckCircleOutlined style={{ color: '#52c41a', marginRight: '10px' }} />
-                                            {item}
-                                        </Text>
+                                    <div key={index} className="flex items-start gap-3">
+                                        <CheckCircleOutlined className={`mt-1 text-lg ${plan.recommended ? 'text-indigo-500' : 'text-emerald-500'}`} />
+                                        <span className="text-gray-600 font-medium">{item}</span>
                                     </div>
                                 ))}
                             </div>
@@ -132,13 +126,17 @@ const HRPricing = () => {
                             <Button
                                 type={plan.recommended ? "primary" : "default"}
                                 size="large"
-                                block
+                                className={`w-full h-14 rounded-2xl text-lg font-bold border-0 transition-transform hover:scale-105 active:scale-95 ${
+                                    plan.recommended 
+                                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 hover:from-indigo-500 hover:to-purple-500' 
+                                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                                }`}
                                 loading={loading}
                                 onClick={() => handleBuyNow(plan)}
                             >
-                                Mua ngay
+                                {plan.price === 0 ? 'Bắt đầu ngay' : 'Đăng ký ngay'}
                             </Button>
-                        </Card>
+                        </div>
                     </Col>
                 ))}
             </Row>

@@ -27,6 +27,7 @@ const CandidateProfilePage = () => {
     });
     const [cvFile, setCvFile] = useState(null);
     const [cvUrl, setCvUrl] = useState('');
+    const [cvId, setCvId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [uploadingCv, setUploadingCv] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
@@ -40,8 +41,23 @@ const CandidateProfilePage = () => {
                 age: user.age || '',
                 gender: user.gender || ''
             });
-            // If user has CV URL stored, set it
-            // This would come from the user profile in a real implementation
+            
+            // Lấy thêm danh sách CV từ Backend để hiển thị (Vì authContext không chứa CV cho nhẹ)
+            const fetchProfile = async () => {
+                try {
+                    const response = await axiosClient.get(ENDPOINTS.PROFILE.BASE);
+                    const profileData = response.data.data ? response.data.data : response.data;
+                    if (profileData && profileData.cvs && profileData.cvs.length > 0) {
+                        // Lấy CV mới nhất hoặc mặc định
+                        const latestCv = profileData.cvs[profileData.cvs.length - 1];
+                        setCvUrl(latestCv.url);
+                        setCvId(latestCv.id);
+                    }
+                } catch (e) {
+                    console.error("Không thể load cv", e);
+                }
+            };
+            fetchProfile();
         }
     }, [user]);
 
@@ -102,19 +118,37 @@ const CandidateProfilePage = () => {
 
         try {
             setLoading(true);
-            const response = await axiosClient.patch(ENDPOINTS.USERS.UPDATE_PROFILE, {
-                name: formData.name,
-                address: formData.address,
-                age: parseInt(formData.age) || 0,
-                gender: formData.gender
+            const submitData = new FormData();
+            submitData.append('name', formData.name);
+            submitData.append('address', formData.address);
+            submitData.append('age', formData.age || '');
+            submitData.append('gender', formData.gender);
+            
+            if (cvFile && !cvUrl) { 
+                // Only append file if it's newly selected and not already uploaded via the separate button
+                submitData.append('file', cvFile);
+            }
+
+            const response = await axiosClient.post(ENDPOINTS.PROFILE.BASE, submitData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
             // Update user context
             if (response.data) {
+                // Determine if backend wrapped it in .data
+                const profileData = response.data.data ? response.data.data : response.data;
                 setUser(prev => ({
                     ...prev,
-                    ...response.data
+                    ...profileData
                 }));
+                // Optionally update cvUrl if backend returns it
+                if (profileData.cvs && profileData.cvs.length > 0) {
+                    const latestCv = profileData.cvs[profileData.cvs.length - 1];
+                    setCvUrl(latestCv.url);
+                    setCvId(latestCv.id);
+                }
             }
 
             setSuccessMessage('Cập nhật thông tin thành công!');
@@ -148,10 +182,24 @@ const CandidateProfilePage = () => {
         }
     };
 
-    const handleDeleteCv = () => {
-        if (window.confirm('Bạn có chắc muốn xóa CV này?')) {
+    const handleDeleteCv = async () => {
+        if (!cvId) {
             setCvFile(null);
             setCvUrl('');
+            return;
+        }
+        if (window.confirm('Bạn có chắc muốn xóa CV này vĩnh viễn khỏi thư viện?')) {
+            try {
+                await axiosClient.delete(`${ENDPOINTS.PROFILE.BASE}/cv/${cvId}`);
+                setCvFile(null);
+                setCvUrl('');
+                setCvId(null);
+                setSuccessMessage('Xóa CV thành công!');
+                setTimeout(() => setSuccessMessage(''), 3000);
+            } catch (err) {
+                console.error(err);
+                alert("Bạn không có quyền tương tác với CV của người khác hoặc có lỗi xảy ra");
+            }
         }
     };
 

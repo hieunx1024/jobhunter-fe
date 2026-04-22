@@ -92,7 +92,7 @@ const AdminDashboard = () => {
             <div className="bg-white p-6 rounded-xl shadow-sm border mt-8">
                 <h2 className="text-xl font-bold text-gray-800 mb-6">Biểu đồ thống kê tổng quan</h2>
                 <div className="h-80 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer width="100%" height={320} minHeight={320} minWidth={0}>
                         <BarChart
                             data={chartData}
                             margin={{ top: 20, right: 30, left: 0, bottom: 5 }}

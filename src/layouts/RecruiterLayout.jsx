@@ -101,56 +101,105 @@ const RecruiterLayout = () => {
     };
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
-            <Sider trigger={null} collapsible collapsed={collapsed} theme="light" className="shadow-md z-10">
-                <div className="h-16 flex items-center justify-center border-b">
-                    <h1 className={`text-xl font-bold text-blue-600 transition-all ${collapsed ? 'scale-0 w-0' : 'scale-100'}`}>
-                        HR Portal
-                    </h1>
-                </div>
-                <Menu
-                    theme="light"
-                    mode="inline"
-                    selectedKeys={[selectedKey]}
-                    items={items}
-                    className="border-r-0 mt-2"
-                />
-            </Sider>
-            <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} className="flex justify-between items-center px-4 shadow-sm z-10 sticky top-0">
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
-
-                    <div className="flex items-center gap-4 pr-4">
-                        <span className="text-sm font-medium text-gray-600 hidden sm:block">
-                            Xin chào, {user?.name || 'Recruiter'}
-                        </span>
-                        <Dropdown menu={userMenu} placement="bottomRight">
-                            <Avatar
-                                style={{ backgroundColor: '#1677ff', cursor: 'pointer' }}
-                                icon={<UserOutlined />}
-                            >
-                                {user?.name?.charAt(0)?.toUpperCase()}
-                            </Avatar>
-                        </Dropdown>
+        <Layout style={{ minHeight: '100vh', background: '#f8fafc' }}>
+            {/* Custom CSS overrides for AntD Menu to match the new gradient theme */}
+            <style>
+                {`
+                .modern-hr-menu .ant-menu-item-selected {
+                    background: linear-gradient(90deg, #eff6ff 0%, #e0e7ff 100%) !important;
+                    color: #4f46e5 !important;
+                    font-weight: 600;
+                    border-right: 3px solid #4f46e5;
+                }
+                .modern-hr-menu .ant-menu-item-selected .anticon {
+                    color: #4f46e5 !important;
+                }
+                .modern-hr-menu .ant-menu-item:hover:not(.ant-menu-item-selected) {
+                    color: #4f46e5 !important;
+                    background-color: #f8fafc !important;
+                }
+                .modern-hr-menu .ant-menu-item {
+                    border-radius: 0 16px 16px 0 !important;
+                    margin-right: 16px !important;
+                    width: calc(100% - 16px) !important;
+                    transition: all 0.3s ease;
+                }
+                .modern-sider .ant-layout-sider-children {
+                    display: flex;
+                    flex-direction: column;
+                }
+                `}
+            </style>
+            
+            <Sider 
+                collapsible 
+                collapsed={collapsed} 
+                onCollapse={(value) => setCollapsed(value)}
+                theme="light" 
+                width={260}
+                className="modern-sider shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20 border-r border-gray-100"
+                style={{ background: '#ffffff', position: 'sticky', top: 0, height: '100vh' }}
+            >
+                <div className="h-24 flex items-center justify-center border-b border-gray-50 flex-shrink-0">
+                    <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100 px-4 mt-2'}`}>
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                            <span className="text-white font-black text-xl">H</span>
+                        </div>
+                        <h1 className="text-2xl font-black bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent m-0 whitespace-nowrap tracking-tight">
+                            HR Portal
+                        </h1>
                     </div>
-                </Header>
+                    {collapsed && (
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 mt-2">
+                            <span className="text-white font-black text-xl">H</span>
+                        </div>
+                    )}
+                </div>
+                
+                <div className="py-6 flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar">
+                    <Menu
+                        theme="light"
+                        mode="inline"
+                        selectedKeys={[selectedKey]}
+                        items={items}
+                        className="modern-hr-menu border-r-0"
+                    />
+                </div>
+
+                <div className="p-4 border-t border-gray-50 flex-shrink-0 bg-white">
+                    <Dropdown menu={userMenu} placement="top" trigger={['click']}>
+                        <div className={`flex items-center gap-3 cursor-pointer hover:bg-indigo-50 p-2 rounded-2xl transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
+                            <div className="p-0.5 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 shadow-sm flex-shrink-0">
+                                <Avatar
+                                    size={38}
+                                    style={{ background: '#fff', color: '#4f46e5', fontWeight: 'bold' }}
+                                >
+                                    {user?.name?.charAt(0)?.toUpperCase()}
+                                </Avatar>
+                            </div>
+                            {!collapsed && (
+                                <div className="flex flex-col overflow-hidden">
+                                    <span className="text-sm font-bold text-gray-800 truncate" title={user?.name}>
+                                        {user?.name || 'Recruiter'}
+                                    </span>
+                                    <span className="text-xs font-medium text-indigo-500 truncate" title={user?.company?.name || 'Người tuyển dụng'}>
+                                        {user?.company ? user.company.name : 'Người tuyển dụng'}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    </Dropdown>
+                </div>
+            </Sider>
+            
+            <Layout style={{ background: 'transparent' }}>
                 <Content
                     style={{
-                        margin: '24px 16px',
-                        padding: 24,
+                        margin: '32px',
+                        padding: 0,
                         minHeight: 280,
-                        background: colorBgContainer,
+                        background: 'transparent',
                         borderRadius: borderRadiusLG,
-                        overflowY: 'auto'
                     }}
                 >
                     <Outlet />

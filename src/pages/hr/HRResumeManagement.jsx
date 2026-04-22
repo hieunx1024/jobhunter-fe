@@ -225,25 +225,35 @@ const HRResumeManagement = () => {
     );
 
     return (
-        <div>
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Quản lý Ứng viên</h1>
-                <Space>
-                    <Select
-                        placeholder="Lọc theo trạng thái"
-                        allowClear
-                        style={{ width: 200 }}
-                        onChange={setFilterStatus}
-                        value={filterStatus}
-                    >
-                        <Option value="PENDING">Chờ xử lý</Option>
-                        <Option value="REVIEWING">Đang xem xét</Option>
-                        <Option value="APPROVED">Đã duyệt</Option>
-                        <Option value="REJECTED">Từ chối</Option>
-                    </Select>
-                </Space>
+        <div className="animate-fade-in pb-8">
+            <div className="mb-8 p-8 rounded-[2rem] bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 className="text-3xl font-extrabold mb-2 text-white">Quản lý Ứng viên</h1>
+                        <p className="text-emerald-100 max-w-xl">Kiểm duyệt và quản lý hồ sơ ứng viên đăng ký trực tuyến cho các vị trí tuyển dụng của công ty.</p>
+                    </div>
+                    <Space className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 shadow-sm">
+                        <span className="text-emerald-50 font-medium whitespace-nowrap">Bộ lọc:</span>
+                        <Select
+                            placeholder="Tất cả trạng thái"
+                            allowClear
+                            style={{ width: 180 }}
+                            onChange={setFilterStatus}
+                            value={filterStatus}
+                            className="rounded-xl shadow-sm [&_.ant-select-selector]:rounded-xl [&_.ant-select-selector]:border-transparent"
+                            bordered={false}
+                        >
+                            <Option value="PENDING">Chờ xử lý</Option>
+                            <Option value="REVIEWING">Đang xem xét</Option>
+                            <Option value="APPROVED">Đã duyệt</Option>
+                            <Option value="REJECTED">Từ chối</Option>
+                        </Select>
+                    </Space>
+                </div>
             </div>
 
+            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-50">
             <AdminTable
                 columns={columns}
                 data={data}
@@ -252,6 +262,7 @@ const HRResumeManagement = () => {
                 onPageChange={(page) => setPagination(prev => ({ ...prev, current: page }))}
                 renderActions={renderActions}
             />
+            </div>
 
             <Modal
                 title="Chi tiết hồ sơ ứng viên"

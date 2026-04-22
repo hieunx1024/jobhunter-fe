@@ -17,6 +17,9 @@ export const ENDPOINTS = {
         SELECT_ROLE: `${API_BASE_URL}/users/select-role`,
         UPDATE_PROFILE: `${API_BASE_URL}/users/profile`,
     },
+    PROFILE: {
+        BASE: `${API_BASE_URL}/profile`,
+    },
     JOBS: {
         BASE: `${API_BASE_URL}/jobs`,
         GET_ONE: (id) => `${API_BASE_URL}/jobs/${id}`,
