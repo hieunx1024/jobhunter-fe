@@ -5,7 +5,8 @@ import { vi } from 'date-fns/locale';
 
 const JobCard = ({ job }) => {
     return (
-        <div className="group relative bg-white rounded-xl border border-secondary-100 p-5 hover:shadow-xl hover:border-brand-200 transition-all duration-300 flex flex-col h-full">
+        <div className="group relative bg-white rounded-xl border border-secondary-100 p-5 shadow-sm hover:shadow-2xl hover:shadow-brand-200/40 hover:border-brand-200 transition-all duration-300 flex flex-col h-full hover:-translate-y-1 overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 h-full bg-secondary-100 group-hover:bg-brand-500 transition-colors"></div>
             <div className="flex items-start gap-4 mb-4">
                 <div className="w-14 h-14 rounded-lg bg-secondary-50 flex items-center justify-center border border-secondary-100 flex-shrink-0">
                     {job.company?.logo ? (

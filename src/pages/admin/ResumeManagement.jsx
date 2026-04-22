@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Select, message, Tag, Button, Space, Tooltip } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import AdminTable from '../../components/AdminTable';
+import { openPDFDirectly } from '../../utils/fileUtils';
 import axios from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import dayjs from 'dayjs';
@@ -75,22 +76,8 @@ const ResumeManagement = () => {
         return texts[status] || status;
     };
 
-    const handleViewCV = async (fileName) => {
-        try {
-            const url = ENDPOINTS.FILES.DOWNLOAD(fileName, 'resumes');
-            const response = await axios.get(url, {
-                responseType: 'blob',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-                }
-            });
-
-            const blob = new Blob([response.data], { type: 'application/pdf' });
-            const blobUrl = window.URL.createObjectURL(blob);
-            window.open(blobUrl, '_blank');
-        } catch (error) {
-            message.error('Không thể tải CV. Vui lòng thử lại.');
-        }
+    const handleViewCV = (fileName) => {
+        openPDFDirectly(fileName, 'resume');
     };
 
     const columns = [

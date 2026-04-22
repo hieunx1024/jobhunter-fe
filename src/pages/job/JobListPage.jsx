@@ -4,7 +4,7 @@ import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import JobCard from '../../components/JobCard';
 import Pagination from '../../components/Pagination';
-import { Search, MapPin, Filter, FileText, Sparkles, X } from 'lucide-react';
+import { Search, MapPin, Filter, FileText, Sparkles, X, Briefcase, DollarSign } from 'lucide-react';
 import { Select } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ const JobListPage = () => {
     const initialLocation = searchParams.get('location') || '';
     const initialKeyword = searchParams.get('name') || '';
     const initialSkills = searchParams.get('skills') ? searchParams.get('skills').split(',').map(Number) : [];
+    const initialLevel = searchParams.get('level') || '';
+    const initialMinSalary = searchParams.get('minSalary') || '';
 
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
@@ -23,15 +25,22 @@ const JobListPage = () => {
     const [location, setLocation] = useState(initialLocation);
     const [searchTerm, setSearchTerm] = useState(initialKeyword);
     const [selectedSkills, setSelectedSkills] = useState(initialSkills);
+    const [level, setLevel] = useState(initialLevel);
+    const [minSalary, setMinSalary] = useState(initialMinSalary);
 
     // Sync state when URL params change (e.g. back button)
     useEffect(() => {
         const loc = searchParams.get('location') || '';
         const name = searchParams.get('name') || '';
         const skills = searchParams.get('skills') ? searchParams.get('skills').split(',').map(Number) : [];
+        const lvl = searchParams.get('level') || '';
+        const salary = searchParams.get('minSalary') || '';
+        
         setLocation(loc);
         setSearchTerm(name);
         setSelectedSkills(skills);
+        setLevel(lvl);
+        setMinSalary(salary);
         setPage(1);
     }, [searchParams]);
 
@@ -57,6 +66,8 @@ const JobListPage = () => {
         if (location) params.location = location;
         if (searchTerm) params.name = searchTerm;
         if (selectedSkills.length > 0) params.skills = selectedSkills.join(',');
+        if (level) params.level = level;
+        if (minSalary) params.minSalary = minSalary;
 
         setSearchParams(params);
         setPage(1);
@@ -66,6 +77,8 @@ const JobListPage = () => {
         setLocation('');
         setSearchTerm('');
         setSelectedSkills([]);
+        setLevel('');
+        setMinSalary('');
         setSearchParams({});
         setPage(1);
     };
@@ -75,6 +88,8 @@ const JobListPage = () => {
         const locationParam = searchParams.get('location');
         const nameParam = searchParams.get('name');
         const skillsParam = searchParams.get('skills');
+        const levelParam = searchParams.get('level');
+        const salaryParam = searchParams.get('minSalary');
 
         const params = {
             page: page,
@@ -84,11 +99,13 @@ const JobListPage = () => {
 
         let endpoint = ENDPOINTS.JOBS.ALL;
 
-        if (locationParam || skillsParam || nameParam) {
+        if (locationParam || skillsParam || nameParam || levelParam || salaryParam) {
             endpoint = ENDPOINTS.JOBS.SEARCH;
             if (locationParam) params.location = locationParam;
             if (nameParam) params.name = nameParam;
-            if (skillsParam) params.skills = skillsParam; // Pass comma-separated string
+            if (skillsParam) params.skills = skillsParam;
+            if (levelParam) params.level = levelParam;
+            if (salaryParam) params.minSalary = salaryParam;
         }
 
         const res = await axiosClient.get(endpoint, { params });
@@ -142,18 +159,53 @@ const JobListPage = () => {
                     </div>
 
                     {/* Skills Select (Ant Design) */}
-                    <div className="md:col-span-6 lg:col-span-4 relative">
+                    <div className="md:col-span-6 lg:col-span-4 relative h-12">
                         <Select
                             mode="multiple"
                             allowClear
-                            style={{ width: '100%', height: '48px' }}
-                            placeholder="Chọn kỹ năng (VD: Java, React...)"
+                            style={{ width: '100%', height: '100%' }}
+                            placeholder="Chọn kỹ năng..."
                             value={selectedSkills}
                             onChange={setSelectedSkills}
                             options={skillOptions}
                             maxTagCount="responsive"
-                            className="custom-ant-select"
+                            className="custom-ant-select rounded-xl"
                         />
+                    </div>
+
+                    {/* Level Select */}
+                    <div className="md:col-span-6 lg:col-span-3 relative group">
+                        <Briefcase className="absolute left-3 top-3.5 text-secondary-400 group-focus-within:text-brand-500 transition-colors z-10" />
+                        <select
+                            className="w-full pl-10 pr-4 py-3 bg-secondary-50 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+                            value={level}
+                            onChange={(e) => setLevel(e.target.value)}
+                        >
+                            <option value="">Tất cả cấp bậc</option>
+                            <option value="INTERN">Intern</option>
+                            <option value="FRESHER">Fresher</option>
+                            <option value="JUNIOR">Junior</option>
+                            <option value="MIDDLE">Middle</option>
+                            <option value="SENIOR">Senior</option>
+                        </select>
+                    </div>
+
+                    {/* Salary Input */}
+                    <div className="md:col-span-6 lg:col-span-3 relative group">
+                        <DollarSign className="absolute left-3 top-3.5 text-secondary-400 group-focus-within:text-brand-500 transition-colors z-10" />
+                        <select
+                            className="w-full pl-10 pr-4 py-3 bg-secondary-50 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+                            value={minSalary}
+                            onChange={(e) => setMinSalary(e.target.value)}
+                        >
+                            <option value="">Tất cả mức lương</option>
+                            <option value="5000000">Từ 5 triệu</option>
+                            <option value="10000000">Từ 10 triệu</option>
+                            <option value="15000000">Từ 15 triệu</option>
+                            <option value="20000000">Từ 20 triệu</option>
+                            <option value="30000000">Từ 30 triệu</option>
+                            <option value="50000000">Từ 50 triệu</option>
+                        </select>
                     </div>
 
                     {/* Search Button */}
@@ -174,7 +226,7 @@ const JobListPage = () => {
                 </div>
 
                 {/* Active Filters */}
-                {(location || searchTerm || selectedSkills.length > 0) && (
+                {(location || searchTerm || selectedSkills.length > 0 || level || minSalary) && (
                     <div className="mt-4 flex flex-wrap gap-2 items-center">
                         <span className="text-sm text-secondary-500">Đang lọc theo:</span>
                         {searchTerm && (
@@ -185,6 +237,16 @@ const JobListPage = () => {
                         {location && (
                             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-sm font-medium border border-brand-100">
                                 <MapPin className="w-3 h-3" /> {location}
+                            </span>
+                        )}
+                        {level && (
+                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium border border-indigo-100">
+                                <Briefcase className="w-3 h-3" /> {level}
+                            </span>
+                        )}
+                        {minSalary && (
+                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-sm font-medium border border-emerald-100">
+                                <DollarSign className="w-3 h-3" /> {Number(minSalary).toLocaleString('vi-VN')} VNĐ
                             </span>
                         )}
                         {selectedSkills.length > 0 && selectedSkills.map(id => {

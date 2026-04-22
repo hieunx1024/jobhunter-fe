@@ -25,13 +25,13 @@ export const useChatbot = () => {
         if (!input.trim()) return;
 
         const userText = input.trim();
-        const newMessages = [...messages, { sender: 'user', text: userText }];
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const newMessages = [...messages, { sender: 'user', text: userText, time: timestamp }];
         setMessages(newMessages);
         setInput('');
         setIsLoading(true);
 
         try {
-            // Adjust baseUrl if needed
             const response = await axios.post('http://localhost:8080/api/v1/chat', {
                 message: userText
             });
@@ -40,7 +40,8 @@ export const useChatbot = () => {
             setMessages([...newMessages, {
                 sender: 'bot',
                 text: resData.reply,
-                jobs: resData.jobs
+                jobs: resData.jobs,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }]);
         } catch (error) {
             console.error(error);

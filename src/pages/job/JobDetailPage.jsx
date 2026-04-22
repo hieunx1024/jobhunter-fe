@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { Dropdown, Menu } from 'antd';
+import { FacebookOutlined, LinkedinOutlined, MailOutlined, CopyOutlined } from '@ant-design/icons';
 
 const JobDetailPage = () => {
     const { id } = useParams();
@@ -203,10 +205,47 @@ const JobDetailPage = () => {
                                         Ứng tuyển ngay
                                     </button>
                                 )}
-                                <button className="px-10 py-5 rounded-2xl border border-slate-200 text-slate-600 font-black hover:bg-slate-50 transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
-                                    <Share2 className="w-6 h-6" />
-                                    Chia sẻ
-                                </button>
+                                <Dropdown
+                                    trigger={['click']}
+                                    menu={{
+                                        items: [
+                                            {
+                                                key: 'copy',
+                                                icon: <CopyOutlined className="text-slate-500" />,
+                                                label: 'Sao chép liên kết',
+                                                onClick: () => {
+                                                    navigator.clipboard.writeText(window.location.href);
+                                                    toast.success('Đã sao chép liên kết!');
+                                                }
+                                            },
+                                            {
+                                                key: 'facebook',
+                                                icon: <FacebookOutlined className="text-blue-600" />,
+                                                label: 'Chia sẻ qua Facebook',
+                                                onClick: () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')
+                                            },
+                                            {
+                                                key: 'linkedin',
+                                                icon: <LinkedinOutlined className="text-sky-700" />,
+                                                label: 'Chia sẻ qua LinkedIn',
+                                                onClick: () => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')
+                                            },
+                                            {
+                                                key: 'email',
+                                                icon: <MailOutlined className="text-rose-500" />,
+                                                label: 'Gửi qua Email',
+                                                onClick: () => window.location.href = `mailto:?subject=${encodeURIComponent(job.name)}&body=Xem việc làm này tại: ${encodeURIComponent(window.location.href)}`
+                                            }
+                                        ],
+                                        className: "rounded-xl shadow-xl border border-slate-100 p-2 min-w-[180px]"
+                                    }}
+                                    placement="bottomRight"
+                                >
+                                    <button className="px-10 py-4 rounded-2xl border border-slate-200 text-slate-600 font-black hover:bg-slate-50 transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
+                                        <Share2 className="w-6 h-6" />
+                                        Chia sẻ
+                                    </button>
+                                </Dropdown>
                             </div>
                         </div>
                     </div>

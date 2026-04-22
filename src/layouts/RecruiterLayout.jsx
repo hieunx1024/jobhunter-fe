@@ -14,6 +14,7 @@ import {
     CreditCardOutlined
 } from '@ant-design/icons';
 import { useAuth } from '../context/AuthContext';
+import NotificationDropdown from '../components/NotificationDropdown';
 
 const { Header, Sider, Content } = Layout;
 
@@ -169,6 +170,9 @@ const RecruiterLayout = () => {
                 </div>
 
                 <div className="p-6 border-t border-slate-100 flex-shrink-0 bg-white">
+                    <div className="mb-6 flex justify-center">
+                        <NotificationDropdown />
+                    </div>
                     <Dropdown menu={userMenu} placement="top" trigger={['click']}>
                         <div className={`flex items-center gap-4 cursor-pointer hover:bg-slate-50 p-2 rounded-[1.25rem] transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
                             <div className="p-0.5 rounded-full bg-slate-100 flex-shrink-0">

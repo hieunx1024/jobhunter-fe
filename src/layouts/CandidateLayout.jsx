@@ -42,7 +42,7 @@ const CandidateLayout = () => {
                 {/* Logo */}
                 <div className="h-20 flex items-center px-8 border-b border-slate-100 flex-shrink-0">
                     <div className="flex items-center gap-3">
-                         <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10">
+                        <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10">
                             <span className="text-white font-black text-lg">C</span>
                         </div>
                         <h1 className="text-xl font-bold text-slate-900 m-0 tracking-tight">
@@ -78,30 +78,25 @@ const CandidateLayout = () => {
 
                 {/* User Info & Actions Bottom */}
                 <div className="p-6 border-t border-slate-100 bg-white">
-                     <div className="flex items-center justify-between mb-6">
-                        <button className="relative p-2.5 text-slate-400 hover:text-sky-600 hover:bg-sky-50 rounded-xl transition-all">
-                            <Bell className="w-5 h-5" />
-                            <span className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-sky-500 border-2 border-white rounded-full"></span>
-                        </button>
-                        <button 
+                    <div className="flex items-center justify-between gap-3 p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100">
+                        <div className="flex items-center gap-3 overflow-hidden">
+                            <div className="p-0.5 rounded-full bg-slate-200 flex-shrink-0">
+                                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-lg">
+                                    {user?.name?.charAt(0).toUpperCase() || 'U'}
+                                </div>
+                            </div>
+                            <div className="flex flex-col overflow-hidden text-left">
+                                <span className="text-sm font-bold text-slate-800 truncate" title={user?.name}>{user?.name || 'User'}</span>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight truncate">Ứng viên</span>
+                            </div>
+                        </div>
+                        <button
                             onClick={handleLogout}
-                            className="p-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
+                            className="p-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all flex-shrink-0"
                             title="Đăng xuất"
                         >
                             <LogOut className="w-5 h-5" />
                         </button>
-                    </div>
-
-                    <div className="flex items-center gap-4 p-4 rounded-[1.5rem] bg-slate-50 border border-slate-100">
-                        <div className="p-0.5 rounded-full bg-slate-200 flex-shrink-0">
-                            <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-lg">
-                                {user?.name?.charAt(0).toUpperCase() || 'U'}
-                            </div>
-                        </div>
-                        <div className="flex flex-col overflow-hidden text-left">
-                            <span className="text-sm font-bold text-slate-800 truncate" title={user?.name}>{user?.name || 'User'}</span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight truncate">Ứng viên</span>
-                        </div>
                     </div>
                 </div>
             </aside>

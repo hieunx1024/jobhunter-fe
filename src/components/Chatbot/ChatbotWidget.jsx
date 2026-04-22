@@ -66,6 +66,11 @@ const ChatbotWidget = () => {
                                             ))}
                                         </div>
                                     )}
+                                    {msg.time && (
+                                        <div className={`text-[10px] mt-1 ${msg.sender === 'user' ? 'text-blue-200 text-right' : 'text-gray-400'}`}>
+                                            {msg.time}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}

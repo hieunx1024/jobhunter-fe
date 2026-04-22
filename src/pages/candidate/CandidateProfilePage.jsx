@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
+import { openPDFDirectly } from '../../utils/fileUtils';
 import {
     User,
     Mail,
@@ -94,7 +95,7 @@ const CandidateProfilePage = () => {
             setUploadingCv(true);
             const formData = new FormData();
             formData.append('file', cvFile);
-            formData.append('folder', 'cv');
+            formData.append('folder', 'resume');
 
             const response = await axiosClient.post(ENDPOINTS.FILES.UPLOAD, formData, {
                 headers: {
@@ -161,24 +162,9 @@ const CandidateProfilePage = () => {
         }
     };
 
-    const handleViewCv = async () => {
+    const handleViewCv = () => {
         if (cvUrl) {
-            try {
-                const url = ENDPOINTS.FILES.DOWNLOAD(cvUrl, 'cv');
-                const response = await axiosClient.get(url, {
-                    responseType: 'blob',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-                    }
-                });
-
-                const blob = new Blob([response.data], { type: 'application/pdf' });
-                const blobUrl = window.URL.createObjectURL(blob);
-                window.open(blobUrl, '_blank');
-            } catch (error) {
-                console.error('Error downloading CV:', error);
-                alert('Không thể xem CV. Vui lòng thử lại.');
-            }
+            openPDFDirectly(cvUrl, 'resume');
         }
     };
 

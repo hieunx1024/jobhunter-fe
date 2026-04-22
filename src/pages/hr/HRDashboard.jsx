@@ -78,7 +78,7 @@ const HRDashboard = () => {
 
             <Row gutter={[24, 24]}>
                 <Col xs={24} sm={12} lg={6}>
-                    <Card bordered={false} className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
+                    <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-slate-400 font-bold mb-1 text-[10px] uppercase tracking-widest">Tin Tuyển Dụng</p>
@@ -96,7 +96,7 @@ const HRDashboard = () => {
                 </Col>
                 
                 <Col xs={24} sm={12} lg={6}>
-                    <Card bordered={false} className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
+                    <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-slate-400 font-bold mb-1 text-[10px] uppercase tracking-widest">Tổng Hồ Sơ</p>
@@ -114,7 +114,7 @@ const HRDashboard = () => {
                 </Col>
 
                 <Col xs={24} sm={12} lg={6}>
-                    <Card bordered={false} className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
+                    <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-slate-400 font-bold mb-1 text-[10px] uppercase tracking-widest">Hồ Sơ Chờ Duyệt</p>
@@ -132,7 +132,7 @@ const HRDashboard = () => {
                 </Col>
 
                 <Col xs={24} sm={12} lg={6}>
-                    <Card bordered={false} className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
+                    <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-slate-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-slate-400 font-bold mb-1 text-[10px] uppercase tracking-widest">Hồ Sơ Đã Duyệt</p>
@@ -152,16 +152,16 @@ const HRDashboard = () => {
 
             <Row gutter={[24, 24]} className="mt-8">
                 <Col xs={24} md={10} lg={8}>
-                    <Card bordered={false} className="shadow-sm border border-slate-100 rounded-2xl h-full" title={<span className="text-lg font-bold text-slate-800">Tỉ lệ xử lý hồ sơ</span>}>
+                    <Card variant="borderless" className="shadow-sm border border-slate-100 rounded-2xl h-full" title={<span className="text-lg font-bold text-slate-800">Tỉ lệ xử lý hồ sơ</span>}>
                         <div className="flex flex-col items-center justify-center py-6">
                             <div className="relative">
                                 <Progress
                                     type="dashboard"
                                     percent={stats.totalResumes > 0 ? Math.round((stats.approvedResumes / stats.totalResumes) * 100) : 0}
                                     strokeColor="#0d9488"
-                                    width={180}
+                                    size={180}
                                     strokeWidth={8}
-                                    trailColor="#f8fafc"
+                                    railColor="#f8fafc"
                                 />
                             </div>
                             <div className="mt-8 text-center w-full px-4">
@@ -189,7 +189,7 @@ const HRDashboard = () => {
                 </Col>
                 
                 <Col xs={24} md={14} lg={16}>
-                    <Card bordered={false} className="shadow-sm border border-slate-100 rounded-2xl h-full" title={<span className="text-lg font-bold text-slate-800">Trạng thái hồ sơ</span>}>
+                    <Card variant="borderless" className="shadow-sm border border-slate-100 rounded-2xl h-full" title={<span className="text-lg font-bold text-slate-800">Trạng thái hồ sơ</span>}>
                         <div className="space-y-6 py-2">
                             <div className="bg-slate-50/50 p-5 rounded-xl border border-slate-100">
                                 <div className="flex justify-between items-center mb-3">
@@ -199,7 +199,7 @@ const HRDashboard = () => {
                                 <Progress
                                     percent={stats.totalResumes > 0 ? Math.round((stats.pendingResumes / stats.totalResumes) * 100) : 0}
                                     strokeColor="#f59e0b"
-                                    trailColor="#fdf6e3"
+                                    railColor="#fdf6e3"
                                     strokeWidth={8}
                                     showInfo={false}
                                 />
@@ -213,7 +213,7 @@ const HRDashboard = () => {
                                 <Progress
                                     percent={stats.totalResumes > 0 ? Math.round((stats.approvedResumes / stats.totalResumes) * 100) : 0}
                                     strokeColor="#10b981"
-                                    trailColor="#ecfdf5"
+                                    railColor="#ecfdf5"
                                     strokeWidth={8}
                                     showInfo={false}
                                 />
