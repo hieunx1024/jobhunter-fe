@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ENDPOINTS } from './endpoints';
 
 const axiosClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api/v1',
+    baseURL: import.meta.env.VITE_API_URL || 'https://job-matching-api-h3cs.onrender.com/api/v1',
     withCredentials: true, // Important for cookies (refresh token)
     headers: {
         'Content-Type': 'application/json',
@@ -31,33 +31,45 @@ axiosClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        // Prevent infinite loop
+        // 1. If error is 401 and it's NOT a refresh request
         if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== ENDPOINTS.AUTH.REFRESH) {
             originalRequest._retry = true;
 
             try {
                 // Call refresh token endpoint
-                // Note: Refresh token is in HttpOnly cookie, so we just call the endpoint.
-                const res = await axiosClient.get(ENDPOINTS.AUTH.REFRESH);
+                // Note: We use axios (global) or a separate instance to avoid this interceptor
+                const res = await axios.get(ENDPOINTS.AUTH.REFRESH, { withCredentials: true });
 
                 if (res.data && res.data.data && res.data.data.access_token) {
                     const newAccessToken = res.data.data.access_token;
                     localStorage.setItem('access_token', newAccessToken);
 
-                    // Update header for the original request
+                    // Update header and retry
                     originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
                     return axiosClient(originalRequest);
                 }
             } catch (refreshError) {
-                // Refresh failed, logout user
+                // Refresh failed (cookie expired/missing) -> Logout
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('user_info');
-                window.location.href = '/login';
+                
+                // Only redirect if NOT already on login/register page to avoid loops
+                if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+                    window.location.href = '/login';
+                }
                 return Promise.reject(refreshError);
             }
         }
+
+        // 2. If it's a 401 on the refresh endpoint itself, just logout
+        if (error.response?.status === 401 && originalRequest.url === ENDPOINTS.AUTH.REFRESH) {
+            localStorage.removeItem('access_token');
+            if (!window.location.pathname.includes('/login')) {
+                window.location.href = '/login';
+            }
+        }
+
         return Promise.reject(error);
     }
-);
 
 export default axiosClient;
