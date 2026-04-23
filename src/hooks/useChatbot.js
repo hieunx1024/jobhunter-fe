@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import axiosClient from '../api/axiosClient';
 
 export const useChatbot = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ export const useChatbot = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/chat', {
+            const response = await axiosClient.post('/chat', {
                 message: userText
             });
 

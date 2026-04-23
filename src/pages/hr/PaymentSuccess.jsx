@@ -20,8 +20,7 @@ const PaymentSuccess = () => {
 
             try {
                 // Endpoint processing vnpay return
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
-                const response = await axios.get(`${apiUrl}/payments/vnpay-return`, {
+                const response = await axios.get('/payments/vnpay-return', {
                     params: {
                         vnp_TxnRef,
                         vnp_ResponseCode

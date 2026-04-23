@@ -57,8 +57,7 @@ const HRPricing = () => {
         try {
             setLoading(true);
             const returnUrl = `${window.location.origin}/hr/payment/return`;
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
-            const response = await axios.post(`${apiUrl}/payments/create`, null, {
+            const response = await axios.post('/payments/create', null, {
                 params: {
                     method: 'VNPAY',
                     subscriptionId: plan.id,

@@ -88,6 +88,35 @@ const JobDetailPage = () => {
         }
     };
 
+    const formatText = (text) => {
+        if (!text) return null;
+        const formattedStr = text.replace(/\\n|\\r\\n/g, '\n');
+        
+        return formattedStr.split('\n').map((line, i) => {
+            if (!line.trim()) {
+                return <div key={i} className="h-2"></div>;
+            }
+            
+            const trimmed = line.trim();
+            // Headings format
+            if (trimmed.endsWith(':') || (trimmed.length > 5 && trimmed === trimmed.toUpperCase() && !trimmed.includes('HTTP'))) {
+                return <h3 key={i} className="font-black text-slate-900 mt-8 mb-4 text-lg">{trimmed}</h3>;
+            }
+            
+            // Bullets format
+            if (trimmed.startsWith('-') || trimmed.startsWith('•') || trimmed.startsWith('*') || trimmed.startsWith('+')) {
+                return (
+                    <div key={i} className="flex items-start gap-3 mb-3 ml-2 group">
+                        <span className="text-blue-500 font-black mt-1 group-hover:scale-125 transition-transform text-lg leading-none">•</span>
+                        <span className="text-slate-600 font-medium">{trimmed.substring(1).trim()}</span>
+                    </div>
+                );
+            }
+            
+            return <p key={i} className="text-slate-600 font-medium mb-3 leading-relaxed">{line}</p>;
+        });
+    };
+
     if (isLoading) return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
             <div className="w-16 h-16 border-4 border-slate-200 border-t-slate-900 rounded-full animate-spin"></div>
@@ -251,34 +280,36 @@ const JobDetailPage = () => {
                     </div>
 
                     {/* Job Details */}
-                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-secondary-200 space-y-8">
+                    <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
                         <div>
-                            <h2 className="text-xl font-bold text-secondary-900 mb-6 flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600">
-                                    <FileText className="w-5 h-5" />
+                            <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner">
+                                    <FileText className="w-6 h-6" />
                                 </div>
                                 Chi tiết công việc
                             </h2>
-                            <div className="prose prose-slate max-w-none text-slate-600 whitespace-pre-wrap leading-relaxed space-y-4">
-                                {job.description?.replace(/\\n|\\r\\n/g, '\n')}
+                            <div className="text-base text-slate-600">
+                                {formatText(job.description)}
                             </div>
                         </div>
 
-                        <div className="h-px bg-secondary-100"></div>
+                        {job.requirements && (
+                            <>
+                                <div className="h-px bg-slate-100 my-8"></div>
 
-                        <div>
-                            <h2 className="text-xl font-bold text-secondary-900 mb-6 flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-secondary-100 flex items-center justify-center text-secondary-600">
-                                    <CheckCircle className="w-5 h-5" />
+                                <div>
+                                    <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
+                                            <CheckCircle className="w-6 h-6" />
+                                        </div>
+                                        Yêu cầu ứng viên
+                                    </h2>
+                                    <div className="text-base text-slate-600">
+                                        {formatText(job.requirements)}
+                                    </div>
                                 </div>
-                                Yêu cầu ứng viên
-                            </h2>
-                            <div className="prose prose-slate max-w-none text-slate-600 whitespace-pre-wrap leading-relaxed space-y-4">
-                                {job.requirements ? job.requirements.replace(/\\n|\\r\\n/g, '\n') : (
-                                    <p className="italic text-slate-400">Vui lòng tham khảo phần mô tả chi tiết ở trên.</p>
-                                )}
-                            </div>
-                        </div>
+                            </>
+                        )}
                     </div>
                 </div>
 
