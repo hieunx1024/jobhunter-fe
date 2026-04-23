@@ -90,31 +90,38 @@ const JobDetailPage = () => {
 
     const formatText = (text) => {
         if (!text) return null;
-        const formattedStr = text.replace(/\\n|\\r\\n/g, '\n');
+        // Strip out literal '\n' and also handle rogue '\' characters often left by improper escaping
+        let formattedStr = text.replace(/\\n/g, '\n').replace(/\\r/g, '');
+        // Remove rogue backslashes at end of lines or between lines
+        formattedStr = formattedStr.replace(/\\\n/g, '\n').replace(/\\$/gm, '');
         
-        return formattedStr.split('\n').map((line, i) => {
-            if (!line.trim()) {
-                return <div key={i} className="h-2"></div>;
+        const lines = formattedStr.split('\n');
+        
+        return lines.map((line, i) => {
+            const trimmed = line.trim();
+            if (!trimmed) {
+                // Collapse multiple empty lines but keep some spacing
+                if (i > 0 && lines[i-1].trim() === '') return null;
+                return <div key={i} className="h-3"></div>;
             }
             
-            const trimmed = line.trim();
-            // Headings format
+            // Headings format (e.g. "Requirements:", "Benefits:")
             if (trimmed.endsWith(':') || (trimmed.length > 5 && trimmed === trimmed.toUpperCase() && !trimmed.includes('HTTP'))) {
-                return <h3 key={i} className="font-black text-slate-900 mt-8 mb-4 text-lg">{trimmed}</h3>;
+                return <h3 key={i} className="font-black text-slate-900 mt-8 mb-4 text-lg border-l-4 border-blue-500 pl-3">{trimmed}</h3>;
             }
             
             // Bullets format
             if (trimmed.startsWith('-') || trimmed.startsWith('•') || trimmed.startsWith('*') || trimmed.startsWith('+')) {
                 return (
-                    <div key={i} className="flex items-start gap-3 mb-3 ml-2 group">
+                    <div key={i} className="flex items-start gap-3 mb-3 ml-1 md:ml-4 group">
                         <span className="text-blue-500 font-black mt-1 group-hover:scale-125 transition-transform text-lg leading-none">•</span>
-                        <span className="text-slate-600 font-medium">{trimmed.substring(1).trim()}</span>
+                        <span className="text-slate-600 font-medium leading-relaxed">{trimmed.replace(/^[-•*+]\s*/, '')}</span>
                     </div>
                 );
             }
             
-            return <p key={i} className="text-slate-600 font-medium mb-3 leading-relaxed">{line}</p>;
-        });
+            return <p key={i} className="text-slate-600 font-medium mb-3 leading-relaxed">{trimmed}</p>;
+        }).filter(Boolean);
     };
 
     if (isLoading) return (
@@ -155,59 +162,59 @@ const JobDetailPage = () => {
                 {/* Main Content */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Header Card */}
-                    <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-10 relative overflow-hidden">
+                    <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 p-6 md:p-10 relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-64 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-32 pointer-events-none"></div>
 
                         <div className="relative z-10">
-                            <div className="flex flex-col md:flex-row gap-8 items-start mb-10">
-                                <div className="w-24 h-24 md:w-32 md:h-32 bg-white border border-slate-100 shadow-xl shadow-slate-200/50 rounded-3xl flex items-center justify-center p-4 shrink-0 overflow-hidden">
+                            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start mb-8 md:mb-10 text-center md:text-left">
+                                <div className="w-20 h-20 md:w-32 md:h-32 bg-white border border-slate-100 shadow-xl shadow-slate-200/50 rounded-2xl md:rounded-3xl flex items-center justify-center p-3 md:p-4 shrink-0 overflow-hidden">
                                     {job.company?.logo ? (
                                         <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain" />
                                     ) : (
-                                        <Building2 className="w-12 h-12 text-slate-200" />
+                                        <Building2 className="w-10 h-10 md:w-12 md:h-12 text-slate-200" />
                                     )}
                                 </div>
-                                <div className="flex-1">
-                                    <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 leading-tight tracking-tight uppercase">{job.name}</h1>
-                                    <Link to={`/companies/${job.company?.id}`} className="text-xl text-blue-600 font-black hover:text-blue-700 transition-colors inline-flex items-center gap-2 group">
+                                <div className="flex-1 w-full">
+                                    <h1 className="text-2xl md:text-4xl font-black text-slate-900 mb-3 leading-tight tracking-tight uppercase px-2 md:px-0">{job.name}</h1>
+                                    <Link to={`/companies/${job.company?.id}`} className="text-lg md:text-xl text-blue-600 font-black hover:text-blue-700 transition-colors inline-flex items-center gap-2 group">
                                         {job.company?.name || 'Công ty ẩn danh'}
-                                        <ArrowLeft className="w-5 h-5 rotate-180 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all font-bold" />
+                                        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 rotate-180 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all font-bold" />
                                     </Link>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <DollarSign className="w-4 h-4 text-emerald-500" />
-                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Mức lương</p>
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-10">
+                                <div className="flex flex-col text-slate-700 bg-slate-50 p-4 md:px-6 md:py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-1 md:mb-2">
+                                        <DollarSign className="w-3.5 h-3.5 text-emerald-500" />
+                                        <p className="text-[9px] md:text-[10px] text-slate-400 font-black uppercase tracking-widest">Mức lương</p>
                                     </div>
-                                    <p className="font-black text-slate-900">{job.salary ? `${job.salary.toLocaleString()} VND` : 'Thỏa thuận'}</p>
+                                    <p className="font-black text-slate-900 text-sm md:text-base">{job.salary ? `${job.salary.toLocaleString()} VND` : 'Thỏa thuận'}</p>
                                 </div>
-                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <MapPin className="w-4 h-4 text-blue-500" />
-                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Địa điểm</p>
+                                <div className="flex flex-col text-slate-700 bg-slate-50 p-4 md:px-6 md:py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-1 md:mb-2">
+                                        <MapPin className="w-3.5 h-3.5 text-blue-500" />
+                                        <p className="text-[9px] md:text-[10px] text-slate-400 font-black uppercase tracking-widest">Địa điểm</p>
                                     </div>
-                                    <p className="font-black text-slate-900 truncate">{job.location}</p>
+                                    <p className="font-black text-slate-900 text-sm md:text-base truncate">{job.location}</p>
                                 </div>
-                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <Briefcase className="w-4 h-4 text-indigo-500" />
-                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Cấp độ</p>
+                                <div className="flex flex-col text-slate-700 bg-slate-50 p-4 md:px-6 md:py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-1 md:mb-2">
+                                        <Briefcase className="w-3.5 h-3.5 text-indigo-500" />
+                                        <p className="text-[9px] md:text-[10px] text-slate-400 font-black uppercase tracking-widest">Cấp độ</p>
                                     </div>
-                                    <p className="font-black text-slate-900">{job.level}</p>
+                                    <p className="font-black text-slate-900 text-sm md:text-base">{job.level}</p>
                                 </div>
-                                <div className="flex flex-col text-slate-700 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <Clock className="w-4 h-4 text-orange-500" />
-                                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Hạn nộp</p>
+                                <div className="flex flex-col text-slate-700 bg-slate-50 p-4 md:px-6 md:py-4 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-2 mb-1 md:mb-2">
+                                        <Clock className="w-3.5 h-3.5 text-orange-500" />
+                                        <p className="text-[9px] md:text-[10px] text-slate-400 font-black uppercase tracking-widest">Hạn nộp</p>
                                     </div>
-                                    <p className="font-black text-slate-900">{job.endDate ? format(new Date(job.endDate), 'dd/MM/yyyy') : 'N/A'}</p>
+                                    <p className="font-black text-slate-900 text-sm md:text-base">{job.endDate ? format(new Date(job.endDate), 'dd/MM/yyyy') : 'N/A'}</p>
                                 </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-4 pt-10 border-t border-slate-50">
+                            <div className="flex flex-col md:flex-row gap-4 pt-8 md:pt-10 border-t border-slate-50">
                                 {isApplied ? (
                                     <div className="flex-1 bg-slate-900 text-white font-bold py-5 px-10 rounded-2xl flex items-center justify-center gap-3 cursor-default shadow-xl shadow-slate-900/20">
                                         <CheckCircle className="w-6 h-6 text-emerald-400" />
@@ -280,31 +287,31 @@ const JobDetailPage = () => {
                     </div>
 
                     {/* Job Details */}
-                    <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
+                    <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8">
                         <div>
-                            <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner">
-                                    <FileText className="w-6 h-6" />
+                            <h2 className="text-xl md:text-2xl font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner">
+                                    <FileText className="w-5 h-5 md:w-6 md:h-6" />
                                 </div>
                                 Chi tiết công việc
                             </h2>
-                            <div className="text-base text-slate-600">
+                            <div className="text-sm md:text-base text-slate-600">
                                 {formatText(job.description)}
                             </div>
                         </div>
 
                         {job.requirements && (
                             <>
-                                <div className="h-px bg-slate-100 my-8"></div>
+                                <div className="h-px bg-slate-100 my-6 md:my-8"></div>
 
                                 <div>
-                                    <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
-                                            <CheckCircle className="w-6 h-6" />
+                                    <h2 className="text-xl md:text-2xl font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
+                                            <CheckCircle className="w-5 h-5 md:w-6 md:h-6" />
                                         </div>
                                         Yêu cầu ứng viên
                                     </h2>
-                                    <div className="text-base text-slate-600">
+                                    <div className="text-sm md:text-base text-slate-600">
                                         {formatText(job.requirements)}
                                     </div>
                                 </div>
@@ -349,9 +356,33 @@ const JobDetailPage = () => {
                                 </span>
                             </div>
                             <div>
-                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest block mb-1">Website</span>
-                                <a href="#" className="text-blue-600 font-bold hover:underline truncate block">Visit website</a>
+                                <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest block mb-1">Website / GitHub</span>
+                                {job.company?.githubLink ? (
+                                    <a 
+                                        href={job.company.githubLink.startsWith('http') ? job.company.githubLink : `https://${job.company.githubLink}`} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 font-bold hover:underline truncate block"
+                                    >
+                                        {job.company.githubLink.replace(/^https?:\/\//, '')}
+                                    </a>
+                                ) : (
+                                    <span className="text-slate-400 italic">Chưa cập nhật</span>
+                                )}
                             </div>
+                            {job.company?.facebookLink && (
+                                <div>
+                                    <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest block mb-1">Facebook</span>
+                                    <a 
+                                        href={job.company.facebookLink.startsWith('http') ? job.company.facebookLink : `https://${job.company.facebookLink}`} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 font-bold hover:underline truncate block text-xs"
+                                    >
+                                        {job.company.facebookLink.replace(/^https?:\/\/www.facebook.com\//, '')}
+                                    </a>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
