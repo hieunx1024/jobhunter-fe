@@ -108,6 +108,8 @@ const HRCompanyManager = () => {
             address: companyData.address,
             description: companyData.description,
             logo: companyData.logo,
+            githubLink: companyData.githubLink,
+            facebookLink: companyData.facebookLink,
         });
     };
 
@@ -273,13 +275,28 @@ const HRCompanyManager = () => {
                                     placeholder="Nhập mô tả về công ty..."
                                 />
                             </Form.Item>
-
                             <Form.Item
                                 name="logo"
                                 label="Logo công ty (URL)"
                             >
                                 <Input placeholder="URL logo" size="large" />
                             </Form.Item>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <Form.Item
+                                    name="githubLink"
+                                    label="Website / GitHub Link"
+                                >
+                                    <Input placeholder="https://github.com/your-company" size="large" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="facebookLink"
+                                    label="Facebook Fanpage"
+                                >
+                                    <Input placeholder="https://facebook.com/your-company" size="large" />
+                                </Form.Item>
+                            </div>
 
                             <Form.Item label="Hoặc tải logo lên">
                                 <Upload
