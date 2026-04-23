@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <GoogleOAuthProvider clientId="14134068622-04hih98ag1pud5l8ld7nqtj6nbigamn9.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="14134068622-04hih98ag1pud518ld7nqtj6nbigamn9.apps.googleusercontent.com">
           <AuthProvider>
             <App />
             <ToastContainer position="top-right" autoClose={3000} />
