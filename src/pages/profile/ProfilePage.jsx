@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
+import ChangePasswordModal from '../../components/profile/ChangePasswordModal';
+import { LockOutlined } from '@ant-design/icons';
 
 const schema = yup.object().shape({
     name: yup.string().required('Tên hiển thị không được để trống'),
@@ -14,31 +16,17 @@ const schema = yup.object().shape({
     address: yup.string().required('Địa chỉ không được để trống'),
 });
 
-const passwordSchema = yup.object().shape({
-    currentPassword: yup.string().required('Mật khẩu hiện tại là bắt buộc'),
-    newPassword: yup.string().required('Mật khẩu mới là bắt buộc').min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
-    confirmPassword: yup.string()
-        .oneOf([yup.ref('newPassword'), null], 'Mật khẩu xác nhận không khớp')
-        .required('Xác nhận mật khẩu là bắt buộc'),
-});
 
 const ProfilePage = () => {
     const { user, fetchAccount } = useAuth();
     const [activeTab, setActiveTab] = useState('info');
     const [loading, setLoading] = useState(false);
+    const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
 
-    const {
-        register: registerPassword,
-        handleSubmit: handleSubmitPassword,
-        formState: { errors: passwordErrors },
-        reset: resetPasswordForm
-    } = useForm({
-        resolver: yupResolver(passwordSchema),
-    });
 
     useEffect(() => {
         if (user) {
@@ -66,25 +54,6 @@ const ProfilePage = () => {
         }
     };
 
-    const onSubmitPassword = async (data) => {
-        setLoading(true);
-        try {
-            // Need to verify exact endpoint payload structure for change-password
-            // Typically { currentPassword, newPassword } or similar
-            await axiosClient.post(ENDPOINTS.AUTH.CHANGE_PASSWORD, {
-                email: user.email, // backend might need identifier
-                currentPassword: data.currentPassword,
-                newPassword: data.newPassword
-            });
-            toast.success('Đổi mật khẩu thành công!');
-            resetPasswordForm();
-        } catch (error) {
-            console.error(error);
-            toast.error(error.response?.data?.message || 'Đổi mật khẩu thất bại. Kiểm tra lại mật khẩu cũ.');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     if (!user) return <div className="p-8 text-center">Đang tải thông tin...</div>;
 
@@ -196,53 +165,30 @@ const ProfilePage = () => {
                             </div>
                         </form>
                     ) : (
-                        <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="space-y-6 max-w-lg mx-auto">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Mật khẩu hiện tại</label>
-                                <input
-                                    type="password"
-                                    {...registerPassword('currentPassword')}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${passwordErrors.currentPassword ? 'border-red-500' : 'border-gray-300'}`}
-                                    placeholder="Nhập mật khẩu hiện tại"
-                                />
-                                {passwordErrors.currentPassword && <p className="mt-1 text-sm text-red-500">{passwordErrors.currentPassword.message}</p>}
+                        <div className="text-center py-12">
+                            <div className="mb-6">
+                                <LockOutlined style={{ fontSize: '48px', color: '#1890ff', opacity: 0.8 }} />
                             </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Mật khẩu mới</label>
-                                <input
-                                    type="password"
-                                    {...registerPassword('newPassword')}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${passwordErrors.newPassword ? 'border-red-500' : 'border-gray-300'}`}
-                                    placeholder="Nhập mật khẩu mới"
-                                />
-                                {passwordErrors.newPassword && <p className="mt-1 text-sm text-red-500">{passwordErrors.newPassword.message}</p>}
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Xác nhận mật khẩu mới</label>
-                                <input
-                                    type="password"
-                                    {...registerPassword('confirmPassword')}
-                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${passwordErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'}`}
-                                    placeholder="Nhập lại mật khẩu mới"
-                                />
-                                {passwordErrors.confirmPassword && <p className="mt-1 text-sm text-red-500">{passwordErrors.confirmPassword.message}</p>}
-                            </div>
-
-                            <div className="flex justify-end pt-4">
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-200 font-medium transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center"
-                                >
-                                    {loading ? 'Đang xử lý...' : 'Đổi mật khẩu'}
-                                </button>
-                            </div>
-                        </form>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-2">Bảo mật tài khoản</h3>
+                            <p className="text-gray-500 mb-8 max-w-sm mx-auto">
+                                Bạn nên sử dụng mật khẩu mạnh để bảo vệ tài khoản của mình khỏi những truy cập trái phép.
+                            </p>
+                            <button
+                                onClick={() => setIsChangePasswordModalOpen(true)}
+                                className="px-8 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200 font-bold transition-all shadow-lg shadow-indigo-100 flex items-center mx-auto"
+                            >
+                                <LockOutlined className="mr-2" />
+                                Đổi mật khẩu ngay
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>
+
+            <ChangePasswordModal
+                open={isChangePasswordModalOpen}
+                onCancel={() => setIsChangePasswordModalOpen(false)}
+            />
         </div>
     );
 };
