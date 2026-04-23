@@ -31,8 +31,12 @@ axiosClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        // 1. If error is 401 and it's NOT a refresh request
-        if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== ENDPOINTS.AUTH.REFRESH) {
+        const isAuthContext = originalRequest.url?.includes('/auth/login') || 
+                              originalRequest.url?.includes('/auth/google') || 
+                              originalRequest.url?.includes('/auth/register');
+
+        // 1. If error is 401 and it's NOT a refresh request or a login/register request
+        if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== ENDPOINTS.AUTH.REFRESH && !isAuthContext) {
             originalRequest._retry = true;
 
             try {
