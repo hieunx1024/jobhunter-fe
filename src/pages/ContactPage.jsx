@@ -29,7 +29,7 @@ const ContactPage = () => {
                             </div>
                             <div>
                                 <h4 className="font-bold text-lg">Địa chỉ</h4>
-                                <p className="text-gray-600">Tầng 12, Tòa nhà Tech, Quận Cầu Giấy, Hà Nội</p>
+                                <p className="text-gray-600">298 Đường Cầu Diễn, Phường Tây Tựu, Quận Bắc Từ Liêm, TP. Hà Nội</p>
                             </div>
                         </div>
 
@@ -49,7 +49,7 @@ const ContactPage = () => {
                             </div>
                             <div>
                                 <h4 className="font-bold text-lg">Email</h4>
-                                <p className="text-gray-600">contact@jobhunter.vn</p>
+                                <p className="text-gray-600">hieuakvip1024@gmail.com</p>
                             </div>
                         </div>
                     </div>

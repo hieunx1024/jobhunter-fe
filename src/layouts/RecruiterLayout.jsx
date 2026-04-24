@@ -103,7 +103,7 @@ const RecruiterLayout = () => {
     return (
         <Layout style={{ minHeight: '100vh', background: '#f8fafc' }}>
             {/* Custom CSS overrides for AntD Menu to match the new gradient theme */}
-        <style>
+            <style>
                 {`
                 .modern-hr-menu .ant-menu-item-selected {
                     background-color: #eff6ff !important; /* blue-50 */
@@ -134,21 +134,21 @@ const RecruiterLayout = () => {
                 }
                 `}
             </style>
-            
-            <Sider 
+
+            <Sider
                 breakpoint="lg"
                 collapsedWidth="0"
-                collapsible 
-                collapsed={collapsed} 
+                collapsible
+                collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
-                theme="light" 
+                theme="light"
                 width={260}
                 className="modern-sider shadow-sm z-50 border-r border-blue-100"
-                style={{ 
-                    background: '#ffffff', 
-                    position: 'fixed', 
-                    left: 0, 
-                    top: 0, 
+                style={{
+                    background: '#ffffff',
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
                     height: '100vh',
                     zIndex: 1000
                 }}
@@ -158,7 +158,7 @@ const RecruiterLayout = () => {
                         <div className="w-9 h-9 rounded-xl bg-linear-to-br from-blue-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
                             <span className="text-white font-black text-lg">H</span>
                         </div>
-                        <h1 className="text-xl font-bold text-brand-900 m-0 tracking-tight">HR Portal</h1>
+                        <h1 className="text-xl font-bold text-brand-900 m-0 tracking-tight">HR SITE</h1>
                     </div>
                     {collapsed && (
                         <div className="w-9 h-9 rounded-xl bg-linear-to-br from-blue-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20 mx-auto">
@@ -166,7 +166,7 @@ const RecruiterLayout = () => {
                         </div>
                     )}
                 </div>
-                
+
                 <div className="py-6 flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar">
                     <Menu
                         theme="light"
@@ -203,13 +203,13 @@ const RecruiterLayout = () => {
                     </Dropdown>
                 </div>
             </Sider>
-            
+
             <Layout className="transition-all duration-300" style={{ background: 'transparent', marginLeft: collapsed ? 0 : (window.innerWidth > 992 ? 260 : 0) }}>
                 {/* Mobile Header */}
                 <div className="lg:hidden h-16 bg-white border-b border-blue-100 flex items-center justify-between px-6 sticky top-0 z-40">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-xs">H</div>
-                        <span className="font-bold text-brand-900">HR Portal</span>
+                        <span className="font-bold text-brand-900">Hr</span>
                     </div>
                 </div>
 

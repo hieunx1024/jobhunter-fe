@@ -137,23 +137,23 @@ const AdminLayout = () => {
                 }
                 `}
             </style>
-            
-            <Sider 
+
+            <Sider
                 breakpoint="lg"
                 collapsedWidth="0"
-                collapsible 
-                collapsed={collapsed} 
+                collapsible
+                collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
-                theme="dark" 
+                theme="dark"
                 width={260}
                 className="admin-sider shadow-2xl"
-                style={{ 
-                    background: '#0f172a', 
-                    position: 'fixed', 
-                    left: 0, 
-                    top: 0, 
+                style={{
+                    background: '#0f172a',
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
                     height: '100vh',
-                    zIndex: 1000 
+                    zIndex: 1000
                 }}
             >
                 <div className="h-20 flex items-center px-6 border-b border-white/5 mb-6">
@@ -161,7 +161,7 @@ const AdminLayout = () => {
                         <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
                             <span className="text-brand-900 font-bold text-lg">A</span>
                         </div>
-                        <h1 className="text-lg font-bold text-white m-0 tracking-tight">Admin Portal</h1>
+                        <h1 className="text-lg font-bold text-white m-0 tracking-tight">Admin SITE</h1>
                     </div>
                     {collapsed && (
                         <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center mx-auto">
@@ -169,7 +169,7 @@ const AdminLayout = () => {
                         </div>
                     )}
                 </div>
-                
+
                 <div className="flex-grow overflow-y-auto overflow-x-hidden custom-scrollbar">
                     <Menu
                         theme="dark"
@@ -206,13 +206,13 @@ const AdminLayout = () => {
                     </Dropdown>
                 </div>
             </Sider>
-            
+
             <Layout className="transition-all duration-300" style={{ background: 'transparent', marginLeft: collapsed ? 0 : (window.innerWidth > 992 ? 260 : 0) }}>
                 {/* Mobile Header */}
                 <div className="lg:hidden h-16 bg-[#0f172a] shadow-md flex items-center justify-between px-6 sticky top-0 z-40">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-brand-900 font-black text-xs">A</div>
-                        <span className="font-bold text-white uppercase tracking-wider text-sm">Admin Portal</span>
+                        <span className="font-bold text-white uppercase tracking-wider text-sm">Admin SITE</span>
                     </div>
                 </div>
 

@@ -35,7 +35,7 @@ const JobListPage = () => {
         const skills = searchParams.get('skills') ? searchParams.get('skills').split(',').map(Number) : [];
         const lvl = searchParams.get('level') || '';
         const salary = searchParams.get('minSalary') || '';
-        
+
         setLocation(loc);
         setSearchTerm(name);
         setSelectedSkills(skills);
@@ -324,8 +324,8 @@ const JobListPage = () => {
                             </div>
                             <h3 className="font-bold text-zinc-900">Gợi ý cho bạn</h3>
                         </div>
-                        <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-                            Đăng nhập để nhận được các gợi ý việc làm phù hợp nhất với hồ sơ và kỹ năng của bạn.
+                        <p className="text-sm text-gray-500 mb-6 leading-relaxed">Nhận
+                            Nhận các gợi ý việc làm phù hợp nhất với hồ sơ và kỹ năng của bạn.
                         </p>
 
                         <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-xl text-white shadow-lg shadow-blue-500/30 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
