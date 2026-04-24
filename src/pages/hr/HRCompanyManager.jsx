@@ -213,7 +213,7 @@ const HRCompanyManager = () => {
 
             {/* Important Terms and Conditions Alert */}
             <Alert
-                message={
+                title={
                     <span className="font-bold text-blue-800">Quy định quan trọng</span>
                 }
                 description={
@@ -323,6 +323,7 @@ const HRCompanyManager = () => {
                             <Form.Item>
                                 <Button
                                     type="primary"
+                                    style={{ backgroundColor: "#102a43", borderColor: "#102a43" }}
                                     htmlType="submit"
                                     icon={hasCompany ? <SaveOutlined /> : <PlusOutlined />}
                                     loading={submitting}

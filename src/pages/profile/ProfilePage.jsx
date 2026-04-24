@@ -40,9 +40,14 @@ const ProfilePage = () => {
     const onSubmitInfo = async (data) => {
         setLoading(true);
         try {
-            await axiosClient.put(ENDPOINTS.USERS.BASE, {
-                id: user.id, // Include ID just in case
-                ...data
+            const submitData = new FormData();
+            submitData.append('name', data.name);
+            submitData.append('address', data.address);
+            submitData.append('age', data.age);
+            submitData.append('gender', data.gender);
+
+            await axiosClient.post(ENDPOINTS.PROFILE.BASE, submitData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
             });
             toast.success('Cập nhật thông tin thành công!');
             await fetchAccount(); // Refresh user data
@@ -64,13 +69,13 @@ const ProfilePage = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="flex border-b border-gray-100">
                     <button
-                        className={`flex-1 py-4 text-center font-medium transition-colors ${activeTab === 'info' ? 'text-primary-600 border-b-2 border-primary-600 bg-primary-50/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}
+                        className={`flex-1 py-4 text-center font-medium transition-colors ${activeTab === 'info' ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}
                         onClick={() => setActiveTab('info')}
                     >
                         Thông tin chung
                     </button>
                     <button
-                        className={`flex-1 py-4 text-center font-medium transition-colors ${activeTab === 'password' ? 'text-primary-600 border-b-2 border-primary-600 bg-primary-50/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}
+                        className={`flex-1 py-4 text-center font-medium transition-colors ${activeTab === 'password' ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}
                         onClick={() => setActiveTab('password')}
                     >
                         Đổi mật khẩu
@@ -103,7 +108,7 @@ const ProfilePage = () => {
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
                                     <input
                                         {...register('name')}
-                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Nhập tên hiển thị"
                                     />
                                     {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
@@ -114,7 +119,7 @@ const ProfilePage = () => {
                                     <input
                                         type="number"
                                         {...register('age')}
-                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${errors.age ? 'border-red-500' : 'border-gray-300'}`}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all ${errors.age ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Nhập tuổi"
                                     />
                                     {errors.age && <p className="mt-1 text-sm text-red-500">{errors.age.message}</p>}
@@ -124,7 +129,7 @@ const ProfilePage = () => {
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Giới tính</label>
                                     <select
                                         {...register('gender')}
-                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
                                     >
                                         <option value="">Chọn giới tính</option>
                                         <option value="MALE">Nam</option>
@@ -139,7 +144,7 @@ const ProfilePage = () => {
                                     <textarea
                                         {...register('address')}
                                         rows="3"
-                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
                                         placeholder="Nhập địa chỉ của bạn"
                                     ></textarea>
                                     {errors.address && <p className="mt-1 text-sm text-red-500">{errors.address.message}</p>}
@@ -150,7 +155,7 @@ const ProfilePage = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center"
+                                    className="px-6 py-2.5 bg-brand-900 text-white rounded-lg hover:bg-brand-700 focus:ring-4 focus:ring-brand-200 font-medium transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center"
                                 >
                                     {loading ? (
                                         <>

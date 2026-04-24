@@ -180,6 +180,7 @@ const UserManagement = () => {
                 </div>
                 <Button 
                     type="primary" 
+                    style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} 
                     icon={<PlusOutlined />} 
                     onClick={() => showModal()}
                     className="bg-brand-900 hover:bg-brand-900 h-10 px-6 font-bold flex items-center gap-2 border-0"

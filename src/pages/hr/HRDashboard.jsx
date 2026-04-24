@@ -61,7 +61,7 @@ const HRDashboard = () => {
     }
 
     if (error) {
-        return <Alert message="Lỗi" description={error} type="error" showIcon className="rounded-xl shadow-sm"/>;
+        return <Alert title="Lỗi" description={error} type="error" showIcon className="rounded-xl shadow-sm"/>;
     }
 
     return (
@@ -160,7 +160,6 @@ const HRDashboard = () => {
                                     percent={stats.totalResumes > 0 ? Math.round((stats.approvedResumes / stats.totalResumes) * 100) : 0}
                                     strokeColor="#3b82f6"
                                     size={180}
-                                    strokeWidth={8}
                                     railColor="#f8fafc"
                                 />
                             </div>
@@ -200,7 +199,7 @@ const HRDashboard = () => {
                                     percent={stats.totalResumes > 0 ? Math.round((stats.pendingResumes / stats.totalResumes) * 100) : 0}
                                     strokeColor="#f59e0b"
                                     railColor="#fdf6e3"
-                                    strokeWidth={8}
+                                    size={8}
                                     showInfo={false}
                                 />
                             </div>
@@ -214,7 +213,7 @@ const HRDashboard = () => {
                                     percent={stats.totalResumes > 0 ? Math.round((stats.approvedResumes / stats.totalResumes) * 100) : 0}
                                     strokeColor="#10b981"
                                     railColor="#ecfdf5"
-                                    strokeWidth={8}
+                                    size={8}
                                     showInfo={false}
                                 />
                             </div>

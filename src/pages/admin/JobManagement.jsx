@@ -173,7 +173,7 @@ const JobManagement = () => {
 
     return (
         <Card title="Quản lý Việc Làm" extra={
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => showModal()}>
+            <Button type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} icon={<PlusOutlined />} onClick={() => showModal()}>
                 Thêm mới
             </Button>
         }>

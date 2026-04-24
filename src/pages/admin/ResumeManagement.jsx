@@ -225,7 +225,7 @@ const ResumeManagement = () => {
                         </div>
                         <div className="col-span-2 mt-4 text-center">
                             {selectedResume.url ? (
-                                <Button type="primary" onClick={() => handleViewCV(selectedResume.url)}>
+                                <Button type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} onClick={() => handleViewCV(selectedResume.url)}>
                                     Tải / Xem CV
                                 </Button>
                             ) : (

@@ -197,10 +197,12 @@ const HRCompanyProfile = () => {
                     <Form.Item>
                         <Button
                             type="primary"
+                            style={{ backgroundColor: "#102a43", borderColor: "#102a43" }}
                             htmlType="submit"
                             icon={<SaveOutlined />}
                             loading={submitting}
                             size="large"
+                        // style={{ backgroundColor: '#102a43', borderColor: '#102a43' }}
                         >
                             Lưu thay đổi
                         </Button>

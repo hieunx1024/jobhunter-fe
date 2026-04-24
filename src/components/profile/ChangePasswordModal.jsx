@@ -56,8 +56,8 @@ const ChangePasswordModal = ({ open, onCancel }) => {
                 onCancel();
             }}
             footer={null}
-            destroyOnClose
-            maskClosable={false}
+            destroyOnHidden
+            mask={{ closable: false }}
         >
             <Form
                 form={form}

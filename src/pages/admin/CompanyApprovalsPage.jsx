@@ -121,7 +121,7 @@ const CompanyApprovalsPage = () => {
                             okText="Yes"
                             cancelText="No"
                         >
-                            <Button type="primary" icon={<CheckOutlined />} className="bg-green-600" />
+                            <Button type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} icon={<CheckOutlined />} className="bg-green-600" />
                         </Popconfirm>
                     </Tooltip>
                     <Tooltip title="Từ chối">
@@ -180,7 +180,7 @@ const CompanyApprovalsPage = () => {
                     }}>
                         Từ chối
                     </Button>,
-                    <Button key="approve" type="primary" className="bg-green-600" onClick={() => {
+                    <Button key="approve" type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} className="bg-green-600" onClick={() => {
                         handleApprove(viewingRequest.id);
                         setViewingRequest(null);
                     }}>

@@ -251,6 +251,7 @@ const HRJobManagement = () => {
                     </div>
                     <Button 
                         type="primary" 
+                        style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} 
                         icon={<PlusOutlined />} 
                         onClick={handleCreate} 
                         size="large"
