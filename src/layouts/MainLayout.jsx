@@ -12,8 +12,8 @@ const MainLayout = () => {
     // Show loader while checking auth state
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-secondary-50">
-                <div className="w-16 h-16 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin"></div>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="w-16 h-16 border-4 border-blue-200 border-t-brand-600 rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -27,7 +27,7 @@ const MainLayout = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-white font-sans text-secondary-800 overflow-x-hidden selection:bg-brand-100 selection:text-brand-900">
+        <div className="min-h-screen flex flex-col bg-white font-sans text-zinc-800 overflow-x-hidden selection:bg-blue-100 selection:text-brand-900">
             <Header />
             <main className="flex-grow w-full">
                 <Outlet />
@@ -36,7 +36,7 @@ const MainLayout = () => {
 
             {/* Subtle Ambient Background */}
             <div className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 opacity-30">
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-50 rounded-full blur-[160px] transform translate-x-1/2 -translate-y-1/2" />
+                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50 rounded-full blur-[160px] transform translate-x-1/2 -translate-y-1/2" />
             </div>
         </div>
     );

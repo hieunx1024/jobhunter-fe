@@ -230,22 +230,22 @@ const HRJobManagement = () => {
 
     return (
         <div className="animate-fade-in pb-8">
-            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-blue-100 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                     <div className="flex-grow">
-                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Quản lý Tin tuyển dụng</h1>
-                        <p className="text-slate-500 font-medium mb-6">Tạo mới và theo dõi các tin đăng tuyển dụng của công ty bạn.</p>
+                        <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-2">Quản lý Tin tuyển dụng</h1>
+                        <p className="text-gray-500 font-medium mb-6">Tạo mới và theo dõi các tin đăng tuyển dụng của công ty bạn.</p>
                         <div className="flex flex-wrap items-center gap-2">
-                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-slate-50 text-slate-400 border border-slate-100 flex items-center gap-2">
+                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-blue-50 text-gray-400 border border-blue-100 flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div> Đã đăng: {postingStats.usedPosts}
                             </div>
-                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-slate-50 text-slate-400 border border-slate-100 flex items-center gap-2">
+                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-blue-50 text-gray-400 border border-blue-100 flex items-center gap-2">
                                 <div className={`w-1.5 h-1.5 rounded-full ${postingStats.remainingPosts > 0 || postingStats.remainingPosts === -1 ? 'bg-emerald-400' : 'bg-red-400'}`}></div>
                                 Còn lại: {postingStats.remainingPosts === -1 ? 'Không giới hạn' : postingStats.remainingPosts}
                             </div>
-                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200 flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div> Gói: {postingStats.packageName}
+                            <div className="px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-blue-100 text-gray-500 border border-blue-200 flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div> Gói: {postingStats.packageName}
                             </div>
                         </div>
                     </div>
@@ -254,7 +254,7 @@ const HRJobManagement = () => {
                         icon={<PlusOutlined />} 
                         onClick={handleCreate} 
                         size="large"
-                        className="rounded-2xl font-bold bg-slate-900 text-white hover:bg-slate-800 border-0 h-14 px-8 shadow-lg shadow-slate-900/20"
+                        className="rounded-2xl font-bold bg-brand-900 text-white hover:bg-brand-900 border-0 h-14 px-8 shadow-lg shadow-blue-600/20"
                     >
                         Đăng tin tuyển dụng
                     </Button>
@@ -281,7 +281,7 @@ const HRJobManagement = () => {
                                 key={idx}
                                 onClick={() => action.onClick(record)}
                                 title={action.tooltip}
-                                className={`p-1 rounded hover:bg-gray-100 ${action.danger ? 'text-red-500' : 'text-blue-500'}`}
+                                className={`p-1 rounded hover:bg-gray-100 ${action.danger ? 'text-red-500' : 'text-brand-900'}`}
                             >
                                 {action.icon}
                             </button>

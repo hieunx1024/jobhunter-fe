@@ -110,7 +110,7 @@ const AdminLayout = () => {
                     color: #94a3b8 !important;
                 }
                 .admin-sider .ant-menu-item.ant-menu-item-selected {
-                    background-color: #1e1b4b !important; /* Deep Indigo */
+                    background-color: #2563eb !important; /* blue-600 */
                     color: #ffffff !important;
                     font-weight: 600;
                 }
@@ -139,24 +139,33 @@ const AdminLayout = () => {
             </style>
             
             <Sider 
+                breakpoint="lg"
+                collapsedWidth="0"
                 collapsible 
                 collapsed={collapsed} 
                 onCollapse={(value) => setCollapsed(value)}
                 theme="dark" 
                 width={260}
                 className="admin-sider shadow-2xl"
-                style={{ background: '#0f172a', position: 'sticky', top: 0, height: '100vh', zIndex: 100 }}
+                style={{ 
+                    background: '#0f172a', 
+                    position: 'fixed', 
+                    left: 0, 
+                    top: 0, 
+                    height: '100vh',
+                    zIndex: 1000 
+                }}
             >
                 <div className="h-20 flex items-center px-6 border-b border-white/5 mb-6">
                     <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100'}`}>
                         <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-                            <span className="text-slate-900 font-bold text-lg">A</span>
+                            <span className="text-brand-900 font-bold text-lg">A</span>
                         </div>
                         <h1 className="text-lg font-bold text-white m-0 tracking-tight">Admin Portal</h1>
                     </div>
                     {collapsed && (
                         <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center mx-auto">
-                            <span className="text-slate-900 font-bold text-lg">A</span>
+                            <span className="text-brand-900 font-bold text-lg">A</span>
                         </div>
                     )}
                 </div>
@@ -179,16 +188,16 @@ const AdminLayout = () => {
                         <div className={`flex items-center gap-3 cursor-pointer hover:bg-white/5 p-2 rounded-xl transition-all duration-200 ${collapsed ? 'justify-center' : ''}`}>
                             <Avatar
                                 size={32}
-                                className="bg-slate-700 text-white font-bold"
+                                className="bg-blue-700 text-white font-bold"
                             >
                                 {user?.name?.charAt(0)?.toUpperCase()}
                             </Avatar>
                             {!collapsed && (
                                 <div className="flex flex-col text-left overflow-hidden">
-                                    <span className="text-sm font-semibold text-slate-200 truncate">
+                                    <span className="text-sm font-semibold text-blue-200 truncate">
                                         {user?.name || 'Admin'}
                                     </span>
-                                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+                                    <span className="text-[10px] uppercase font-bold text-brand-900 tracking-wider">
                                         QUẢN TRỊ VIÊN
                                     </span>
                                 </div>
@@ -198,10 +207,18 @@ const AdminLayout = () => {
                 </div>
             </Sider>
             
-            <Layout style={{ background: 'transparent' }}>
+            <Layout className="transition-all duration-300" style={{ background: 'transparent', marginLeft: collapsed ? 0 : (window.innerWidth > 992 ? 260 : 0) }}>
+                {/* Mobile Header */}
+                <div className="lg:hidden h-16 bg-[#0f172a] shadow-md flex items-center justify-between px-6 sticky top-0 z-40">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-brand-900 font-black text-xs">A</div>
+                        <span className="font-bold text-white uppercase tracking-wider text-sm">Admin Portal</span>
+                    </div>
+                </div>
+
                 <Content
                     style={{
-                        margin: '32px',
+                        margin: window.innerWidth > 768 ? '32px' : '16px',
                         padding: 0,
                         minHeight: 280,
                         background: 'transparent',

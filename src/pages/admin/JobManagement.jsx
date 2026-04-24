@@ -153,7 +153,7 @@ const JobManagement = () => {
                         icon={<EditOutlined />}
                         onClick={() => showModal(record)}
                         type="text"
-                        className="text-blue-600"
+                        className="text-brand-900"
                     />
                     <Popconfirm
                         title="Xóa job này?"

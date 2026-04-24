@@ -20,18 +20,18 @@ const HRCompanyManager = () => {
     }, []);
 
     /**
-     * Kiểm tra xem HR đã có công ty chưa
+     * Verify if the current HR user is already associated with a company
      */
     const checkAndFetchCompany = async () => {
         try {
             setLoading(true);
 
-            // Kiểm tra từ user context trước
+            // Check user context first
             if (user?.company?.id) {
-                // Nếu user đã có company, fetch thông tin chi tiết
+                // If user has an associated company, fetch its details
                 await fetchCompanyDetails();
             } else {
-                // Nếu chưa có, thử gọi API để kiểm tra
+                // Otherwise, verify via API call
                 await fetchMyCompany();
             }
         } catch (error) {
@@ -42,7 +42,7 @@ const HRCompanyManager = () => {
     };
 
     /**
-     * Lấy thông tin công ty của HR từ API
+     * Fetch HR company data from API
      */
     const fetchMyCompany = async () => {
         try {
@@ -58,7 +58,7 @@ const HRCompanyManager = () => {
                 checkPendingRegistration();
             }
         } catch (error) {
-            // 404 nghĩa là chưa có công ty
+            // 404 indicates the HR user does not have a registered company yet
             if (error.response?.status === 404) {
                 setHasCompany(false);
                 setCompany(null);
@@ -84,7 +84,7 @@ const HRCompanyManager = () => {
     }
 
     /**
-     * Lấy thông tin chi tiết công ty (dùng khi đã có company ID)
+     * Fetch detailed company info (used when company ID is already known)
      */
     const fetchCompanyDetails = async () => {
         try {
@@ -100,7 +100,7 @@ const HRCompanyManager = () => {
     };
 
     /**
-     * Điền dữ liệu vào form
+     * Populate the form with company data
      */
     const populateForm = (companyData) => {
         form.setFieldsValue({
@@ -114,7 +114,7 @@ const HRCompanyManager = () => {
     };
 
     /**
-     * Xử lý đăng ký công ty mới (chỉ 1 lần)
+     * Handle new company registration (one-time process)
      */
     const handleRegisterCompany = async (values) => {
         try {
@@ -127,7 +127,7 @@ const HRCompanyManager = () => {
             setCompany(newCompany);
             setHasCompany(true);
 
-            // Cập nhật lại thông tin user để có company_id mới
+            // Fetch updated user info to capture the new company ID
             await fetchAccount();
         } catch (error) {
             const errorMsg = error.response?.data?.message || 'Không thể đăng ký công ty';
@@ -138,7 +138,7 @@ const HRCompanyManager = () => {
     };
 
     /**
-     * Xử lý cập nhật thông tin công ty
+     * Handle company info updates
      */
     const handleUpdateCompany = async (values) => {
         try {
@@ -158,7 +158,7 @@ const HRCompanyManager = () => {
     };
 
     /**
-     * Xử lý submit form (đăng ký hoặc cập nhật)
+     * Submit handler for both registration and updates
      */
     const handleSubmit = async (values) => {
         if (hasCompany) {
@@ -169,7 +169,7 @@ const HRCompanyManager = () => {
     };
 
     /**
-     * Xử lý upload logo
+     * Handle logo file upload
      */
     const handleUploadLogo = async (info) => {
         const formData = new FormData();
@@ -199,19 +199,19 @@ const HRCompanyManager = () => {
 
     return (
         <div className="animate-fade-in pb-8">
-            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-blue-100 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-full bg-orange-50/20 skew-x-[-20deg] translate-x-16"></div>
                 <div className="relative z-10">
-                    <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">
+                    <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-2">
                         {hasCompany ? 'Quản lý Công ty' : 'Đăng ký Công ty'}
                     </h1>
-                    <p className="text-slate-500 font-medium max-w-xl">
+                    <p className="text-gray-500 font-medium max-w-xl">
                         {hasCompany ? 'Cập nhật thông tin doanh nghiệp để thu hút nhiều ứng viên tiềm năng hơn.' : 'Điền thông tin doanh nghiệp của bạn để bắt đầu tuyển dụng.'}
                     </p>
                 </div>
             </div>
 
-            {/* Thông báo quy định */}
+            {/* Important Terms and Conditions Alert */}
             <Alert
                 message={
                     <span className="font-bold text-blue-800">Quy định quan trọng</span>
@@ -220,12 +220,12 @@ const HRCompanyManager = () => {
                     <span className="text-blue-700">Mỗi tài khoản HR chỉ được đại diện cho một doanh nghiệp duy nhất. Sau khi đăng ký, bạn chỉ có thể chỉnh sửa thông tin công ty đó, không thể chuyển sang công ty khác.</span>
                 }
                 type="info"
-                icon={<InfoCircleOutlined className="text-blue-500 mt-1" />}
+                icon={<InfoCircleOutlined className="text-brand-900 mt-1" />}
                 showIcon
                 className="mb-8 rounded-2xl border-blue-100 bg-blue-50"
             />
 
-            {/* Hiển thị thông báo khi có yêu cầu đăng ký đang chờ duyệt */}
+            {/* Display banner during pending registration state */}
             {company?.isPendingRegistration && (
                 <div className="flex flex-col items-center justify-center py-12 bg-white rounded-lg shadow-sm border border-yellow-200">
                     <div className="bg-yellow-50 p-4 rounded-full mb-4">
@@ -239,7 +239,7 @@ const HRCompanyManager = () => {
                 </div>
             )}
 
-            {/* Form đăng ký/cập nhật - Chỉ hiển thị khi KHÔNG có yêu cầu pending */}
+            {/* Primary Form block - Rendered exclusively when no pending request is active */}
             {!company?.isPendingRegistration && (
                 <>
 

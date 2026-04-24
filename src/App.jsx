@@ -32,7 +32,9 @@ import MyApplicationsPage from './pages/candidate/MyApplicationsPage';
 
 import CandidateProfilePage from './pages/candidate/CandidateProfilePage';
 import ChatbotWidget from './components/Chatbot/ChatbotWidget';
-
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import PrivacyPage from './pages/PrivacyPage';
 function App() {
   return (
     <>
@@ -43,6 +45,9 @@ function App() {
 
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="privacy" element={<PrivacyPage />} />
 
           <Route path="jobs" element={<JobListPage />} />
           <Route path="jobs/:id" element={<JobDetailPage />} />

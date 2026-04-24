@@ -82,13 +82,13 @@ const HRPricing = () => {
 
     return (
         <div className="animate-fade-in pb-12">
-            <div className="mb-10 p-10 rounded-[2rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden flex flex-col items-center text-center">
+            <div className="mb-10 p-10 rounded-[2rem] bg-white border border-blue-100 shadow-sm relative overflow-hidden flex flex-col items-center text-center">
                 <div className="absolute top-0 right-0 w-32 h-full bg-indigo-50/20 skew-x-[-20deg] translate-x-16"></div>
                 <div className="absolute bottom-0 left-0 w-32 h-full bg-purple-50/20 skew-x-[20deg] -translate-x-16"></div>
                 
                 <div className="relative z-10 max-w-2xl">
-                    <h1 className="text-4xl md:text-5xl font-black mb-4 text-slate-900 tracking-tight">Nâng Tầm Tuyển Dụng</h1>
-                    <p className="text-slate-500 text-lg font-medium">
+                    <h1 className="text-4xl md:text-5xl font-black mb-4 text-brand-900 tracking-tight">Nâng Tầm Tuyển Dụng</h1>
+                    <p className="text-gray-500 text-lg font-medium">
                         Chọn gói dịch vụ phù hợp nhất để tối ưu hóa quy trình tuyển dụng và tiếp cận nhân tài hiệu quả hơn.
                     </p>
                 </div>

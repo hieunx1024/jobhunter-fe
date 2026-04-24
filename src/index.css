@@ -3,7 +3,10 @@
 
 @layer base {
   body {
-    @apply bg-white text-secondary-800 font-sans antialiased;
+    @apply bg-white text-zinc-900 font-sans antialiased;
+    background-image: linear-gradient(rgba(224, 224, 224, 0.3) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(224, 224, 224, 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
   h1,
@@ -12,7 +15,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold tracking-tight text-brand-900;
+    @apply font-bold tracking-tight text-blue-900;
   }
 
   /* Smooth scrolling for anchor links */
@@ -29,15 +32,15 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-brand-900 text-white hover:bg-brand-800 hover:-translate-y-0.5 active:translate-y-0 focus:ring-brand-500;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-brand-900 text-white hover:bg-brand-950 hover:-translate-y-0.5 active:translate-y-0 focus:ring-brand-500;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-secondary-200 text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-white text-secondary-700 hover:bg-secondary-50 hover:-translate-y-0.5 active:translate-y-0 focus:ring-brand-500;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-blue-200 text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-white text-blue-700 hover:bg-blue-50 hover:-translate-y-0.5 active:translate-y-0 focus:ring-blue-500;
   }
 
   .btn-accent {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-secondary-100 text-secondary-900 hover:bg-secondary-200 focus:ring-secondary-500;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-zinc-100 text-zinc-900 hover:bg-zinc-200 focus:ring-zinc-500;
   }
 
   .btn-outline {

@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# User scripts and docs
+*.md
+*.py
+*.sql

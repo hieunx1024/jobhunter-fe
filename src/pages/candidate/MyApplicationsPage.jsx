@@ -87,10 +87,10 @@ const MyApplicationsPage = () => {
 
     const getStatusBadge = (status) => {
         const statusConfig = {
-            PENDING: { label: 'Đã nộp', className: 'bg-blue-50 text-blue-600 border-blue-100' },
-            REVIEWING: { label: 'Đang xem xét', className: 'bg-sky-50 text-sky-700 border-sky-100' },
-            APPROVED: { label: 'Phỏng vấn', className: 'bg-teal-50 text-teal-700 border-teal-100' },
-            REJECTED: { label: 'Chưa phù hợp', className: 'bg-slate-50 text-slate-400 border-slate-100' }
+            PENDING: { label: 'Đã nộp', className: 'bg-blue-50 text-brand-900 border-blue-100' },
+            REVIEWING: { label: 'Đang xem xét', className: 'bg-blue-50 text-blue-700 border-blue-100' },
+            APPROVED: { label: 'Phỏng vấn', className: 'bg-green-50 text-green-700 border-green-100' },
+            REJECTED: { label: 'Chưa phù hợp', className: 'bg-blue-50 text-gray-400 border-blue-100' }
         };
 
         const config = statusConfig[status] || statusConfig.PENDING;
@@ -127,7 +127,7 @@ const MyApplicationsPage = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-900"></div>
             </div>
         );
     }
@@ -135,40 +135,40 @@ const MyApplicationsPage = () => {
     return (
         <div className="space-y-10 max-w-6xl mx-auto">
             {/* Header */}
-            <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-10">
+            <div className="bg-white rounded-[2rem] shadow-sm border border-blue-100 p-10">
                 <div className="flex flex-col md:flex-row items-baseline justify-between gap-6 mb-10">
                     <div>
-                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Đơn ứng tuyển</h1>
-                        <p className="text-slate-500 font-medium">Theo dõi các công việc bạn đã gửi hồ sơ.</p>
+                        <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-2">Đơn ứng tuyển</h1>
+                        <p className="text-gray-500 font-medium">Theo dõi các công việc bạn đã gửi hồ sơ.</p>
                     </div>
-                    <div className="bg-slate-50 px-6 py-2 rounded-xl border border-slate-100">
-                        <span className="text-sm font-black text-slate-800">{pagination.total}</span>
-                        <span className="text-[10px] uppercase font-bold text-slate-400 ml-2 tracking-widest">tổng đơn nộp</span>
+                    <div className="bg-blue-50 px-6 py-2 rounded-xl border border-blue-100">
+                        <span className="text-sm font-black text-gray-800">{pagination.total}</span>
+                        <span className="text-[10px] uppercase font-bold text-gray-400 ml-2 tracking-widest">tổng đơn nộp</span>
                     </div>
                 </div>
 
                 <div className="relative">
-                    <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-slate-300 w-5 h-5 font-bold" />
+                    <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-300 w-5 h-5 font-bold" />
                     <input
                         type="text"
                         placeholder="Tìm kiếm vị trí công việc..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:border-sky-500/30 focus:bg-white transition-all text-slate-700 font-medium placeholder:text-slate-400"
+                        className="w-full pl-14 pr-6 py-4 bg-blue-50 border border-blue-100 rounded-2xl focus:outline-none focus:border-brand-900/30 focus:bg-white transition-all text-gray-700 font-medium placeholder:text-gray-400"
                     />
                 </div>
             </div>
 
             {/* Status Filters */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-6">
                 <div className="flex flex-wrap gap-2">
                     {statusFilters.map((filter) => (
                         <button
                             key={filter.value}
                             onClick={() => setFilterStatus(filter.value)}
                             className={`px-4 py-2 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all duration-300 ${filterStatus === filter.value
-                                ? 'bg-slate-900 text-white shadow-md'
-                                : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
+                                ? 'bg-brand-900 text-white shadow-md'
+                                : 'bg-blue-50 text-gray-500 hover:bg-blue-100'
                                 }`}
                         >
                             {filter.label} <span className="opacity-50 ml-1">({filter.count})</span>
@@ -185,7 +185,7 @@ const MyApplicationsPage = () => {
                         <p className="text-gray-500 text-lg mb-4">Không tìm thấy đơn ứng tuyển nào</p>
                         <Link
                             to="/jobs"
-                            className="inline-block px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-[0.98]"
+                            className="inline-block px-10 py-4 bg-brand-900 text-white rounded-2xl font-bold hover:bg-brand-900 transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]"
                         >
                             Khám phá việc làm
                         </Link>
@@ -200,49 +200,49 @@ const MyApplicationsPage = () => {
                                 <div className="flex items-start justify-between mb-8">
                                     <div className="flex-1">
                                         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-5">
-                                            <h2 className="text-2xl font-black text-slate-800 group-hover:text-sky-600 transition-colors m-0">
+                                            <h2 className="text-2xl font-black text-gray-800 group-hover:text-brand-900 transition-colors m-0">
                                                 {application.job?.name || 'N/A'}
                                             </h2>
                                             <div>{getStatusBadge(application.status)}</div>
                                         </div>
 
-                                        <div className="flex flex-wrap gap-6 text-slate-500 mb-6 font-medium">
+                                        <div className="flex flex-wrap gap-6 text-gray-500 mb-6 font-medium">
                                             <div className="flex items-center gap-2">
-                                                <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 font-bold">
+                                                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-gray-400 font-bold">
                                                     <Building2 className="w-4 h-4" />
                                                 </div>
-                                                <span className="text-slate-700 font-bold">{application.job?.company?.name || 'N/A'}</span>
+                                                <span className="text-gray-700 font-bold">{application.job?.company?.name || 'N/A'}</span>
                                             </div>
                                             {application.job?.location && (
                                                 <div className="flex items-center gap-2">
-                                                    <MapPin className="w-4 h-4 text-sky-400" />
+                                                    <MapPin className="w-4 h-4 text-blue-400" />
                                                     <span>{application.job.location}</span>
                                                 </div>
                                             )}
                                             {application.job?.salary && (
                                                 <div className="flex items-center gap-2">
-                                                    <TrendingUp className="w-4 h-4 text-teal-500" />
-                                                    <span className="font-bold text-teal-600">{application.job.salary}</span>
+                                                    <TrendingUp className="w-4 h-4 text-green-500" />
+                                                    <span className="font-bold text-green-600">{application.job.salary}</span>
                                                 </div>
                                             )}
                                         </div>
 
-                                        <div className="flex items-center gap-3 text-[11px] text-slate-400 font-bold uppercase tracking-widest">
+                                        <div className="flex items-center gap-3 text-[11px] text-gray-400 font-bold uppercase tracking-widest">
                                             <Calendar className="w-3.5 h-3.5" />
                                             <span>Nộp ngày: {formatDate(application.createdAt)}</span>
                                         </div>
 
                                         {application.note && (
-                                            <div className="mt-6 p-5 bg-slate-50 rounded-2xl border-l-4 border-slate-200">
-                                                <p className="text-xs font-bold text-slate-500 mb-1 uppercase tracking-tighter">Phản hồi từ HR:</p>
-                                                <p className="text-sm text-slate-600 leading-relaxed italic">"{application.note}"</p>
+                                            <div className="mt-6 p-5 bg-blue-50 rounded-2xl border-l-4 border-blue-200">
+                                                <p className="text-xs font-bold text-gray-500 mb-1 uppercase tracking-tighter">Phản hồi từ HR:</p>
+                                                <p className="text-sm text-gray-600 leading-relaxed italic">"{application.note}"</p>
                                             </div>
                                         )}
                                     </div>
 
                                     <Link
                                         to={`/jobs/${application.job?.id}`}
-                                        className="ml-4 w-12 h-12 flex items-center justify-center bg-slate-50 text-slate-400 rounded-2xl hover:bg-sky-50 hover:text-sky-600 transition-all border border-slate-100"
+                                        className="ml-4 w-12 h-12 flex items-center justify-center bg-blue-50 text-gray-400 rounded-2xl hover:bg-blue-50 hover:text-brand-900 transition-all border border-blue-100"
                                     >
                                         <ExternalLink className="w-5 h-5" />
                                     </Link>
@@ -308,10 +308,10 @@ const ApplicationTimeline = ({ status }) => {
                                     className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-all duration-500 ${stepStatus === 'completed'
                                         ? 'bg-emerald-500 text-white shadow-md'
                                         : stepStatus === 'current'
-                                            ? 'bg-slate-900 text-white shadow-lg'
+                                            ? 'bg-brand-900 text-white shadow-lg'
                                             : stepStatus === 'rejected'
-                                                ? 'bg-slate-200 text-slate-400'
-                                                : 'bg-slate-50 text-slate-200 border border-slate-100'
+                                                ? 'bg-gray-200 text-gray-400'
+                                                : 'bg-blue-50 text-gray-200 border border-blue-100'
                                         }`}
                                 >
                                     {stepStatus === 'completed' ? '✓' : index + 1}
@@ -319,7 +319,7 @@ const ApplicationTimeline = ({ status }) => {
 
                                 {/* Label */}
                                 <div className="mt-3 text-center">
-                                    <p className={`text-sm font-semibold ${stepStatus === 'current' ? 'text-blue-600' :
+                                    <p className={`text-sm font-semibold ${stepStatus === 'current' ? 'text-brand-900' :
                                         stepStatus === 'completed' ? 'text-green-600' :
                                             stepStatus === 'rejected' ? 'text-red-600' :
                                                 'text-gray-500'
@@ -347,9 +347,9 @@ const ApplicationTimeline = ({ status }) => {
 
             {/* Rejected Status */}
             {status === 'REJECTED' && (
-                <div className="mt-8 p-5 bg-slate-50 border-l-4 border-slate-300 rounded-2xl">
-                    <p className="text-sm font-bold text-slate-600">📝 Trạng thái: Chưa phù hợp</p>
-                    <p className="text-xs text-slate-400 mt-1 font-medium leading-relaxed">Cảm ơn bạn đã quan tâm! Hãy tiếp tục duy trì đam mê và khám phá thêm nhiều cơ hội hấp dẫn khác trên JobHunter nhé.</p>
+                <div className="mt-8 p-5 bg-blue-50 border-l-4 border-gray-300 rounded-2xl">
+                    <p className="text-sm font-bold text-gray-600">📝 Trạng thái: Chưa phù hợp</p>
+                    <p className="text-xs text-gray-400 mt-1 font-medium leading-relaxed">Cảm ơn bạn đã quan tâm! Hãy tiếp tục duy trì đam mê và khám phá thêm nhiều cơ hội hấp dẫn khác trên JobHunter nhé.</p>
                 </div>
             )}
         </div>

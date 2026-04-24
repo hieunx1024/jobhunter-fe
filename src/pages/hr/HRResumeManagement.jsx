@@ -152,7 +152,7 @@ const HRResumeManagement = () => {
                         e.preventDefault();
                         handleViewCV(url);
                     }}
-                    className="text-blue-600 hover:underline cursor-pointer"
+                    className="text-brand-900 hover:underline cursor-pointer"
                 >
                     Xem CV
                 </a>
@@ -213,16 +213,16 @@ const HRResumeManagement = () => {
 
     return (
         <div className="animate-fade-in pb-8">
-            <div className="mb-10 p-10 rounded-[2rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-full bg-teal-50/20 skew-x-[-20deg] translate-x-16"></div>
+            <div className="mb-10 p-10 rounded-[2rem] bg-white border border-blue-100 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
-                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Quản lý Ứng viên</h1>
-                        <p className="text-slate-500 font-medium max-w-xl">Kiểm duyệt và quản lý hồ sơ ứng viên đăng ký trực tuyến cho các vị trí tuyển dụng của công ty.</p>
+                        <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-2">Quản lý Ứng viên</h1>
+                        <p className="text-gray-500 font-medium max-w-xl">Kiểm duyệt và quản lý hồ sơ ứng viên đăng ký trực tuyến cho các vị trí tuyển dụng của công ty.</p>
                     </div>
-                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 shadow-sm">
                         <div className="flex items-center gap-3">
-                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Bộ lọc:</span>
+                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest whitespace-nowrap">Bộ lọc:</span>
                             <Select
                                 placeholder="Tất cả trạng thái"
                                 allowClear
@@ -295,7 +295,7 @@ const HRResumeManagement = () => {
                                             e.preventDefault();
                                             handleViewCV(selectedResume.url);
                                         }}
-                                        className="text-blue-600 hover:underline font-semibold cursor-pointer"
+                                        className="text-brand-900 hover:underline font-semibold cursor-pointer"
                                     >
                                         Tải xuống CV
                                     </a>

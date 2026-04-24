@@ -34,9 +34,8 @@ const LoginPage = () => {
         setLoading(true);
         try {
             await login(data.username, data.password);
-            // toast.success('Đăng nhập thành công!');
-            // Chuyển hướng theo role hoặc trang trước đó
-            // Tạm thời về trang chủ
+            // Redirect based on user role or previous page
+            // Temporarily routing to home for default
             navigate('/');
         } catch (error) {
             console.error(error);
@@ -54,8 +53,8 @@ const LoginPage = () => {
                     <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
                         Đăng nhập
                     </h2>
-                    <p className="mt-2 text-sm text-secondary-500">
-                        Hoặc <Link to="/register" className="font-medium text-brand-600 hover:text-brand-700">đăng ký tài
+                    <p className="mt-2 text-sm text-gray-500">
+                        Hoặc <Link to="/register" className="font-medium text-brand-900 hover:text-blue-700">đăng ký tài
                             khoản mới</Link>
                     </p>
                 </div>
@@ -97,7 +96,7 @@ const LoginPage = () => {
                             <input
                                 {...register('username')}
                                 type="text"
-                                className={`appearance-none rounded relative block w-full px-3 py-2 border ${errors.username ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+                                className={`appearance-none rounded relative block w-full px-3 py-2 border ${errors.username ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-brand-900 sm:text-sm`}
                                 placeholder="admin@gmail.com"
                             />
                             {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
@@ -108,7 +107,7 @@ const LoginPage = () => {
                             <input
                                 {...register('password')}
                                 type="password"
-                                className={`appearance-none rounded relative block w-full px-3 py-2 border ${errors.password ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+                                className={`appearance-none rounded relative block w-full px-3 py-2 border ${errors.password ? 'border-red-300' : 'border-gray-300'} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-brand-900 sm:text-sm`}
                                 placeholder="******"
                             />
                             {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
@@ -119,7 +118,7 @@ const LoginPage = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-brand-900 hover:bg-brand-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:opacity-50 transition-all duration-200"
+                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-brand-900 hover:bg-brand-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition-all duration-200"
                         >
                             {loading ? 'Đang xử lý...' : 'Đăng nhập'}
                         </button>

@@ -16,7 +16,7 @@ const ChatbotWidget = () => {
             {!isOpen && (
                 <button
                     onClick={toggleChat}
-                    className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-transform transform hover:scale-110 flex items-center justify-center"
+                    className="bg-blue-600 hover:bg-blue-600 text-white p-4 rounded-full shadow-lg transition-transform transform hover:scale-110 flex items-center justify-center"
                 >
                     <MessageCircle size={28} />
                 </button>
@@ -99,7 +99,7 @@ const ChatbotWidget = () => {
                         <button
                             type="submit"
                             disabled={!input.trim() || isLoading}
-                            className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center h-10 w-10 shrink-0"
+                            className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center h-10 w-10 shrink-0"
                         >
                             <Send size={18} />
                         </button>

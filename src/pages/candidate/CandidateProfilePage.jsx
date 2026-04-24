@@ -43,19 +43,19 @@ const CandidateProfilePage = () => {
                 gender: user.gender || ''
             });
             
-            // Lấy thêm danh sách CV từ Backend để hiển thị (Vì authContext không chứa CV cho nhẹ)
+            // Fetch CV list from Backend (authContext does not include CVs to minimize payload size)
             const fetchProfile = async () => {
                 try {
                     const response = await axiosClient.get(ENDPOINTS.PROFILE.BASE);
                     const profileData = response.data.data ? response.data.data : response.data;
                     if (profileData && profileData.cvs && profileData.cvs.length > 0) {
-                        // Lấy CV mới nhất hoặc mặc định
+                        // Retrieve the most recent or default CV
                         const latestCv = profileData.cvs[profileData.cvs.length - 1];
                         setCvUrl(latestCv.url);
                         setCvId(latestCv.id);
                     }
                 } catch (e) {
-                    console.error("Không thể load cv", e);
+                    console.error("Failed to load CV profile data", e);
                 }
             };
             fetchProfile();
@@ -200,15 +200,15 @@ const CandidateProfilePage = () => {
             )}
 
             {/* Header */}
-            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-blue-100 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
                 <div className="relative z-10 flex items-center space-x-6">
-                    <div className="w-24 h-24 rounded-[2rem] bg-slate-900 flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-slate-900/20">
+                    <div className="w-24 h-24 rounded-[2rem] bg-brand-900 flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-blue-600/20">
                         {user?.name?.charAt(0).toUpperCase() || 'U'}
                     </div>
                     <div>
-                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-1">Hồ sơ cá nhân</h1>
-                        <p className="text-slate-500 font-medium tracking-wide uppercase text-[10px]">Quản lý thông tin và CV của bạn</p>
+                        <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-1">Hồ sơ cá nhân</h1>
+                        <p className="text-gray-500 font-medium tracking-wide uppercase text-[10px]">Quản lý thông tin và CV của bạn</p>
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@ const CandidateProfilePage = () => {
                 <div className="lg:col-span-2">
                     <div className="bg-white rounded-2xl shadow-lg p-8">
                         <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                            <User className="w-6 h-6 text-blue-600" />
+                            <User className="w-6 h-6 text-brand-900" />
                             <span>Thông tin cá nhân</span>
                         </h2>
 
@@ -315,7 +315,7 @@ const CandidateProfilePage = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg shadow-slate-900/10 active:scale-[0.98]"
+                                className="w-full py-4 bg-brand-900 text-white rounded-2xl font-bold hover:bg-brand-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg shadow-blue-600/10 active:scale-[0.98]"
                             >
                                 {loading ? (
                                     <>
@@ -337,13 +337,13 @@ const CandidateProfilePage = () => {
                 <div className="lg:col-span-1">
                     <div className="bg-white rounded-2xl shadow-lg p-8 sticky top-24">
                         <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                            <FileText className="w-6 h-6 text-blue-600" />
+                            <FileText className="w-6 h-6 text-brand-900" />
                             <span>CV của bạn</span>
                         </h2>
 
                         {/* CV Upload */}
                         <div className="space-y-4">
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-all">
+                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-900 transition-all">
                                 <input
                                     type="file"
                                     id="cv-upload"
@@ -356,7 +356,7 @@ const CandidateProfilePage = () => {
                                     className="cursor-pointer flex flex-col items-center space-y-3"
                                 >
                                     <div className="p-4 bg-blue-50 rounded-full">
-                                        <Upload className="w-8 h-8 text-blue-600" />
+                                        <Upload className="w-8 h-8 text-brand-900" />
                                     </div>
                                     <div>
                                         <p className="text-sm font-semibold text-gray-700">
@@ -394,7 +394,7 @@ const CandidateProfilePage = () => {
                                     <div className="flex items-center space-x-2">
                                         <button
                                             onClick={handleViewCv}
-                                            className="flex-1 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2 text-sm"
+                                            className="flex-1 py-2 bg-brand-900 text-white rounded-lg hover:bg-brand-900 transition-all flex items-center justify-center space-x-2 text-sm"
                                         >
                                             <Eye className="w-4 h-4" />
                                             <span>Xem</span>

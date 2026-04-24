@@ -106,16 +106,16 @@ const RecruiterLayout = () => {
         <style>
                 {`
                 .modern-hr-menu .ant-menu-item-selected {
-                    background-color: #f1f5f9 !important; /* slate-100 */
-                    color: #0d9488 !important; /* teal-600 */
+                    background-color: #eff6ff !important; /* blue-50 */
+                    color: #2563eb !important; /* blue-600 */
                     font-weight: 700;
-                    border-right: 4px solid #0d9488;
+                    border-right: 4px solid #3b82f6; /* blue-500 */
                 }
                 .modern-hr-menu .ant-menu-item-selected .anticon {
-                    color: #0d9488 !important;
+                    color: #2563eb !important;
                 }
                 .modern-hr-menu .ant-menu-item:hover:not(.ant-menu-item-selected) {
-                    color: #0d9488 !important;
+                    color: #2563eb !important;
                     background-color: #f8fafc !important;
                 }
                 .modern-hr-menu .ant-menu-item {
@@ -136,23 +136,32 @@ const RecruiterLayout = () => {
             </style>
             
             <Sider 
+                breakpoint="lg"
+                collapsedWidth="0"
                 collapsible 
                 collapsed={collapsed} 
                 onCollapse={(value) => setCollapsed(value)}
                 theme="light" 
                 width={260}
-                className="modern-sider shadow-sm z-20 border-r border-slate-100"
-                style={{ background: '#ffffff', position: 'sticky', top: 0, height: '100vh' }}
+                className="modern-sider shadow-sm z-50 border-r border-blue-100"
+                style={{ 
+                    background: '#ffffff', 
+                    position: 'fixed', 
+                    left: 0, 
+                    top: 0, 
+                    height: '100vh',
+                    zIndex: 1000
+                }}
             >
-                <div className="h-20 flex items-center px-8 border-b border-slate-100 flex-shrink-0">
+                <div className="h-20 flex items-center px-8 border-b border-blue-100 flex-shrink-0">
                     <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100'}`}>
-                        <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10">
+                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-blue-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
                             <span className="text-white font-black text-lg">H</span>
                         </div>
-                        <h1 className="text-xl font-bold text-slate-900 m-0 tracking-tight">HR Portal</h1>
+                        <h1 className="text-xl font-bold text-brand-900 m-0 tracking-tight">HR Portal</h1>
                     </div>
                     {collapsed && (
-                        <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10 mx-auto">
+                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-blue-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20 mx-auto">
                             <span className="text-white font-black text-lg">H</span>
                         </div>
                     )}
@@ -168,24 +177,24 @@ const RecruiterLayout = () => {
                     />
                 </div>
 
-                <div className="p-6 border-t border-slate-100 flex-shrink-0 bg-white">
+                <div className="p-6 border-t border-blue-100 flex-shrink-0 bg-white">
 
                     <Dropdown menu={userMenu} placement="top" trigger={['click']}>
-                        <div className={`flex items-center gap-4 cursor-pointer hover:bg-slate-50 p-2 rounded-[1.25rem] transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
-                            <div className="p-0.5 rounded-full bg-slate-100 flex-shrink-0">
+                        <div className={`flex items-center gap-4 cursor-pointer hover:bg-blue-50 p-2 rounded-[1.25rem] transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
+                            <div className="p-0.5 rounded-full bg-blue-100 flex-shrink-0">
                                 <Avatar
                                     size={40}
-                                    style={{ background: '#0d9488', color: '#fff', fontWeight: 'bold' }}
+                                    style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%)', color: '#fff', fontWeight: 'bold' }}
                                 >
                                     {user?.name?.charAt(0)?.toUpperCase()}
                                 </Avatar>
                             </div>
                             {!collapsed && (
                                 <div className="flex flex-col overflow-hidden text-left">
-                                    <span className="text-sm font-bold text-slate-800 truncate" title={user?.name}>
+                                    <span className="text-sm font-bold text-blue-800 truncate" title={user?.name}>
                                         {user?.name || 'Recruiter'}
                                     </span>
-                                    <span className="text-[10px] font-bold text-slate-400 truncate uppercase tracking-widest leading-tight">
+                                    <span className="text-[10px] font-bold text-blue-400 truncate uppercase tracking-widest leading-tight">
                                         {user?.company ? user.company.name : 'Người tuyển dụng'}
                                     </span>
                                 </div>
@@ -195,10 +204,18 @@ const RecruiterLayout = () => {
                 </div>
             </Sider>
             
-            <Layout style={{ background: 'transparent' }}>
+            <Layout className="transition-all duration-300" style={{ background: 'transparent', marginLeft: collapsed ? 0 : (window.innerWidth > 992 ? 260 : 0) }}>
+                {/* Mobile Header */}
+                <div className="lg:hidden h-16 bg-white border-b border-blue-100 flex items-center justify-between px-6 sticky top-0 z-40">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-xs">H</div>
+                        <span className="font-bold text-brand-900">HR Portal</span>
+                    </div>
+                </div>
+
                 <Content
                     style={{
-                        margin: '32px',
+                        margin: window.innerWidth > 768 ? '32px' : '16px',
                         padding: 0,
                         minHeight: 280,
                         background: 'transparent',

@@ -42,7 +42,7 @@ const CompanyDetailPage = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <button
                     onClick={() => navigate(-1)}
-                    className="group flex items-center text-gray-500 hover:text-blue-600 transition-colors font-medium"
+                    className="group flex items-center text-gray-500 hover:text-brand-900 transition-colors font-medium"
                 >
                     <div className="p-2 rounded-full bg-white border border-gray-200 group-hover:border-blue-300 group-hover:shadow-md mr-3 transition-all">
                         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
@@ -69,18 +69,18 @@ const CompanyDetailPage = () => {
                         )}
                     </div>
                     <div className="flex-1">
-                        <h1 className="text-3xl font-bold text-secondary-900 mb-2">{company.name}</h1>
-                        <div className="flex flex-wrap gap-6 text-secondary-600">
+                        <h1 className="text-3xl font-bold text-zinc-900 mb-2">{company.name}</h1>
+                        <div className="flex flex-wrap gap-6 text-gray-600">
                             <div className="flex items-center">
-                                <MapPin className="w-4 h-4 mr-2 text-secondary-400" />
+                                <MapPin className="w-4 h-4 mr-2 text-gray-400" />
                                 {company.address}
                             </div>
                             <div className="flex items-center">
-                                <Globe className="w-4 h-4 mr-2 text-brand-600" />
+                                <Globe className="w-4 h-4 mr-2 text-brand-900" />
                                 <a href="#" className="hover:underline">Website</a>
                             </div>
                             <div className="flex items-center">
-                                <Users className="w-4 h-4 mr-2 text-secondary-400" />
+                                <Users className="w-4 h-4 mr-2 text-gray-400" />
                                 100-500 nhân viên
                             </div>
                         </div>
@@ -91,14 +91,14 @@ const CompanyDetailPage = () => {
                     {/* Left: Description */}
                     <div className="md:col-span-2">
                         <div className="bg-white rounded-2xl shadow-sm border p-8 mb-8">
-                            <h2 className="text-xl font-bold text-secondary-900 mb-6 border-l-4 border-brand-900 pl-4">Giới thiệu công ty</h2>
-                            <div className="prose text-secondary-700 whitespace-pre-wrap">
+                            <h2 className="text-xl font-bold text-zinc-900 mb-6 border-l-4 border-brand-900 pl-4">Giới thiệu công ty</h2>
+                            <div className="prose text-zinc-700 whitespace-pre-wrap">
                                 {company.description ? company.description.replace(/\\n|\\r\\n/g, '\n') : 'Chưa có thông tin giới thiệu.'}
                             </div>
                         </div>
 
                         <div className="bg-white rounded-2xl shadow-sm border p-8">
-                            <h2 className="text-xl font-bold text-secondary-900 mb-6 border-l-4 border-brand-600 pl-4">Tuyển dụng ({jobsData?.meta?.total || 0})</h2>
+                            <h2 className="text-xl font-bold text-zinc-900 mb-6 border-l-4 border-brand-900 pl-4">Tuyển dụng ({jobsData?.meta?.total || 0})</h2>
 
                             <div className="space-y-4">
                                 {isLoadingJobs ? (
@@ -123,7 +123,7 @@ const CompanyDetailPage = () => {
                             </p>
                             <div className="space-y-2 text-sm">
                                 <p className="font-semibold">Email:</p>
-                                <p className="text-blue-600 truncate" title={jobsData?.result?.[0]?.createdBy || company.createdBy}>
+                                <p className="text-brand-900 truncate" title={jobsData?.result?.[0]?.createdBy || company.createdBy}>
                                     {jobsData?.result?.[0]?.createdBy || company.createdBy || 'hr@company.com'}
                                 </p>
                             </div>

@@ -56,9 +56,9 @@ const RegisterPage = () => {
                     <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
                         Đăng ký tài khoản
                     </h2>
-                    <p className="mt-2 text-sm text-secondary-500">
+                    <p className="mt-2 text-sm text-gray-500">
                         Đã có tài khoản? <Link to="/login"
-                            className="font-medium text-brand-600 hover:text-brand-700">Đăng
+                            className="font-medium text-brand-900 hover:text-blue-700">Đăng
                             nhập</Link>
                     </p>
                 </div>
@@ -101,18 +101,18 @@ const RegisterPage = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Bạn là?</label>
                         <div className="grid grid-cols-2 gap-4">
                             <div
-                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'CANDIDATE' ? 'border-brand-600 bg-brand-50 ring-1 ring-brand-600' : 'border-secondary-200 hover:border-brand-300'}`}
+                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'CANDIDATE' ? 'border-brand-900 bg-blue-50 ring-1 ring-blue-600' : 'border-gray-200 hover:border-blue-300'}`}
                                 onClick={() => setValue('role', 'CANDIDATE')}
                             >
-                                <p className="font-bold text-secondary-800">Ứng viên</p>
-                                <p className="text-xs text-secondary-500">Tôi đang tìm việc</p>
+                                <p className="font-bold text-zinc-800">Ứng viên</p>
+                                <p className="text-xs text-gray-500">Tôi đang tìm việc</p>
                             </div>
                             <div
-                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'RECRUITER' ? 'border-brand-600 bg-brand-50 ring-1 ring-brand-600' : 'border-secondary-200 hover:border-brand-300'}`}
+                                className={`cursor-pointer border rounded-lg p-3 text-center transition-all ${selectedRole === 'RECRUITER' ? 'border-brand-900 bg-blue-50 ring-1 ring-blue-600' : 'border-gray-200 hover:border-blue-300'}`}
                                 onClick={() => setValue('role', 'RECRUITER')}
                             >
-                                <p className="font-bold text-secondary-800">Nhà tuyển dụng</p>
-                                <p className="text-xs text-secondary-500">Tôi muốn đăng tin</p>
+                                <p className="font-bold text-zinc-800">Nhà tuyển dụng</p>
+                                <p className="text-xs text-gray-500">Tôi muốn đăng tin</p>
                             </div>
                         </div>
                         <input type="hidden" {...register('role')} />
@@ -124,7 +124,7 @@ const RegisterPage = () => {
                         <input
                             {...register('name')}
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
+                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-brand-900 focus:outline-none"
                             placeholder="Nguyễn Văn A"
                         />
                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
@@ -135,7 +135,7 @@ const RegisterPage = () => {
                         <input
                             {...register('email')}
                             type="email"
-                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
+                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-brand-900 focus:outline-none"
                             placeholder="email@example.com"
                         />
                         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
@@ -146,7 +146,7 @@ const RegisterPage = () => {
                         <input
                             {...register('password')}
                             type="password"
-                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
+                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-brand-900 focus:outline-none"
                             placeholder="******"
                         />
                         {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
@@ -158,7 +158,7 @@ const RegisterPage = () => {
                             <input
                                 {...register('age')}
                                 type="number"
-                                className="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
+                                className="w-full px-3 py-2 border border-gray-300 rounded focus:border-brand-900 focus:outline-none"
                             />
                             {errors.age && <p className="text-red-500 text-xs mt-1">{errors.age.message}</p>}
                         </div>
@@ -167,7 +167,7 @@ const RegisterPage = () => {
                             <label className="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
                             <select
                                 {...register('gender')}
-                                className="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
+                                className="w-full px-3 py-2 border border-gray-300 rounded focus:border-brand-900 focus:outline-none"
                             >
                                 <option value="">Chọn</option>
                                 <option value="MALE">Nam</option>
@@ -183,7 +183,7 @@ const RegisterPage = () => {
                         <input
                             {...register('address')}
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
+                            className="w-full px-3 py-2 border border-gray-300 rounded focus:border-brand-900 focus:outline-none"
                             placeholder="Hà Nội"
                         />
                         {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
@@ -193,7 +193,7 @@ const RegisterPage = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-brand-900 hover:bg-brand-800 disabled:opacity-50 transition-all duration-200"
+                            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-brand-900 hover:bg-brand-900 disabled:opacity-50 transition-all duration-200"
                         >
                             {loading ? 'Đăng ký...' : 'Đăng ký'}
                         </button>

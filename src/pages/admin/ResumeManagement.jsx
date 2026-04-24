@@ -130,7 +130,7 @@ const ResumeManagement = () => {
                         e.preventDefault();
                         handleViewCV(url);
                     }}
-                    className="text-blue-600 hover:underline cursor-pointer"
+                    className="text-brand-900 hover:underline cursor-pointer"
                 >
                     Xem CV
                 </a>

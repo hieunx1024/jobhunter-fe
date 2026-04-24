@@ -74,7 +74,7 @@ const CompanyApprovalsPage = () => {
             key: 'companyName',
             render: (text, record) => (
                 <div>
-                    <div className="font-medium text-blue-900">{text}</div>
+                    <div className="font-medium text-brand-900">{text}</div>
                     <div className="text-gray-500 text-xs">{record.description?.substring(0, 50)}...</div>
                 </div>
             )
@@ -95,7 +95,7 @@ const CompanyApprovalsPage = () => {
             dataIndex: 'verificationDocument',
             key: 'verificationDocument',
             render: (doc) => doc ? (
-                <a href={doc} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline flex items-center gap-1">
+                <a href={doc} target="_blank" rel="noreferrer" className="text-brand-900 hover:underline flex items-center gap-1">
                     <FileTextOutlined /> Xem
                 </a>
             ) : <span className="text-gray-400">Không có</span>
@@ -212,13 +212,13 @@ const CompanyApprovalsPage = () => {
                         <div className="grid grid-cols-2 gap-4 border-t pt-4">
                             <div>
                                 <label className="text-sm text-gray-500 block">Facebook</label>
-                                <a href={viewingRequest.facebookLink} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline truncate block">
+                                <a href={viewingRequest.facebookLink} target="_blank" rel="noreferrer" className="text-brand-900 hover:underline truncate block">
                                     {viewingRequest.facebookLink || 'N/A'}
                                 </a>
                             </div>
                             <div>
                                 <label className="text-sm text-gray-500 block">Github/Website</label>
-                                <a href={viewingRequest.githubLink} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline truncate block">
+                                <a href={viewingRequest.githubLink} target="_blank" rel="noreferrer" className="text-brand-900 hover:underline truncate block">
                                     {viewingRequest.githubLink || 'N/A'}
                                 </a>
                             </div>

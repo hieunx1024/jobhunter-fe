@@ -51,12 +51,12 @@ const RegisterCompanyPage = () => {
     if (user?.company) {
         return (
             <div className="container mx-auto p-8 flex flex-col items-center justify-center min-h-[60vh] text-center">
-                <Building2 className="w-16 h-16 text-blue-600 mb-4" />
+                <Building2 className="w-16 h-16 text-brand-900 mb-4" />
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">Bạn đã thuộc về một công ty</h2>
                 <p className="text-gray-600 mb-6 max-w-md">
                     Tài khoản của bạn đã được liên kết với công ty <strong>{user.company.name}</strong>.
                 </p>
-                <button onClick={() => navigate('/dashboard')} className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">
+                <button onClick={() => navigate('/dashboard')} className="bg-brand-900 text-white px-6 py-2 rounded-full hover:bg-brand-900 transition">
                     Vào Dashboard
                 </button>
             </div>
@@ -80,7 +80,7 @@ const RegisterCompanyPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div className="bg-blue-600 px-8 py-6 text-white">
+                <div className="bg-brand-900 px-8 py-6 text-white">
                     <h1 className="text-3xl font-bold flex items-center gap-3">
                         <Building2 className="w-8 h-8" />
                         Đăng ký Công ty
@@ -177,7 +177,7 @@ const RegisterCompanyPage = () => {
                         <button
                             type="submit"
                             disabled={mutation.isPending}
-                            className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-medium shadow-lg shadow-blue-200 disabled:opacity-70 flex items-center gap-2"
+                            className="bg-brand-900 text-white px-8 py-3 rounded-lg hover:bg-brand-900 transition font-medium shadow-lg shadow-blue-200 disabled:opacity-70 flex items-center gap-2"
                         >
                             {mutation.isPending ? 'Đang gửi...' : 'Gửi yêu cầu đăng ký'}
                         </button>

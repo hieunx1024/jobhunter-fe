@@ -22,13 +22,13 @@ const AdminDashboard = () => {
     });
 
     const StatCard = ({ icon: Icon, label, value, color, iconColor }) => (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-6">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-blue-100 flex items-center gap-6">
             <div className={`w-14 h-14 rounded-2xl ${color} flex items-center justify-center shrink-0`}>
                 <Icon className={`w-7 h-7 ${iconColor}`} />
             </div>
             <div className="overflow-hidden">
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-wider">{label}</p>
-                <p className="text-2xl font-bold text-slate-900 mt-1 truncate">{value !== undefined ? value : '...'}</p>
+                <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">{label}</p>
+                <p className="text-2xl font-bold text-brand-900 mt-1 truncate">{value !== undefined ? value : '...'}</p>
             </div>
         </div>
     );
@@ -48,8 +48,8 @@ const AdminDashboard = () => {
     return (
         <div className="space-y-10">
             <header>
-                <h1 className="text-3xl font-bold text-slate-900 tracking-tight m-0 uppercase">Tổng quan hệ thống</h1>
-                <p className="text-slate-500 mt-1">Theo dõi các chỉ số vận hành chính của nền tảng JobHunter.</p>
+                <h1 className="text-3xl font-bold text-brand-900 tracking-tight m-0 uppercase">Tổng quan hệ thống</h1>
+                <p className="text-gray-500 mt-1">Theo dõi các chỉ số vận hành chính của nền tảng JobHunter.</p>
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -57,54 +57,54 @@ const AdminDashboard = () => {
                     icon={Users}
                     label="Tổng người dùng"
                     value={statsData?.totalUsers}
-                    color="bg-indigo-50"
-                    iconColor="text-indigo-600"
+                    color="bg-blue-50"
+                    iconColor="text-brand-900"
                 />
                 <StatCard
                     icon={Building}
                     label="Hệ thống công ty"
                     value={statsData?.totalCompanies}
-                    color="bg-slate-100"
-                    iconColor="text-slate-600"
+                    color="bg-blue-50"
+                    iconColor="text-gray-600"
                 />
                 <StatCard
                     icon={Briefcase}
                     label="Tin tuyển dụng"
                     value={statsData?.totalJobs}
-                    color="bg-emerald-50"
-                    iconColor="text-emerald-600"
+                    color="bg-blue-50"
+                    iconColor="text-green-600"
                 />
                 <StatCard
                     icon={FileText}
                     label="Hồ sơ ứng tuyển"
                     value={statsData?.totalResumes}
-                    color="bg-amber-50"
-                    iconColor="text-amber-600"
+                    color="bg-blue-50"
+                    iconColor="text-yellow-600"
                 />
                 <StatCard
                     icon={UserCheck}
                     label="User trả phí"
                     value={statsData?.totalSubscribedUsers}
-                    color="bg-indigo-900/5"
-                    iconColor="text-indigo-900"
+                    color="bg-brand-900/5"
+                    iconColor="text-brand-900"
                 />
                 <StatCard
                     icon={DollarSign}
                     label="Doanh thu tổng"
                     value={statsData?.totalRevenue !== undefined ? formatCurrency(statsData.totalRevenue) : '...'}
-                    color="bg-rose-50"
-                    iconColor="text-rose-600"
+                    color="bg-blue-50"
+                    iconColor="text-red-600"
                 />
             </div>
 
             {/* Component Biểu Đồ */}
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 mt-8">
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-blue-100 mt-8">
                 <header className="flex items-center justify-between mb-10">
-                    <h2 className="text-xl font-bold text-slate-900 m-0">Biểu đồ tăng trưởng</h2>
+                    <h2 className="text-xl font-bold text-brand-900 m-0">Biểu đồ tăng trưởng</h2>
                     <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100">
-                            <div className="w-2.5 h-2.5 rounded-full bg-indigo-900/80"></div>
-                            <span className="text-xs font-bold text-slate-600 uppercase tracking-tighter">Số lượng</span>
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-100">
+                            <div className="w-2.5 h-2.5 rounded-full bg-brand-900/80"></div>
+                            <span className="text-xs font-bold text-gray-600 uppercase tracking-tighter">Số lượng</span>
                         </div>
                     </div>
                 </header>
@@ -136,11 +136,11 @@ const AdminDashboard = () => {
                                     boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
                                     padding: '12px 16px'
                                 }}
-                                itemStyle={{ fontWeight: 700, color: '#1E1B4B' }}
+                                itemStyle={{ fontWeight: 700, color: '#2563eb' }}
                             />
                             <Bar
                                 dataKey="value"
-                                fill="#1E1B4B"
+                                fill="#2563eb"
                                 radius={[6, 6, 0, 0]}
                                 maxBarSize={48}
                                 name="Giá trị"

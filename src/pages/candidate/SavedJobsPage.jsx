@@ -50,7 +50,7 @@ const SavedJobsPage = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-900"></div>
             </div>
         );
     }
@@ -58,16 +58,16 @@ const SavedJobsPage = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-slate-100 shadow-sm relative overflow-hidden">
+            <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-blue-100 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
-                        <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Việc làm đã lưu</h1>
-                        <p className="text-slate-500 font-medium">Quản lý danh sách các công việc bạn quan tâm</p>
+                        <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-2">Việc làm đã lưu</h1>
+                        <p className="text-gray-500 font-medium">Quản lý danh sách các công việc bạn quan tâm</p>
                     </div>
-                    <div className="bg-slate-50 px-8 py-3 rounded-2xl border border-slate-100 text-center">
-                        <p className="text-3xl font-black text-slate-900 leading-none mb-1">{savedJobs.length}</p>
-                        <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Việc làm đã lưu</p>
+                    <div className="bg-blue-50 px-8 py-3 rounded-2xl border border-blue-100 text-center">
+                        <p className="text-3xl font-black text-brand-900 leading-none mb-1">{savedJobs.length}</p>
+                        <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Việc làm đã lưu</p>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@ const SavedJobsPage = () => {
                     <p className="text-gray-500 mb-6">Hãy khám phá và lưu lại những công việc bạn quan tâm</p>
                     <Link
                         to="/jobs"
-                        className="inline-block px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-[0.98]"
+                        className="inline-block px-10 py-4 bg-brand-900 text-white rounded-2xl font-bold hover:bg-brand-900 transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]"
                     >
                         Khám phá việc làm
                     </Link>
@@ -98,10 +98,10 @@ const SavedJobsPage = () => {
                                         {/* Job Title */}
                                         <div className="flex items-center space-x-3 mb-4">
                                             <div className="p-3 bg-blue-50 rounded-lg">
-                                                <Briefcase className="w-6 h-6 text-blue-600" />
+                                                <Briefcase className="w-6 h-6 text-brand-900" />
                                             </div>
                                             <div>
-                                                <h2 className="text-2xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                                                <h2 className="text-2xl font-bold text-gray-800 group-hover:text-brand-900 transition-colors">
                                                     {job.name}
                                                 </h2>
                                                 <div className="flex items-center space-x-2 mt-1">
@@ -167,7 +167,7 @@ const SavedJobsPage = () => {
                                     <div className="flex flex-col space-y-2 ml-4">
                                         <Link
                                             to={`/jobs/${job.id}`}
-                                            className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center"
+                                            className="p-3 bg-brand-900 text-white rounded-lg hover:bg-brand-900 transition-all flex items-center justify-center"
                                             title="Xem chi tiết"
                                         >
                                             <ExternalLink className="w-5 h-5" />
@@ -198,7 +198,7 @@ const SavedJobsPage = () => {
                                     </div>
                                     <Link
                                         to={`/jobs/${job.id}`}
-                                        className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-[0.98]"
+                                        className="px-8 py-4 bg-brand-900 text-white rounded-2xl font-bold hover:bg-brand-900 transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]"
                                     >
                                         Ứng tuyển ngay
                                     </Link>
@@ -215,19 +215,19 @@ const SavedJobsPage = () => {
                     <h3 className="text-xl font-bold text-gray-800 mb-4">💡 Mẹo tìm việc hiệu quả</h3>
                     <ul className="space-y-2 text-gray-700">
                         <li className="flex items-start space-x-2">
-                            <span className="text-blue-600 font-bold">•</span>
+                            <span className="text-brand-900 font-bold">•</span>
                             <span>Kiểm tra danh sách việc làm đã lưu thường xuyên để không bỏ lỡ hạn nộp</span>
                         </li>
                         <li className="flex items-start space-x-2">
-                            <span className="text-blue-600 font-bold">•</span>
+                            <span className="text-brand-900 font-bold">•</span>
                             <span>Chuẩn bị CV phù hợp với từng vị trí trước khi ứng tuyển</span>
                         </li>
                         <li className="flex items-start space-x-2">
-                            <span className="text-blue-600 font-bold">•</span>
+                            <span className="text-brand-900 font-bold">•</span>
                             <span>Nghiên cứu kỹ về công ty và vị trí tuyển dụng</span>
                         </li>
                         <li className="flex items-start space-x-2">
-                            <span className="text-blue-600 font-bold">•</span>
+                            <span className="text-brand-900 font-bold">•</span>
                             <span>Ứng tuyển sớm để tăng cơ hội được xem xét</span>
                         </li>
                     </ul>

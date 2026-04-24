@@ -126,16 +126,16 @@ const JobListPage = () => {
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             {/* Header / Search Section */}
-            <div className="bg-white rounded-2xl shadow-sm border border-secondary-200 p-6 md:p-8">
-                <h1 className="text-2xl font-bold text-secondary-900 mb-6">Tìm kiếm việc làm</h1>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+                <h1 className="text-2xl font-bold text-zinc-900 mb-6">Tìm kiếm việc làm</h1>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                     {/* Search Input */}
                     <div className="md:col-span-12 lg:col-span-5 relative group">
-                        <Search className="absolute left-3 top-3.5 text-secondary-400 group-focus-within:text-brand-500 transition-colors z-10" />
+                        <Search className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-brand-900 transition-colors z-10" />
                         <input
                             type="text"
                             placeholder="Tìm kiếm theo tên công việc..."
-                            className="w-full pl-10 pr-4 py-3 bg-secondary-50 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-brand-900 transition-all"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -143,9 +143,9 @@ const JobListPage = () => {
 
                     {/* Location Select */}
                     <div className="md:col-span-6 lg:col-span-3 relative group">
-                        <MapPin className="absolute left-3 top-3.5 text-secondary-400 group-focus-within:text-brand-500 transition-colors z-10" />
+                        <MapPin className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-brand-900 transition-colors z-10" />
                         <select
-                            className="w-full pl-10 pr-4 py-3 bg-secondary-50 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-brand-900 transition-all appearance-none cursor-pointer"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
                         >
@@ -175,9 +175,9 @@ const JobListPage = () => {
 
                     {/* Level Select */}
                     <div className="md:col-span-6 lg:col-span-3 relative group">
-                        <Briefcase className="absolute left-3 top-3.5 text-secondary-400 group-focus-within:text-brand-500 transition-colors z-10" />
+                        <Briefcase className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-brand-900 transition-colors z-10" />
                         <select
-                            className="w-full pl-10 pr-4 py-3 bg-secondary-50 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-brand-900 transition-all appearance-none cursor-pointer"
                             value={level}
                             onChange={(e) => setLevel(e.target.value)}
                         >
@@ -192,9 +192,9 @@ const JobListPage = () => {
 
                     {/* Salary Input */}
                     <div className="md:col-span-6 lg:col-span-3 relative group">
-                        <DollarSign className="absolute left-3 top-3.5 text-secondary-400 group-focus-within:text-brand-500 transition-colors z-10" />
+                        <DollarSign className="absolute left-3 top-3.5 text-gray-400 group-focus-within:text-brand-900 transition-colors z-10" />
                         <select
-                            className="w-full pl-10 pr-4 py-3 bg-secondary-50 border border-secondary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all appearance-none cursor-pointer"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-brand-900 transition-all appearance-none cursor-pointer"
                             value={minSalary}
                             onChange={(e) => setMinSalary(e.target.value)}
                         >
@@ -212,7 +212,7 @@ const JobListPage = () => {
                     <div className="md:col-span-12">
                         <button
                             onClick={handleSearch}
-                            className="w-full h-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-brand-500/30 flex items-center justify-center gap-2"
+                            className="w-full h-full bg-brand-900 hover:bg-brand-900 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2"
                         >
                             {isFetching ? (
                                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -228,14 +228,14 @@ const JobListPage = () => {
                 {/* Active Filters */}
                 {(location || searchTerm || selectedSkills.length > 0 || level || minSalary) && (
                     <div className="mt-4 flex flex-wrap gap-2 items-center">
-                        <span className="text-sm text-secondary-500">Đang lọc theo:</span>
+                        <span className="text-sm text-gray-500">Đang lọc theo:</span>
                         {searchTerm && (
-                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-sm font-medium border border-brand-100">
+                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100">
                                 <FileText className="w-3 h-3" /> "{searchTerm}"
                             </span>
                         )}
                         {location && (
-                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-sm font-medium border border-brand-100">
+                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100">
                                 <MapPin className="w-3 h-3" /> {location}
                             </span>
                         )}
@@ -267,10 +267,10 @@ const JobListPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Main Content: Job List */}
                 <div className="lg:col-span-8 space-y-6">
-                    <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-secondary-200 shadow-sm">
-                        <h2 className="text-secondary-700 font-medium">
+                    <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                        <h2 className="text-zinc-700 font-medium">
                             {jobs?.meta?.total ? (
-                                <span>Tìm thấy <span className="font-bold text-brand-600">{jobs.meta.total}</span> việc làm phù hợp</span>
+                                <span>Tìm thấy <span className="font-bold text-brand-900">{jobs.meta.total}</span> việc làm phù hợp</span>
                             ) : (
                                 'Danh sách việc làm'
                             )}
@@ -281,7 +281,7 @@ const JobListPage = () => {
                     {isLoading ? (
                         <div className="space-y-4">
                             {[...Array(5)].map((_, i) => (
-                                <div key={i} className="bg-white p-6 rounded-xl border border-secondary-100 animate-pulse h-48"></div>
+                                <div key={i} className="bg-white p-6 rounded-xl border border-gray-100 animate-pulse h-48"></div>
                             ))}
                         </div>
                     ) : isError ? (
@@ -304,12 +304,12 @@ const JobListPage = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="text-center py-20 bg-white rounded-xl border border-secondary-200 border-dashed">
-                            <div className="bg-secondary-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Search className="w-10 h-10 text-secondary-300" />
+                        <div className="text-center py-20 bg-white rounded-xl border border-gray-200 border-dashed">
+                            <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Search className="w-10 h-10 text-gray-300" />
                             </div>
-                            <h3 className="text-lg font-bold text-secondary-900">Không tìm thấy việc làm nào</h3>
-                            <p className="text-secondary-500 mt-2">Vui lòng thử lại với từ khóa hoặc bộ lọc khác.</p>
+                            <h3 className="text-lg font-bold text-zinc-900">Không tìm thấy việc làm nào</h3>
+                            <p className="text-gray-500 mt-2">Vui lòng thử lại với từ khóa hoặc bộ lọc khác.</p>
                         </div>
                     )}
                 </div>
@@ -317,24 +317,24 @@ const JobListPage = () => {
                 {/* Sidebar */}
                 <div className="lg:col-span-4 space-y-6">
                     {/* Suggested Box */}
-                    <div className="bg-white p-6 rounded-2xl border border-secondary-200 shadow-sm sticky top-24">
+                    <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm sticky top-24">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="p-2 bg-brand-100 rounded-lg">
-                                <Sparkles className="w-5 h-5 text-brand-600" />
+                            <div className="p-2 bg-blue-100 rounded-lg">
+                                <Sparkles className="w-5 h-5 text-brand-900" />
                             </div>
-                            <h3 className="font-bold text-secondary-900">Gợi ý cho bạn</h3>
+                            <h3 className="font-bold text-zinc-900">Gợi ý cho bạn</h3>
                         </div>
-                        <p className="text-sm text-secondary-500 mb-6 leading-relaxed">
+                        <p className="text-sm text-gray-500 mb-6 leading-relaxed">
                             Đăng nhập để nhận được các gợi ý việc làm phù hợp nhất với hồ sơ và kỹ năng của bạn.
                         </p>
 
-                        <div className="bg-gradient-to-br from-brand-600 to-indigo-700 p-6 rounded-xl text-white shadow-lg shadow-brand-500/30 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-xl text-white shadow-lg shadow-blue-500/30 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
                             <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
                             <div className="relative z-10">
-                                <FileText className="w-8 h-8 mb-3 text-brand-200" />
+                                <FileText className="w-8 h-8 mb-3 text-blue-200" />
                                 <h3 className="font-bold text-lg mb-2">Tạo CV chuyên nghiệp</h3>
-                                <p className="text-brand-100 text-sm mb-4">Tăng 80% cơ hội được nhà tuyển dụng chú ý với mẫu CV chuẩn.</p>
-                                <button className="w-full bg-white text-brand-600 font-bold py-2.5 rounded-lg hover:bg-brand-50 transition-colors shadow-sm">
+                                <p className="text-blue-100 text-sm mb-4">Tăng 80% cơ hội được nhà tuyển dụng chú ý với mẫu CV chuẩn.</p>
+                                <button className="w-full bg-white text-brand-900 font-bold py-2.5 rounded-lg hover:bg-blue-50 transition-colors shadow-sm">
                                     Tạo CV Ngay
                                 </button>
                             </div>

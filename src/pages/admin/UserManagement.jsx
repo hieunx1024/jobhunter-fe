@@ -153,7 +153,7 @@ const UserManagement = () => {
                         icon={<EditOutlined />}
                         onClick={() => showModal(record)}
                         type="text"
-                        className="text-slate-600 hover:text-indigo-900 transition-colors"
+                        className="text-gray-600 hover:text-indigo-900 transition-colors"
                     />
                     <Popconfirm
                         title="Xóa user này?"
@@ -175,25 +175,25 @@ const UserManagement = () => {
         <div className="space-y-6">
             <header className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight m-0">Quản lý người dùng</h1>
-                    <p className="text-slate-500 mt-1">Quản lý tài khoản và phân quyền cho toàn bộ hệ thống.</p>
+                    <h1 className="text-2xl font-bold text-brand-900 tracking-tight m-0">Quản lý người dùng</h1>
+                    <p className="text-gray-500 mt-1">Quản lý tài khoản và phân quyền cho toàn bộ hệ thống.</p>
                 </div>
                 <Button 
                     type="primary" 
                     icon={<PlusOutlined />} 
                     onClick={() => showModal()}
-                    className="bg-slate-900 hover:bg-slate-800 h-10 px-6 font-bold flex items-center gap-2 border-0"
+                    className="bg-brand-900 hover:bg-brand-900 h-10 px-6 font-bold flex items-center gap-2 border-0"
                 >
                     Thêm mới
                 </Button>
             </header>
 
-            <Card className="shadow-sm border-slate-100">
+            <Card className="shadow-sm border-blue-100">
                 <div className="mb-6">
                     <Input
                         placeholder="Tìm kiếm theo tên hoặc email..."
                         onChange={(e) => handleSearch(e.target.value)}
-                        prefix={<SearchOutlined className="text-slate-400" />}
+                        prefix={<SearchOutlined className="text-gray-400" />}
                         allowClear
                         className="max-w-md h-10"
                     />

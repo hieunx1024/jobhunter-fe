@@ -7,20 +7,20 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['"Be Vietnam Pro"', 'sans-serif'],
       },
       colors: {
-        brand: {
+                        brand: {
           50: '#f0f4f8',
           100: '#d9e2ec',
           200: '#bcccdc',
           300: '#9fb3c8',
           400: '#829ab1',
           500: '#627d98',
-          600: '#486581', // Professional Slate Blue
+          600: '#486581', 
           700: '#334e68',
           800: '#243b53',
-          900: '#102a43', // Midnight Blue / Navy
+          900: '#102a43', 
           950: '#05192d',
           DEFAULT: '#102a43',
         },

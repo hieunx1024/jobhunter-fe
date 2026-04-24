@@ -64,40 +64,40 @@ const CandidateDashboard = () => {
             value: stats.total,
             icon: FileText,
             accentColor: 'blue-500',
-            bgColor: 'bg-slate-50',
-            textColor: 'text-slate-600'
+            bgColor: 'bg-blue-50',
+            textColor: 'text-gray-600'
         },
         {
             title: 'Chờ xử lý',
             value: stats.pending,
             icon: Clock,
             accentColor: 'amber-500',
-            bgColor: 'bg-slate-50',
-            textColor: 'text-slate-600'
+            bgColor: 'bg-blue-50',
+            textColor: 'text-gray-600'
         },
         {
             title: 'Đang xem xét',
             value: stats.reviewing,
             icon: Eye,
-            accentColor: 'sky-500',
-            bgColor: 'bg-slate-50',
-            textColor: 'text-slate-600'
+            accentColor: 'blue-500',
+            bgColor: 'bg-blue-50',
+            textColor: 'text-gray-600'
         },
         {
             title: 'Đã chấp nhận',
             value: stats.approved,
             icon: CheckCircle,
             accentColor: 'emerald-500',
-            bgColor: 'bg-slate-50',
-            textColor: 'text-slate-600'
+            bgColor: 'bg-blue-50',
+            textColor: 'text-gray-600'
         },
         {
             title: 'Bị từ chối',
             value: stats.rejected,
             icon: XCircle,
-            accentColor: 'slate-300',
-            bgColor: 'bg-slate-50',
-            textColor: 'text-slate-600'
+            accentColor: 'gray-300',
+            bgColor: 'bg-blue-50',
+            textColor: 'text-gray-600'
         }
     ];
 
@@ -129,7 +129,7 @@ const CandidateDashboard = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-900"></div>
             </div>
         );
     }
@@ -149,16 +149,16 @@ const CandidateDashboard = () => {
                     return (
                         <div
                             key={index}
-                            className="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all duration-300 overflow-hidden group"
+                            className="bg-white rounded-2xl shadow-sm border border-blue-100 hover:shadow-md transition-all duration-300 overflow-hidden group"
                         >
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-4">
-                                    <div className={`p-2.5 rounded-xl ${stat.bgColor} border border-slate-100`}>
-                                        <Icon className="w-5 h-5 text-slate-400" />
+                                    <div className={`p-2.5 rounded-xl ${stat.bgColor} border border-blue-100`}>
+                                        <Icon className="w-5 h-5 text-gray-400" />
                                     </div>
-                                    <p className="text-3xl font-black text-slate-900 leading-none">{stat.value}</p>
+                                    <p className="text-3xl font-black text-brand-900 leading-none">{stat.value}</p>
                                 </div>
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.title}</p>
+                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{stat.title}</p>
                             </div>
                         </div>
                     );
@@ -166,13 +166,13 @@ const CandidateDashboard = () => {
             </div>
 
             {/* Recent Applications */}
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-                <div className="px-8 py-6 border-b border-slate-100">
+            <div className="bg-white rounded-3xl shadow-sm border border-blue-100 overflow-hidden">
+                <div className="px-8 py-6 border-b border-blue-100">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-black text-slate-900 tracking-tight">Đơn ứng tuyển gần đây</h2>
+                        <h2 className="text-xl font-black text-brand-900 tracking-tight">Đơn ứng tuyển gần đây</h2>
                         <Link
                             to="/candidate/applications"
-                            className="text-sky-600 hover:text-sky-700 transition-all font-bold text-sm"
+                            className="text-brand-900 hover:text-blue-700 transition-all font-bold text-sm"
                         >
                             Xem tất cả hồ sơ
                         </Link>
@@ -186,7 +186,7 @@ const CandidateDashboard = () => {
                             <p className="text-gray-500 text-lg">Bạn chưa ứng tuyển công việc nào</p>
                             <Link
                                 to="/jobs"
-                                className="inline-block mt-6 px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-[0.98]"
+                                className="inline-block mt-6 px-10 py-4 bg-brand-900 text-white rounded-2xl font-bold hover:bg-brand-900 transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]"
                             >
                                 Khám phá việc làm
                             </Link>
@@ -201,7 +201,7 @@ const CandidateDashboard = () => {
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
                                             <div className="flex items-center space-x-3 mb-2">
-                                                <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                                                <h3 className="text-lg font-bold text-gray-800 group-hover:text-brand-900 transition-colors">
                                                     {application.job?.name || 'N/A'}
                                                 </h3>
                                                 {getStatusBadge(application.status)}
@@ -235,22 +235,22 @@ const CandidateDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Link
                     to="/jobs"
-                    className="bg-white border border-slate-100 rounded-[2rem] p-10 shadow-sm hover:shadow-md transition-all group relative overflow-hidden"
+                    className="bg-white border border-blue-100 rounded-[2rem] p-10 shadow-sm hover:shadow-md transition-all group relative overflow-hidden"
                 >
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-sky-50 rounded-bl-[4rem] group-hover:scale-110 transition-transform"></div>
-                    <Briefcase className="w-12 h-12 mb-6 text-sky-600 relative z-10" />
-                    <h3 className="text-2xl font-black mb-3 text-slate-900 relative z-10">Tìm việc làm mới</h3>
-                    <p className="text-slate-500 font-medium relative z-10">Khám phá hàng nghìn cơ hội việc làm phù hợp với năng lực của bạn.</p>
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-[4rem] group-hover:scale-110 transition-transform"></div>
+                    <Briefcase className="w-12 h-12 mb-6 text-brand-900 relative z-10" />
+                    <h3 className="text-2xl font-black mb-3 text-brand-900 relative z-10">Tìm việc làm mới</h3>
+                    <p className="text-gray-500 font-medium relative z-10">Khám phá hàng nghìn cơ hội việc làm phù hợp với năng lực của bạn.</p>
                 </Link>
 
                 <Link
                     to="/candidate/profile"
-                    className="bg-white border border-slate-100 rounded-[2rem] p-10 shadow-sm hover:shadow-md transition-all group relative overflow-hidden"
+                    className="bg-white border border-blue-100 rounded-[2rem] p-10 shadow-sm hover:shadow-md transition-all group relative overflow-hidden"
                 >
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-bl-[4rem] group-hover:scale-110 transition-transform"></div>
-                    <FileText className="w-12 h-12 mb-6 text-slate-400 relative z-10" />
-                    <h3 className="text-2xl font-black mb-3 text-slate-900 relative z-10">Cập nhật hồ sơ</h3>
-                    <p className="text-slate-500 font-medium relative z-10">Hoàn thiện thông tin cá nhân và quản lý danh sách CV của bạn.</p>
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-[4rem] group-hover:scale-110 transition-transform"></div>
+                    <FileText className="w-12 h-12 mb-6 text-gray-400 relative z-10" />
+                    <h3 className="text-2xl font-black mb-3 text-brand-900 relative z-10">Cập nhật hồ sơ</h3>
+                    <p className="text-gray-500 font-medium relative z-10">Hoàn thiện thông tin cá nhân và quản lý danh sách CV của bạn.</p>
                 </Link>
             </div>
         </div>
