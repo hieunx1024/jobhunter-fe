@@ -212,7 +212,7 @@ const AdminLayout = () => {
                 <div className="lg:hidden h-16 bg-[#0f172a] shadow-md flex items-center justify-between px-6 sticky top-0 z-40">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-brand-900 font-black text-xs">A</div>
-                        <span className="font-bold text-white uppercase tracking-wider text-sm">Admin SITE</span>
+                        <span className="font-bold text-white uppercase tracking-wider text-sm">Admin</span>
                     </div>
                 </div>
 

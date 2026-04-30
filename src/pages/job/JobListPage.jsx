@@ -324,7 +324,7 @@ const JobListPage = () => {
                             </div>
                             <h3 className="font-bold text-zinc-900">Gợi ý cho bạn</h3>
                         </div>
-                        <p className="text-sm text-gray-500 mb-6 leading-relaxed">Nhận
+                        <p className="text-sm text-gray-500 mb-6 leading-relaxed">
                             Nhận các gợi ý việc làm phù hợp nhất với hồ sơ và kỹ năng của bạn.
                         </p>
 
