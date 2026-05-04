@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
 @layer base {
+  :root {
+    font-size: 16px;
+  }
+
   body {
-    @apply bg-white text-zinc-900 font-sans antialiased;
-    background-image: linear-gradient(rgba(224, 224, 224, 0.3) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(224, 224, 224, 0.3) 1px, transparent 1px);
-    background-size: 40px 40px;
+    @apply font-sans text-base text-text-primary bg-background antialiased tracking-tight;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
@@ -15,10 +20,9 @@
   h4,
   h5,
   h6 {
-    @apply font-bold tracking-tight text-blue-900;
+    @apply tracking-tighter font-bold text-text-primary;
   }
 
-  /* Smooth scrolling for anchor links */
   html {
     scroll-behavior: smooth;
   }
@@ -26,70 +30,118 @@
 
 @layer components {
 
-  /* Common Button Styles */
-  .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200;
+  /* Override Ant Design input styles */
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-select-selector,
+  .ant-picker {
+    height: 40px !important;
+    border-radius: 10px !important;
+    border-color: #E5E7EB !important;
   }
 
-  .btn-primary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-brand-900 text-white hover:bg-brand-950 hover:-translate-y-0.5 active:translate-y-0 focus:ring-brand-500;
+  /* Fix Input.Search / Input.Group border radius overlap */
+  .ant-input-group>.ant-input:first-child,
+  .ant-input-group-addon .ant-input-search-button {
+    border-radius: 10px !important;
   }
 
-  .btn-secondary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-blue-200 text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-white text-blue-700 hover:bg-blue-50 hover:-translate-y-0.5 active:translate-y-0 focus:ring-blue-500;
+  .ant-input-group>.ant-input:first-child {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
   }
 
-  .btn-accent {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-zinc-100 text-zinc-900 hover:bg-zinc-200 focus:ring-zinc-500;
+  .ant-input-group-addon:last-child .ant-btn {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    height: 40px !important;
   }
 
-  .btn-outline {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border-2 border-brand-900 text-sm font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 bg-transparent text-brand-900 hover:bg-brand-50 focus:ring-brand-500;
+  .ant-input:focus,
+  .ant-input-affix-wrapper-focused,
+  .ant-select-focused .ant-select-selector,
+  .ant-picker-focused {
+    border-color: #0A65CC !important;
+    box-shadow: 0 0 0 3px rgba(10, 101, 204, 0.15) !important;
+    z-index: 2;
+    /* Fix overlap hiding border */
   }
 
-  /* Card Styles */
-  .card {
-    @apply bg-white rounded-xl shadow-sm border border-secondary-100 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-secondary-200;
+  .ant-form-item-has-error .ant-input {
+    border-color: #EF4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
   }
 
-  /* Input Styles */
-  .input-field {
-    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 sm:text-sm px-3 py-2;
+  .ant-form-item-label>label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
   }
 
-  .label-text {
-    @apply block text-sm font-medium text-gray-700 mb-1;
+  /* Override Ant Design Modal styles */
+  .ant-modal-content {
+    border-radius: 16px !important;
+    padding: 0 !important;
+    overflow: hidden;
   }
 
-  /* Custom Ant Design Select Override to match Tailwind theme */
-  .custom-ant-select .ant-select-selector {
-    height: 50px !important;
-    /* Match other inputs */
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
-    background-color: #f9fafb !important;
-    /* bg-secondary-50 */
-    border-color: #e5e7eb !important;
-    /* border-secondary-200 */
-    border-radius: 0.75rem !important;
-    /* rounded-xl */
-    display: flex;
-    align-items: center;
+  .ant-modal-header {
+    border-bottom: 1px solid #F3F4F6 !important;
+    padding: 20px 24px !important;
+    margin-bottom: 0 !important;
   }
 
-  .custom-ant-select:hover .ant-select-selector {
-    border-color: #3b82f6 !important;
-    /* brand-500 (approx) */
+  .ant-modal-title {
+    font-weight: 600 !important;
+    color: #111827 !important;
   }
 
-  .custom-ant-select.ant-select-focused .ant-select-selector {
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+  .ant-modal-body {
+    padding: 24px !important;
   }
 
-  .custom-ant-select .ant-select-selection-placeholder {
-    line-height: 32px !important;
-    /* Varies based on padding */
-    margin-left: 10px;
+  .ant-modal-footer {
+    border-top: 1px solid #F3F4F6 !important;
+    padding: 16px 24px !important;
+    margin-top: 0 !important;
+  }
+
+  .ant-btn-primary {
+    background-color: #0A65CC !important;
+    box-shadow: 0 1px 2px 0 rgba(10, 101, 204, 0.05) !important;
+  }
+
+  .ant-btn-primary:hover {
+    background-color: #0852A8 !important;
+  }
+
+  .ant-btn-default {
+    border-color: #E5E7EB !important;
+    color: #4B5563 !important;
+  }
+
+  .ant-btn-default:hover {
+    border-color: #D1D5DB !important;
+    color: #111827 !important;
+  }
+
+  /* Global Pagination Fix */
+  .ant-pagination .ant-pagination-item-active {
+    background-color: #0A65CC !important;
+    border-color: #0A65CC !important;
+  }
+
+  .ant-pagination .ant-pagination-item-active a {
+    color: #ffffff !important;
+  }
+
+  .ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover {
+    border-color: #0A65CC !important;
+  }
+
+  .ant-pagination .ant-pagination-item:not(.ant-pagination-item-active):hover a {
+    color: #0A65CC !important;
   }
 }

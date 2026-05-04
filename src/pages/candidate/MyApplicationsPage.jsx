@@ -89,7 +89,7 @@ const MyApplicationsPage = () => {
         const statusConfig = {
             PENDING: { label: 'Đã nộp', className: 'bg-blue-50 text-brand-900 border-blue-100' },
             REVIEWING: { label: 'Đang xem xét', className: 'bg-blue-50 text-blue-700 border-blue-100' },
-            APPROVED: { label: 'Phỏng vấn', className: 'bg-green-50 text-green-700 border-green-100' },
+            APPROVED: { label: 'Đã chấp nhận', className: 'bg-green-50 text-green-700 border-green-100' },
             REJECTED: { label: 'Chưa phù hợp', className: 'bg-blue-50 text-gray-400 border-blue-100' }
         };
 
@@ -127,7 +127,7 @@ const MyApplicationsPage = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-900"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
         );
     }
@@ -138,10 +138,10 @@ const MyApplicationsPage = () => {
             <div className="bg-white rounded-[2rem] shadow-sm border border-blue-100 p-10">
                 <div className="flex flex-col md:flex-row items-baseline justify-between gap-6 mb-10">
                     <div>
-                        <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-2">Đơn ứng tuyển</h1>
+                        <h1 className="text-4xl font-black text-primary tracking-tight mb-2">Đơn ứng tuyển</h1>
                         <p className="text-gray-500 font-medium">Theo dõi các công việc bạn đã gửi hồ sơ.</p>
                     </div>
-                    <div className="bg-blue-50 px-6 py-2 rounded-xl border border-blue-100">
+                    <div className="bg-primary-light px-6 py-2 rounded-xl border border-blue-100">
                         <span className="text-sm font-black text-gray-800">{pagination.total}</span>
                         <span className="text-[10px] uppercase font-bold text-gray-400 ml-2 tracking-widest">tổng đơn nộp</span>
                     </div>
@@ -154,7 +154,7 @@ const MyApplicationsPage = () => {
                         placeholder="Tìm kiếm vị trí công việc..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-14 pr-6 py-4 bg-blue-50 border border-blue-100 rounded-2xl focus:outline-none focus:border-brand-900/30 focus:bg-white transition-all text-gray-700 font-medium placeholder:text-gray-400"
+                        className="w-full pl-14 pr-6 py-4 bg-primary-light border border-blue-100 rounded-2xl focus:outline-none focus:border-primary/30 focus:bg-white transition-all text-gray-700 font-medium placeholder:text-gray-400"
                     />
                 </div>
             </div>
@@ -167,8 +167,8 @@ const MyApplicationsPage = () => {
                             key={filter.value}
                             onClick={() => setFilterStatus(filter.value)}
                             className={`px-4 py-2 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all duration-300 ${filterStatus === filter.value
-                                ? 'bg-brand-900 text-white shadow-md'
-                                : 'bg-blue-50 text-gray-500 hover:bg-blue-100'
+                                ? 'bg-primary text-white shadow-md'
+                                : 'bg-primary-light text-gray-500 hover:bg-blue-100'
                                 }`}
                         >
                             {filter.label} <span className="opacity-50 ml-1">({filter.count})</span>
@@ -180,14 +180,15 @@ const MyApplicationsPage = () => {
             {/* Applications List */}
             <div className="space-y-4">
                 {filteredApplications.length === 0 ? (
-                    <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-                        <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <p className="text-gray-500 text-lg mb-4">Không tìm thấy đơn ứng tuyển nào</p>
+                    <div className="bg-white rounded-2xl shadow-elevated border border-gray-100 p-12 flex flex-col items-center justify-center py-20 text-center">
+                        <FileText className="w-[120px] h-[120px] text-gray-200 mx-auto" strokeWidth={1} />
+                        <h3 className="text-lg font-medium text-gray-700 mt-6 m-0">Bạn chưa ứng tuyển việc làm nào</h3>
+                        <p className="text-sm text-gray-400 mt-2 max-w-xs mb-0">Hãy tìm kiếm và nộp hồ sơ cho các công việc phù hợp với bạn trên hệ thống.</p>
                         <Link
                             to="/jobs"
-                            className="inline-block px-10 py-4 bg-brand-900 text-white rounded-2xl font-bold hover:bg-brand-900 transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]"
+                            className="mt-6 px-6 py-2.5 bg-primary text-white rounded-lg font-semibold hover:bg-primary-hover transition-all active:scale-[0.98] shadow-sm flex items-center justify-center"
                         >
-                            Khám phá việc làm
+                            Tìm việc ngay
                         </Link>
                     </div>
                 ) : (
@@ -200,7 +201,7 @@ const MyApplicationsPage = () => {
                                 <div className="flex items-start justify-between mb-8">
                                     <div className="flex-1">
                                         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-5">
-                                            <h2 className="text-2xl font-black text-gray-800 group-hover:text-brand-900 transition-colors m-0">
+                                            <h2 className="text-2xl font-black text-gray-800 group-hover:text-primary transition-colors m-0">
                                                 {application.job?.name || 'N/A'}
                                             </h2>
                                             <div>{getStatusBadge(application.status)}</div>
@@ -208,7 +209,7 @@ const MyApplicationsPage = () => {
 
                                         <div className="flex flex-wrap gap-6 text-gray-500 mb-6 font-medium">
                                             <div className="flex items-center gap-2">
-                                                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-gray-400 font-bold">
+                                                <div className="w-8 h-8 rounded-lg bg-primary-light flex items-center justify-center text-gray-400 font-bold">
                                                     <Building2 className="w-4 h-4" />
                                                 </div>
                                                 <span className="text-gray-700 font-bold">{application.job?.company?.name || 'N/A'}</span>
@@ -233,7 +234,7 @@ const MyApplicationsPage = () => {
                                         </div>
 
                                         {application.note && (
-                                            <div className="mt-6 p-5 bg-blue-50 rounded-2xl border-l-4 border-blue-200">
+                                            <div className="mt-6 p-5 bg-primary-light rounded-2xl border-l-4 border-blue-200">
                                                 <p className="text-xs font-bold text-gray-500 mb-1 uppercase tracking-tighter">Phản hồi từ HR:</p>
                                                 <p className="text-sm text-gray-600 leading-relaxed italic">"{application.note}"</p>
                                             </div>
@@ -242,7 +243,7 @@ const MyApplicationsPage = () => {
 
                                     <Link
                                         to={`/jobs/${application.job?.id}`}
-                                        className="ml-4 w-12 h-12 flex items-center justify-center bg-blue-50 text-gray-400 rounded-2xl hover:bg-blue-50 hover:text-brand-900 transition-all border border-blue-100"
+                                        className="ml-4 w-12 h-12 flex items-center justify-center bg-primary-light text-gray-400 rounded-2xl hover:bg-primary-light hover:text-primary transition-all border border-blue-100"
                                     >
                                         <ExternalLink className="w-5 h-5" />
                                     </Link>
@@ -308,10 +309,10 @@ const ApplicationTimeline = ({ status }) => {
                                     className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs transition-all duration-500 ${stepStatus === 'completed'
                                         ? 'bg-emerald-500 text-white shadow-md'
                                         : stepStatus === 'current'
-                                            ? 'bg-brand-900 text-white shadow-lg'
+                                            ? 'bg-primary text-white shadow-lg'
                                             : stepStatus === 'rejected'
                                                 ? 'bg-gray-200 text-gray-400'
-                                                : 'bg-blue-50 text-gray-200 border border-blue-100'
+                                                : 'bg-primary-light text-gray-200 border border-blue-100'
                                         }`}
                                 >
                                     {stepStatus === 'completed' ? '✓' : index + 1}
@@ -319,7 +320,7 @@ const ApplicationTimeline = ({ status }) => {
 
                                 {/* Label */}
                                 <div className="mt-3 text-center">
-                                    <p className={`text-sm font-semibold ${stepStatus === 'current' ? 'text-brand-900' :
+                                    <p className={`text-sm font-semibold ${stepStatus === 'current' ? 'text-primary' :
                                         stepStatus === 'completed' ? 'text-green-600' :
                                             stepStatus === 'rejected' ? 'text-red-600' :
                                                 'text-gray-500'
@@ -347,7 +348,7 @@ const ApplicationTimeline = ({ status }) => {
 
             {/* Rejected Status */}
             {status === 'REJECTED' && (
-                <div className="mt-8 p-5 bg-blue-50 border-l-4 border-gray-300 rounded-2xl">
+                <div className="mt-8 p-5 bg-primary-light border-l-4 border-gray-300 rounded-2xl">
                     <p className="text-sm font-bold text-gray-600">📝 Trạng thái: Chưa phù hợp</p>
                     <p className="text-xs text-gray-400 mt-1 font-medium leading-relaxed">Cảm ơn bạn đã quan tâm! Hãy tiếp tục duy trì đam mê và khám phá thêm nhiều cơ hội hấp dẫn khác trên JobHunter nhé.</p>
                 </div>

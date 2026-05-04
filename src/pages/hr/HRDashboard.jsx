@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Row, Col, Spin, Alert, Progress } from 'antd';
-import { FileTextOutlined, AuditOutlined, CheckCircleOutlined, ClockCircleOutlined, RightOutlined } from '@ant-design/icons';
+import { FileTextOutlined, AuditOutlined, CheckCircleOutlined, ClockCircleOutlined, RightOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import axios from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import { Link } from 'react-router-dom';
@@ -13,6 +14,7 @@ const HRDashboard = () => {
         totalResumes: 0,
         pendingResumes: 0,
         approvedResumes: 0,
+        rejectedResumes: 0,
     });
 
     useEffect(() => {
@@ -37,12 +39,14 @@ const HRDashboard = () => {
             const resumes = resumesResponse.data?.data?.result || [];
             const pendingCount = resumes.filter(r => r.status === 'PENDING' || r.status === 'REVIEWING').length;
             const approvedCount = resumes.filter(r => r.status === 'APPROVED').length;
+            const rejectedCount = resumes.filter(r => r.status === 'REJECTED').length;
 
             setStats({
                 totalJobs: jobsResponse.data?.data?.meta?.total || 0,
                 totalResumes: resumesResponse.data?.data?.meta?.total || 0,
                 pendingResumes: pendingCount,
                 approvedResumes: approvedCount,
+                rejectedResumes: rejectedCount,
             });
         } catch (err) {
             console.error('Error fetching dashboard stats:', err);
@@ -51,6 +55,12 @@ const HRDashboard = () => {
             setLoading(false);
         }
     };
+
+    const chartData = [
+        { name: 'Đã duyệt', value: stats.approvedResumes, color: '#10b981' },
+        { name: 'Chờ xử lý', value: stats.pendingResumes, color: '#f59e0b' },
+        { name: 'Từ chối', value: stats.rejectedResumes, color: '#ef4444' },
+    ].filter(item => item.value > 0);
 
     if (loading) {
         return (
@@ -61,7 +71,7 @@ const HRDashboard = () => {
     }
 
     if (error) {
-        return <Alert title="Lỗi" description={error} type="error" showIcon className="rounded-xl shadow-sm"/>;
+        return <Alert title="Lỗi" description={error} type="error" showIcon className="rounded-xl shadow-sm" />;
     }
 
     return (
@@ -77,7 +87,7 @@ const HRDashboard = () => {
             </div>
 
             <Row gutter={[24, 24]}>
-                <Col xs={24} sm={12} lg={6}>
+                <Col xs={24} sm={12} lg={4}>
                     <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-gray-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
@@ -94,8 +104,8 @@ const HRDashboard = () => {
                         </div>
                     </Card>
                 </Col>
-                
-                <Col xs={24} sm={12} lg={6}>
+
+                <Col xs={24} sm={12} lg={5}>
                     <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-gray-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
@@ -113,7 +123,7 @@ const HRDashboard = () => {
                     </Card>
                 </Col>
 
-                <Col xs={24} sm={12} lg={6}>
+                <Col xs={24} sm={12} lg={5}>
                     <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-gray-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
@@ -131,7 +141,7 @@ const HRDashboard = () => {
                     </Card>
                 </Col>
 
-                <Col xs={24} sm={12} lg={6}>
+                <Col xs={24} sm={12} lg={5}>
                     <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-gray-50 bg-white">
                         <div className="flex items-center justify-between">
                             <div>
@@ -148,47 +158,76 @@ const HRDashboard = () => {
                         </div>
                     </Card>
                 </Col>
+
+                <Col xs={24} sm={12} lg={5}>
+                    <Card variant="borderless" className="shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden group h-full border border-gray-50 bg-white">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-gray-400 font-bold mb-1 text-[10px] uppercase tracking-widest">Hồ Sơ Đã Từ Chối</p>
+                                <h3 className="text-3xl font-black text-brand-900 leading-none">{stats.rejectedResumes}</h3>
+                            </div>
+                            <div className="w-12 h-12 rounded-xl bg-blue-50 text-red-500 flex items-center justify-center text-xl group-hover:bg-red-500 group-hover:text-white transition-all duration-300">
+                                <CloseCircleOutlined />
+                            </div>
+                        </div>
+                        <div className="mt-6 pt-4 border-t border-gray-50 flex justify-between items-center text-xs">
+                            <span className="text-gray-400 font-medium">Chưa phù hợp</span>
+                            <Link to="/hr/resumes?status=REJECTED" className="text-red-600 hover:text-red-700 font-bold flex items-center gap-1 transition-colors">Chi tiết <RightOutlined className="text-[10px]" /></Link>
+                        </div>
+                    </Card>
+                </Col>
             </Row>
 
             <Row gutter={[24, 24]} className="mt-8">
                 <Col xs={24} md={10} lg={8}>
-                    <Card variant="borderless" className="shadow-sm border border-blue-100 rounded-2xl h-full" title={<span className="text-lg font-bold text-gray-800">Tỉ lệ xử lý hồ sơ</span>}>
-                        <div className="flex flex-col items-center justify-center py-6">
-                            <div className="relative">
-                                <Progress
-                                    type="dashboard"
-                                    percent={stats.totalResumes > 0 ? Math.round((stats.approvedResumes / stats.totalResumes) * 100) : 0}
-                                    strokeColor="#3b82f6"
-                                    size={180}
-                                    railColor="#f8fafc"
-                                />
-                            </div>
-                            <div className="mt-8 text-center w-full px-4">
-                                <p className="text-gray-500 mb-4 font-medium text-sm">Hiệu quả duyệt hồ sơ ứng viên</p>
-                                <div className="flex justify-between items-center bg-blue-50 p-4 rounded-xl border border-blue-100">
-                                    <div className="flex flex-col items-center">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
-                                            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Đã duyệt</span>
-                                        </div>
-                                        <span className="text-xl font-black text-gray-800">{stats.approvedResumes}</span>
-                                    </div>
-                                    <div className="h-8 w-px bg-gray-200"></div>
-                                    <div className="flex flex-col items-center">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <div className="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-                                            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Đang chờ</span>
-                                        </div>
-                                        <span className="text-xl font-black text-gray-800">{stats.pendingResumes}</span>
-                                    </div>
+                    <Card variant="borderless" className="shadow-sm border border-blue-100 rounded-2xl h-full flex flex-col" title={<span className="text-lg font-bold text-gray-800">Tỉ lệ hồ sơ ứng tuyển</span>}>
+                        <div className="flex-grow h-[300px] w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie
+                                        data={chartData}
+                                        cx="50%"
+                                        cy="50%"
+                                        innerRadius={60}
+                                        outerRadius={100}
+                                        paddingAngle={5}
+                                        dataKey="value"
+                                        animationBegin={0}
+                                        animationDuration={1500}
+                                    >
+                                        {chartData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip
+                                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                                    />
+                                    <Legend verticalAlign="bottom" height={36} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <div className="mt-4 text-center w-full px-4">
+                            <p className="text-gray-400 font-medium text-[11px] uppercase tracking-tighter mb-4">Phân bổ trạng thái hồ sơ hiện tại</p>
+                            <div className="grid grid-cols-3 gap-2 bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">
+                                <div className="flex flex-col items-center">
+                                    <span className="text-[10px] text-emerald-500 font-bold">Duyệt</span>
+                                    <span className="text-base font-black text-gray-800">{stats.approvedResumes}</span>
+                                </div>
+                                <div className="flex flex-col items-center border-x border-blue-100">
+                                    <span className="text-[10px] text-amber-500 font-bold">Chờ</span>
+                                    <span className="text-base font-black text-gray-800">{stats.pendingResumes}</span>
+                                </div>
+                                <div className="flex flex-col items-center">
+                                    <span className="text-[10px] text-red-500 font-bold">Loại</span>
+                                    <span className="text-base font-black text-gray-800">{stats.rejectedResumes}</span>
                                 </div>
                             </div>
                         </div>
                     </Card>
                 </Col>
-                
+
                 <Col xs={24} md={14} lg={16}>
-                    <Card variant="borderless" className="shadow-sm border border-blue-100 rounded-2xl h-full" title={<span className="text-lg font-bold text-gray-800">Trạng thái hồ sơ</span>}>
+                    <Card variant="borderless" className="shadow-sm border border-blue-100 rounded-2xl h-full" title={<span className="text-lg font-bold text-gray-800">Trạng thái hồ sơ chi tiết</span>}>
                         <div className="space-y-6 py-2">
                             <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100">
                                 <div className="flex justify-between items-center mb-3">
@@ -218,9 +257,23 @@ const HRDashboard = () => {
                                 />
                             </div>
 
+                            <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100">
+                                <div className="flex justify-between items-center mb-3">
+                                    <span className="text-sm font-bold text-gray-700 uppercase tracking-wider">Đã từ chối</span>
+                                    <span className="text-lg font-black text-red-600">{stats.rejectedResumes}</span>
+                                </div>
+                                <Progress
+                                    percent={stats.totalResumes > 0 ? Math.round((stats.rejectedResumes / stats.totalResumes) * 100) : 0}
+                                    strokeColor="#ef4444"
+                                    railColor="#fef2f2"
+                                    size={8}
+                                    showInfo={false}
+                                />
+                            </div>
+
                             <div className="bg-blue-50 p-6 rounded-xl border border-blue-200/50">
                                 <h3 className="text-xs font-black text-gray-600 mb-4 flex items-center gap-2 uppercase tracking-widest">
-                                    Tiêu điểm quản trị
+                                    Chú ý
                                 </h3>
                                 <ul className="text-sm text-gray-500 space-y-4">
                                     <li className="flex items-start gap-3">

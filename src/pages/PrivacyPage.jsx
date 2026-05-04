@@ -3,12 +3,18 @@ import React from 'react';
 const PrivacyPage = () => {
     return (
         <div className="pb-20">
-            {/* Header section */}
-            <div className="bg-brand-900 text-white py-20 px-4 text-center">
-                <h1 className="text-4xl md:text-5xl text-white font-black mb-4 drop-shadow-md">Chính Sách Bảo Mật</h1>
-                <p className="text-xl text-blue-100/90 max-w-2xl mx-auto">
-                    Bảo vệ thông tin cá nhân của bạn là ưu tiên hàng đầu tại JobHunter. Vui lòng đọc kỹ các chính sách dưới đây.
-                </p>
+            {/* Optimized Header section for fixed navigation */}
+            <div className="bg-brand-900 text-white pt-24 pb-20 px-4 text-center relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-[100px] -mr-48 -mt-48"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-400 rounded-full blur-[80px] -ml-32 -mb-32"></div>
+                </div>
+                <div className="relative z-10">
+                    <h1 className="text-4xl md:text-5xl text-white font-black mb-4 tracking-tight drop-shadow-lg">Chính Sách Bảo Mật</h1>
+                    <p className="text-xl text-blue-100/90 max-w-2xl mx-auto font-medium">
+                        Bảo vệ thông tin cá nhân của bạn là ưu tiên hàng đầu tại JobHunter. Vui lòng đọc kỹ các chính sách dưới đây.
+                    </p>
+                </div>
             </div>
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 text-zinc-800">

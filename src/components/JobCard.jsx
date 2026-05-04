@@ -1,72 +1,61 @@
 import { Link } from 'react-router-dom';
-import { MapPin, DollarSign, Clock, Building2, CalendarDays } from 'lucide-react';
+import { MapPin, DollarSign, Clock, Building2, CalendarDays, Bookmark } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
 const JobCard = ({ job }) => {
     return (
-        <div className="group relative bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-2xl hover:shadow-blue-200/40 hover:border-blue-200 transition-all duration-300 flex flex-col h-full hover:-translate-y-1 overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full bg-gray-100 group-hover:bg-brand-900 transition-colors"></div>
-            <div className="flex items-start gap-4 mb-4">
-                <div className="w-14 h-14 rounded-lg bg-gray-50 flex items-center justify-center border border-gray-100 flex-shrink-0">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#2563EB] transition-all duration-200 p-5 flex flex-col h-full group/card relative">
+            <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
                     {job.company?.logo ? (
-                        <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain p-2" />
+                        <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain p-1.5" />
                     ) : (
-                        <Building2 className="w-7 h-7 text-gray-400" />
+                        <Building2 className="w-6 h-6 text-gray-400" />
                     )}
                 </div>
-
-                <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start">
-                        <Link to={`/jobs/${job.id}`} className="block">
-                            <h3 className="text-lg font-bold text-brand-900 group-hover:text-brand-900 transition-colors line-clamp-1 mb-1" title={job.name}>
-                                {job.name}
-                            </h3>
-                        </Link>
-                        {job.hot && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100 ml-2">
-                                HOT
-                            </span>
-                        )}
-                    </div>
-                    <Link to={`/companies/${job.company?.id}`} className="text-sm text-gray-500 hover:text-brand-900 transition-colors line-clamp-1 flex items-center gap-1 font-medium">
-                        {job.company?.name || 'Company Name'}
+                <div className="flex-1 min-w-0 pr-8">
+                    <Link to={`/jobs/${job.id}`} className="block">
+                        <h3 className="text-[17px] font-semibold text-[#1A202C] line-clamp-1 mb-1 hover:text-[#2563EB] transition-colors" title={job.name}>
+                            {job.name}
+                        </h3>
                     </Link>
+                    <div className="flex items-center gap-2 text-[14px] text-[#64748B]">
+                        <Link to={`/companies/${job.company?.id}`} className="hover:text-[#2563EB] transition-colors font-medium">
+                            {job.company?.name || 'Company Name'}
+                        </Link>
+                        <span>•</span>
+                        <div className="flex items-center gap-1">
+                            <MapPin className="w-3.5 h-3.5" />
+                            <span className="truncate max-w-[150px]" title={job.location}>{job.location}</span>
+                        </div>
+                    </div>
                 </div>
+                <button className="absolute top-5 right-5 text-gray-400 hover:text-[#2563EB] transition-all duration-200">
+                    <Bookmark className="w-5 h-5 hover:fill-[#2563EB]" />
+                </button>
             </div>
 
-            <div className="flex flex-wrap gap-2 mb-6">
-                <div className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
-                    <DollarSign className="w-3.5 h-3.5 mr-1" />
+            <div className="mt-4 flex flex-wrap gap-2">
+                <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#F0FDF4] text-[#16A34A] text-[13px] font-medium">
+                    <DollarSign className="w-3.5 h-3.5 mr-0.5" />
                     {job.salary ? job.salary.toLocaleString() : 'Thỏa thuận'}
                 </div>
-                <div className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-50 text-gray-600 border border-gray-100">
-                    <MapPin className="w-3.5 h-3.5 mr-1" />
-                    <span className="truncate max-w-[120px]" title={job.location}>{job.location}</span>
-                </div>
-                <div className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-50 text-gray-600 border border-gray-100">
-                    <Clock className="w-3.5 h-3.5 mr-1" />
-                    {job.level}
+                <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#F1F5F9] text-[#475569] text-[13px] font-medium">
+                    {job.type || 'Full-time'}
                 </div>
             </div>
 
-            <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between text-xs text-gray-400">
-                <div className="flex items-center gap-1">
-                    <CalendarDays className="w-3.5 h-3.5" />
+            <div className="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
+                    <Clock className="w-3.5 h-3.5" />
                     {job.createdAt ? formatDistanceToNow(new Date(job.createdAt), { addSuffix: true, locale: vi }) : 'Mới đăng'}
                 </div>
-                <span className="px-2 py-1 rounded bg-gray-50 text-gray-500 font-medium">
-                    {job.type || 'Full-time'}
-                </span>
-            </div>
-
-            {/* Hover Action */}
-            <div className="hidden absolute inset-0 bg-white/60 backdrop-blur-[1px] rounded-xl group-hover:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20">
                 <Link
                     to={`/jobs/${job.id}`}
-                    className="bg-brand-900 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-brand-900 pointer-events-auto transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-2"
+                    className="inline-flex items-center justify-center px-5 py-2 bg-[#2563EB] hover:bg-[#1B4F8A] text-white text-[14px] font-medium rounded-lg transition-colors active:scale-[0.98]"
                 >
-                    Xem chi tiết
+                    Ứng tuyển
                 </Link>
             </div>
         </div>

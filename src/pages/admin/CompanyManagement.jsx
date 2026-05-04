@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Table, Button, Modal, Form, Input, Space, Popconfirm, message, Card } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Input, Space, Popconfirm, message, Card, Tabs, Tag } from 'antd';
+import { SearchOutlined, CheckCircleOutlined, CloseCircleOutlined, LockOutlined, UnlockOutlined, ReloadOutlined } from '@ant-design/icons';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 
 const CompanyManagement = () => {
-    const [form] = Form.useForm();
     const queryClient = useQueryClient();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingId, setEditingId] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [statusFilter, setStatusFilter] = useState('ALL');
 
     const [pagination, setPagination] = useState({
         current: 1,
@@ -19,48 +17,34 @@ const CompanyManagement = () => {
 
     // Fetch Companies
     const { data, isLoading } = useQuery({
-        queryKey: ['companies', pagination.current, pagination.pageSize, searchText],
+        queryKey: ['companies', pagination.current, pagination.pageSize, searchText, statusFilter],
         queryFn: async () => {
             const params = {
                 page: pagination.current,
                 size: pagination.pageSize,
             };
+            
+            let filters = [];
             if (searchText) {
-                params.filter = `name~'${searchText}'`;
+                filters.push(`name~~'${searchText}'`);
             }
+            if (statusFilter !== 'ALL') {
+                filters.push(`status:'${statusFilter}'`);
+            }
+            
+            if (filters.length > 0) {
+                params.filter = filters.join(' and ');
+            }
+            
             const res = await axiosClient.get(ENDPOINTS.COMPANIES.BASE, { params });
             return res.data;
         },
     });
 
-    const createMutation = useMutation({
-        mutationFn: (values) => axiosClient.post(ENDPOINTS.COMPANIES.BASE, values),
+    const changeStatusMutation = useMutation({
+        mutationFn: ({ id, status }) => axiosClient.put(`${ENDPOINTS.COMPANIES.BASE}/${id}/status`, { status }),
         onSuccess: () => {
-            message.success('Tạo Công ty thành công');
-            handleCancel();
-            queryClient.invalidateQueries(['companies']);
-        },
-        onError: (error) => {
-            message.error(error.response?.data?.message || 'Có lỗi xảy ra');
-        },
-    });
-
-    const updateMutation = useMutation({
-        mutationFn: (values) => axiosClient.put(ENDPOINTS.COMPANIES.BASE, { ...values, id: editingId }),
-        onSuccess: () => {
-            message.success('Cập nhật Công ty thành công');
-            handleCancel();
-            queryClient.invalidateQueries(['companies']);
-        },
-        onError: (error) => {
-            message.error(error.response?.data?.message || 'Có lỗi xảy ra');
-        },
-    });
-
-    const deleteMutation = useMutation({
-        mutationFn: (id) => axiosClient.delete(ENDPOINTS.COMPANIES.GET_ONE(id)),
-        onSuccess: () => {
-            message.success('Xóa Công ty thành công');
+            message.success('Cập nhật trạng thái thành công');
             queryClient.invalidateQueries(['companies']);
         },
         onError: (error) => {
@@ -77,29 +61,9 @@ const CompanyManagement = () => {
         setPagination({ ...pagination, current: 1 });
     };
 
-    const showModal = (record = null) => {
-        if (record) {
-            setEditingId(record.id);
-            form.setFieldsValue(record);
-        } else {
-            setEditingId(null);
-            form.resetFields();
-        }
-        setIsModalOpen(true);
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-        setEditingId(null);
-        form.resetFields();
-    };
-
-    const onFinish = (values) => {
-        if (editingId) {
-            updateMutation.mutate(values);
-        } else {
-            createMutation.mutate(values);
-        }
+    const handleTabChange = (key) => {
+        setStatusFilter(key);
+        setPagination({ ...pagination, current: 1 });
     };
 
     const columns = [
@@ -113,6 +77,7 @@ const CompanyManagement = () => {
             title: 'Tên Công Ty',
             dataIndex: 'name',
             key: 'name',
+            render: (text) => <span className="font-semibold text-gray-800">{text}</span>
         },
         {
             title: 'Địa chỉ',
@@ -126,46 +91,105 @@ const CompanyManagement = () => {
             ellipsis: true,
         },
         {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
+            render: (status) => {
+                switch (status) {
+                    case 'PENDING':
+                        return <Tag color="warning">Chờ duyệt</Tag>;
+                    case 'APPROVED':
+                        return <Tag color="success">Đã duyệt</Tag>;
+                    case 'REJECTED':
+                        return <Tag color="error">Từ chối</Tag>;
+                    case 'LOCKED':
+                        return <Tag color="default">Bị khóa</Tag>;
+                    default:
+                        return <Tag color="warning">Chờ duyệt</Tag>;
+                }
+            }
+        },
+        {
             title: 'Hành động',
             key: 'action',
-            render: (_, record) => (
-                <Space size="middle">
-                    <Button
-                        icon={<EditOutlined />}
-                        onClick={() => showModal(record)}
-                        type="text"
-                        className="text-brand-900"
-                    />
-                    <Popconfirm
-                        title="Xóa công ty này?"
-                        onConfirm={() => deleteMutation.mutate(record.id)}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Button icon={<DeleteOutlined />} type="text" danger />
-                    </Popconfirm>
-                </Space>
-            ),
+            render: (_, record) => {
+                const status = record.status || 'PENDING';
+                
+                if (status === 'PENDING') {
+                    return (
+                        <Space>
+                            <Popconfirm title="Duyệt công ty này?" onConfirm={() => changeStatusMutation.mutate({ id: record.id, status: 'APPROVED' })}>
+                                <Button type="primary" className="bg-green-600 hover:bg-green-700" size="small" icon={<CheckCircleOutlined />}>Duyệt</Button>
+                            </Popconfirm>
+                            <Popconfirm title="Từ chối công ty này?" onConfirm={() => changeStatusMutation.mutate({ id: record.id, status: 'REJECTED' })}>
+                                <Button danger size="small" icon={<CloseCircleOutlined />}>Từ chối</Button>
+                            </Popconfirm>
+                        </Space>
+                    );
+                }
+                if (status === 'APPROVED') {
+                    return (
+                        <Popconfirm title="Khóa công ty này?" onConfirm={() => changeStatusMutation.mutate({ id: record.id, status: 'LOCKED' })}>
+                            <Button size="small" className="text-gray-500 border-gray-300" icon={<LockOutlined />}>Khóa</Button>
+                        </Popconfirm>
+                    );
+                }
+                if (status === 'LOCKED') {
+                    return (
+                        <Popconfirm title="Mở khóa công ty này?" onConfirm={() => changeStatusMutation.mutate({ id: record.id, status: 'APPROVED' })}>
+                            <Button type="primary" size="small" className="bg-blue-600 hover:bg-blue-700" icon={<UnlockOutlined />}>Mở khóa</Button>
+                        </Popconfirm>
+                    );
+                }
+                if (status === 'REJECTED') {
+                    return (
+                        <Popconfirm title="Duyệt lại công ty này?" onConfirm={() => changeStatusMutation.mutate({ id: record.id, status: 'APPROVED' })}>
+                            <Button type="primary" size="small" className="bg-blue-600 hover:bg-blue-700" icon={<ReloadOutlined />}>Duyệt lại</Button>
+                        </Popconfirm>
+                    );
+                }
+                return null;
+            },
         },
     ];
 
     const dataSource = data?.data?.result || [];
     const total = data?.data?.meta?.total || 0;
 
+    const tabItems = [
+        { key: 'ALL', label: 'Tất cả' },
+        { key: 'PENDING', label: 'Chờ duyệt' },
+        { key: 'APPROVED', label: 'Đã duyệt' },
+        { key: 'REJECTED', label: 'Từ chối' },
+        { key: 'LOCKED', label: 'Bị khóa' },
+    ];
+
     return (
-        <Card title="Quản lý Công ty" extra={
-            <Button type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} icon={<PlusOutlined />} onClick={() => showModal()}>
-                Thêm mới
-            </Button>
-        }>
-            <div className="mb-4">
-                <Input.Search
-                    placeholder="Tìm kiếm công ty..."
-                    onSearch={handleSearch}
-                    enterButton={<SearchOutlined />}
-                    allowClear
-                    className="max-w-md"
-                />
+        <Card 
+            title={<span className="text-xl font-bold text-gray-800">Duyệt & Quản lý Công ty</span>} 
+            className="shadow-sm rounded-2xl border-blue-100"
+        >
+            <div className="mb-2">
+                <Tabs items={tabItems} activeKey={statusFilter} onChange={handleTabChange} />
+            </div>
+
+            <div className="mb-6 bg-gray-50 p-5 rounded-2xl border border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div className="w-full sm:w-96 relative group">
+                    <Input.Search
+                        placeholder="Nhập tên công ty để tìm kiếm..."
+                        onSearch={handleSearch}
+                        enterButton={
+                            <Button type="primary" className="bg-brand-900 flex items-center justify-center">
+                                <SearchOutlined /> Tìm kiếm
+                            </Button>
+                        }
+                        allowClear
+                        size="large"
+                    />
+                </div>
+                <div className="text-sm font-medium text-gray-500 bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm">
+                    Tổng số: <span className="text-brand-900 font-bold text-base ml-1">{total}</span> công ty
+                </div>
             </div>
 
             <Table
@@ -181,43 +205,6 @@ const CompanyManagement = () => {
                 loading={isLoading}
                 onChange={handleTableChange}
             />
-
-            <Modal
-                title={editingId ? "Cập nhật Công ty" : "Tạo Công ty mới"}
-                open={isModalOpen}
-                onCancel={handleCancel}
-                onOk={form.submit}
-                confirmLoading={createMutation.isPending || updateMutation.isPending}
-            >
-                <Form
-                    form={form}
-                    layout="vertical"
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                        name="name"
-                        label="Tên Công ty"
-                        rules={[{ required: true, message: 'Vui lòng nhập tên công ty' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        name="address"
-                        label="Địa chỉ"
-                        rules={[{ required: true, message: 'Vui lòng nhập địa chỉ' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        name="description"
-                        label="Mô tả"
-                    >
-                        <Input.TextArea rows={4} />
-                    </Form.Item>
-                </Form>
-            </Modal>
         </Card>
     );
 };

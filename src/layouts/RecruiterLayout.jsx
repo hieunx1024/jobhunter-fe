@@ -2,17 +2,16 @@ import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Layout, Menu, Button, Avatar, Dropdown, theme } from 'antd';
 import {
-    DashboardOutlined,
-    UserOutlined,
-    BankOutlined,
-    FileTextOutlined,
-    LogoutOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    AuditOutlined,
-    HomeOutlined,
-    CreditCardOutlined
-} from '@ant-design/icons';
+    LayoutDashboard,
+    Briefcase,
+    Users2,
+    Building2,
+    CreditCard,
+    User,
+    LogOut,
+    Menu as MenuIcon,
+    X
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const { Header, Sider, Content } = Layout;
@@ -34,49 +33,43 @@ const RecruiterLayout = () => {
     const items = [
         {
             key: '/hr',
-            icon: <DashboardOutlined />,
+            icon: <LayoutDashboard size={20} />,
             label: 'Dashboard',
             onClick: () => navigate('/hr'),
         },
         ...(user?.company ? [
             {
                 key: '/hr/jobs',
-                icon: <AuditOutlined />,
+                icon: <Briefcase size={20} />,
                 label: 'Tin tuyển dụng',
                 onClick: () => navigate('/hr/jobs'),
             },
             {
                 key: '/hr/resumes',
-                icon: <FileTextOutlined />,
+                icon: <Users2 size={20} />,
                 label: 'Quản lý Ứng viên',
                 onClick: () => navigate('/hr/resumes'),
             },
             {
                 key: '/hr/company',
-                icon: <BankOutlined />,
+                icon: <Building2 size={20} />,
                 label: 'Thông tin Công ty',
                 onClick: () => navigate('/hr/company'),
             },
             {
                 key: '/hr/pricing',
-                icon: <CreditCardOutlined />,
+                icon: <CreditCard size={20} />,
                 label: 'Gói dịch vụ',
                 onClick: () => navigate('/hr/pricing'),
             }
         ] : [
             {
                 key: '/hr/company',
-                icon: <BankOutlined />,
+                icon: <Building2 size={20} />,
                 label: 'Đăng ký công ty',
                 onClick: () => navigate('/hr/company'),
             }
         ]),
-        {
-            key: '/',
-            icon: <HomeOutlined />,
-            label: 'Trang chủ',
-            onClick: () => navigate('/'),
-        }
     ];
 
     // Find current selected key (exact match or prefix)
@@ -87,13 +80,13 @@ const RecruiterLayout = () => {
             {
                 key: 'profile',
                 label: 'Hồ sơ cá nhân',
-                icon: <UserOutlined />,
+                icon: <User size={16} />,
                 onClick: () => navigate('/profile'),
             },
             {
                 key: 'logout',
                 label: 'Đăng xuất',
-                icon: <LogoutOutlined />,
+                icon: <LogOut size={16} />,
                 danger: true,
                 onClick: handleLogout,
             }
@@ -102,21 +95,20 @@ const RecruiterLayout = () => {
 
     return (
         <Layout style={{ minHeight: '100vh', background: '#f8fafc' }}>
-            {/* Custom CSS overrides for AntD Menu to match the new gradient theme */}
             <style>
                 {`
                 .modern-hr-menu .ant-menu-item-selected {
-                    background-color: #eff6ff !important; /* blue-50 */
-                    color: #2563eb !important; /* blue-600 */
-                    font-weight: 700;
-                    border-right: 4px solid #3b82f6; /* blue-500 */
+                    background-color: #E6F0FA !important;
+                    color: #0A65CC !important;
+                    font-weight: 600 !important;
+                    border-right: none !important;
                 }
                 .modern-hr-menu .ant-menu-item-selected .anticon {
-                    color: #2563eb !important;
+                    color: #0A65CC !important;
                 }
                 .modern-hr-menu .ant-menu-item:hover:not(.ant-menu-item-selected) {
-                    color: #2563eb !important;
-                    background-color: #f8fafc !important;
+                    color: #111827 !important;
+                    background-color: #F9FAFB !important;
                 }
                 .modern-hr-menu .ant-menu-item {
                     border-radius: 12px !important;
@@ -127,43 +119,66 @@ const RecruiterLayout = () => {
                     display: flex !important;
                     align-items: center !important;
                     font-weight: 500;
+                    color: #4B5563;
+                }
+                .modern-hr-menu .ant-menu-title-content {
+                    margin-inline-start: 12px !important;
                 }
                 .modern-sider .ant-layout-sider-children {
                     display: flex;
                     flex-direction: column;
                 }
+                .hr-main-layout {
+                    transition: padding-left 0.2s ease-in-out;
+                }
+                @media (max-width: 991px) {
+                    .hr-main-layout {
+                        padding-left: 0 !important;
+                    }
+                }
                 `}
             </style>
+
+            {/* Mobile background overlay */}
+            {!collapsed && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-[1000] lg:hidden transition-opacity duration-300"
+                    onClick={() => setCollapsed(true)}
+                />
+            )}
 
             <Sider
                 breakpoint="lg"
                 collapsedWidth="0"
+                trigger={null}
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
                 theme="light"
                 width={260}
-                className="modern-sider shadow-sm z-50 border-r border-blue-100"
+                className="modern-sider shadow-xl z-[1001] border-r border-gray-100"
                 style={{
                     background: '#ffffff',
                     position: 'fixed',
                     left: 0,
                     top: 0,
                     height: '100vh',
-                    zIndex: 1000
                 }}
             >
-                <div className="h-20 flex items-center px-8 border-b border-blue-100 flex-shrink-0">
-                    <div className={`transition-all duration-300 flex items-center gap-3 ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100'}`}>
-                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-blue-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                            <span className="text-white font-black text-lg">H</span>
-                        </div>
-                        <h1 className="text-xl font-bold text-brand-900 m-0 tracking-tight">HR SITE</h1>
-                    </div>
-                    {collapsed && (
-                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-blue-600 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20 mx-auto">
-                            <span className="text-white font-black text-lg">H</span>
-                        </div>
+                <div className="h-16 flex items-center px-6 border-b border-gray-100 flex-shrink-0 bg-white relative">
+                    <Link to="/hr" className={`transition-all duration-300 flex items-center gap-3 group ${collapsed ? 'scale-0 w-0 opacity-0 hidden' : 'scale-100 opacity-100'}`}>
+                        <img src="/logo.svg" alt="JobHunter" className="w-10 h-10 group-hover:scale-110 transition-transform duration-300" />
+                        <h1 className="text-xl font-black text-gray-900 m-0 tracking-tight group-hover:text-primary transition-colors">JobHunter</h1>
+                    </Link>
+
+                    {/* Close button for mobile */}
+                    {!collapsed && (
+                        <button
+                            onClick={() => setCollapsed(true)}
+                            className="lg:hidden absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 p-2 rounded-lg hover:bg-red-50 transition-all"
+                        >
+                            <X size={20} />
+                        </button>
                     )}
                 </div>
 
@@ -177,24 +192,23 @@ const RecruiterLayout = () => {
                     />
                 </div>
 
-                <div className="p-6 border-t border-blue-100 flex-shrink-0 bg-white">
-
+                <div className="p-4 border-t border-gray-100 flex-shrink-0 bg-white">
                     <Dropdown menu={userMenu} placement="top" trigger={['click']}>
-                        <div className={`flex items-center gap-4 cursor-pointer hover:bg-blue-50 p-2 rounded-[1.25rem] transition-all duration-300 ${collapsed ? 'justify-center' : ''}`}>
-                            <div className="p-0.5 rounded-full bg-blue-100 flex-shrink-0">
+                        <div className={`flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-3 rounded-xl transition-colors duration-200 border border-transparent hover:border-gray-100 ${collapsed ? 'justify-center' : ''}`}>
+                            <div className="p-0 flex-shrink-0">
                                 <Avatar
                                     size={40}
-                                    style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%)', color: '#fff', fontWeight: 'bold' }}
+                                    style={{ background: '#0A65CC', color: '#fff', fontWeight: 'bold' }}
                                 >
                                     {user?.name?.charAt(0)?.toUpperCase()}
                                 </Avatar>
                             </div>
                             {!collapsed && (
                                 <div className="flex flex-col overflow-hidden text-left">
-                                    <span className="text-sm font-bold text-blue-800 truncate" title={user?.name}>
+                                    <span className="text-sm font-semibold text-gray-900 truncate" title={user?.name}>
                                         {user?.name || 'Recruiter'}
                                     </span>
-                                    <span className="text-[10px] font-bold text-blue-400 truncate uppercase tracking-widest leading-tight">
+                                    <span className="text-xs text-gray-500 truncate">
                                         {user?.company ? user.company.name : 'Người tuyển dụng'}
                                     </span>
                                 </div>
@@ -204,25 +218,53 @@ const RecruiterLayout = () => {
                 </div>
             </Sider>
 
-            <Layout className="transition-all duration-300" style={{ background: 'transparent', marginLeft: collapsed ? 0 : (window.innerWidth > 992 ? 260 : 0) }}>
-                {/* Mobile Header */}
-                <div className="lg:hidden h-16 bg-white border-b border-blue-100 flex items-center justify-between px-6 sticky top-0 z-40">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-xs">H</div>
-                        <span className="font-bold text-brand-900">Hr</span>
+            <Layout
+                className="hr-main-layout min-h-screen bg-background"
+                style={{ paddingLeft: collapsed ? 0 : 260 }}
+            >
+                {/* Header for Desktop & Mobile */}
+                <Header
+                    style={{
+                        padding: '0 24px',
+                        background: 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(8px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        position: 'fixed',
+                        top: 0,
+                        right: 0,
+                        left: collapsed ? 0 : 260,
+                        zIndex: 1000,
+                        borderBottom: '1px solid #f1f5f9',
+                        transition: 'left 0.2s ease-in-out'
+                    }}
+                >
+                    <div className="flex items-center gap-4">
+                        <Button
+                            type="text"
+                            icon={<MenuIcon size={20} />}
+                            onClick={() => setCollapsed(!collapsed)}
+                            className="text-gray-500 hover:text-primary hover:bg-gray-100 h-10 w-10 flex items-center justify-center rounded-lg transition-all"
+                        />
+                        <div className="hidden sm:flex items-center">
+                            <span className="text-gray-400 text-sm font-medium italic">Chào mừng trở lại,</span>
+                            <span className="text-gray-800 text-sm font-bold ml-1.5">{user?.name}</span>
+                        </div>
                     </div>
-                </div>
+                </Header>
 
                 <Content
                     style={{
-                        margin: window.innerWidth > 768 ? '32px' : '16px',
-                        padding: 0,
-                        minHeight: 280,
+                        padding: '24px',
+                        minHeight: 'calc(100vh - 64px)',
+                        marginTop: 64,
                         background: 'transparent',
-                        borderRadius: borderRadiusLG,
                     }}
                 >
-                    <Outlet />
+                    <div className="max-w-[1600px] mx-auto">
+                        <Outlet />
+                    </div>
                 </Content>
             </Layout>
         </Layout>

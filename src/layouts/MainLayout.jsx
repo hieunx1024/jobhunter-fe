@@ -29,7 +29,7 @@ const MainLayout = () => {
     return (
         <div className="min-h-screen flex flex-col bg-white font-sans text-zinc-800 overflow-x-hidden selection:bg-blue-100 selection:text-brand-900">
             <Header />
-            <main className="flex-grow w-full">
+            <main className="flex-grow w-full pt-16">
                 <Outlet />
             </main>
             <Footer />

@@ -207,11 +207,11 @@ const CandidateProfilePage = () => {
             <div className="mb-10 p-10 rounded-[2.5rem] bg-white border border-blue-100 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-full bg-blue-50/20 skew-x-[-20deg] translate-x-16"></div>
                 <div className="relative z-10 flex items-center space-x-6">
-                    <div className="w-24 h-24 rounded-[2rem] bg-brand-900 flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-blue-600/20">
+                    <div className="w-24 h-24 rounded-[2rem] bg-primary flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-blue-600/20">
                         {user?.name?.charAt(0).toUpperCase() || 'U'}
                     </div>
                     <div>
-                        <h1 className="text-4xl font-black text-brand-900 tracking-tight mb-1">Hồ sơ cá nhân</h1>
+                        <h1 className="text-4xl font-black text-primary tracking-tight mb-1">Hồ sơ cá nhân</h1>
                         <p className="text-gray-500 font-medium tracking-wide uppercase text-[10px]">Quản lý thông tin và CV của bạn</p>
                     </div>
                 </div>
@@ -222,7 +222,7 @@ const CandidateProfilePage = () => {
                 <div className="lg:col-span-2">
                     <div className="bg-white rounded-2xl shadow-lg p-8">
                         <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                            <User className="w-6 h-6 text-brand-900" />
+                            <User className="w-6 h-6 text-primary" />
                             <span>Thông tin cá nhân</span>
                         </h2>
 
@@ -319,7 +319,7 @@ const CandidateProfilePage = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-4 bg-brand-900 text-white rounded-2xl font-bold hover:bg-brand-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg shadow-blue-600/10 active:scale-[0.98]"
+                                className="w-full py-4 bg-primary text-white rounded-2xl font-bold hover:bg-primary-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg shadow-blue-600/10 active:scale-[0.98]"
                             >
                                 {loading ? (
                                     <>
@@ -341,13 +341,13 @@ const CandidateProfilePage = () => {
                 <div className="lg:col-span-1">
                     <div className="bg-white rounded-2xl shadow-lg p-8 sticky top-24">
                         <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                            <FileText className="w-6 h-6 text-brand-900" />
+                            <FileText className="w-6 h-6 text-primary" />
                             <span>CV của bạn</span>
                         </h2>
 
                         {/* CV Upload */}
                         <div className="space-y-4">
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-brand-900 transition-all">
+                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-all">
                                 <input
                                     type="file"
                                     id="cv-upload"
@@ -360,7 +360,7 @@ const CandidateProfilePage = () => {
                                     className="cursor-pointer flex flex-col items-center space-y-3"
                                 >
                                     <div className="p-4 bg-blue-50 rounded-full">
-                                        <Upload className="w-8 h-8 text-brand-900" />
+                                        <Upload className="w-8 h-8 text-primary" />
                                     </div>
                                     <div>
                                         <p className="text-sm font-semibold text-gray-700">
@@ -374,7 +374,7 @@ const CandidateProfilePage = () => {
                             {cvFile && (
                                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
                                     <div className="flex items-center space-x-2">
-                                        <FileText className="w-5 h-5 text-brand-900" />
+                                        <FileText className="w-5 h-5 text-primary" />
                                         <span className="text-sm font-medium text-gray-700 truncate max-w-[150px]">{cvFile.name}</span>
                                     </div>
                                     <button 
@@ -394,7 +394,7 @@ const CandidateProfilePage = () => {
                                         <button
                                             type="button"
                                             onClick={handleViewCv}
-                                            className="flex-1 py-2 bg-brand-900 text-white rounded-lg hover:bg-brand-900 transition-all flex items-center justify-center space-x-2 text-sm"
+                                            className="flex-1 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all flex items-center justify-center space-x-2 text-sm"
                                         >
                                             <Eye className="w-4 h-4" />
                                             <span>Xem</span>

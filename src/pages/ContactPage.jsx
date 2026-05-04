@@ -4,12 +4,18 @@ import { Mail, Phone, MapPin, Send } from 'lucide-react';
 const ContactPage = () => {
     return (
         <div className="pb-20">
-            {/* Header section styled to match the dark brand theme */}
-            <div className="bg-brand-900 text-white py-20 px-4 text-center">
-                <h1 className="text-4xl md:text-5xl text-white font-black mb-4">Liên Hệ</h1>
-                <p className="text-lg text-blue-100/80 max-w-xl mx-auto">
-                    Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Vui lòng để lại thông tin hoặc liên hệ trực tiếp qua các kênh dưới đây.
-                </p>
+            {/* Optimized Header section for fixed navigation */}
+            <div className="bg-brand-900 text-white pt-24 pb-20 px-4 text-center relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-[100px] -mr-48 -mt-48"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400 rounded-full blur-[80px] -ml-32 -mb-32"></div>
+                </div>
+                <div className="relative z-10">
+                    <h1 className="text-4xl md:text-5xl text-white font-black mb-4 tracking-tight">Liên Hệ Với Chúng Tôi</h1>
+                    <p className="text-lg text-blue-100/80 max-w-2xl mx-auto font-medium">
+                        Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn. Vui lòng để lại thông tin hoặc liên hệ trực tiếp qua các kênh dưới đây.
+                    </p>
+                </div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid md:grid-cols-2 gap-12">

@@ -97,7 +97,7 @@ const HRPricing = () => {
             <Row gutter={[32, 32]} justify="center" className="px-4">
                 {plans.map((plan) => (
                     <Col xs={24} md={8} key={plan.id}>
-                        <div className={`relative h-full transition-all duration-300 rounded-[2rem] p-8 flex flex-col items-center bg-white ${plan.recommended ? 'shadow-2xl scale-105 border-2 border-indigo-500 z-10' : 'shadow-md hover:shadow-xl border border-gray-100 mt-4'}`}>
+                        <div className={`relative h-full transition-all duration-500 rounded-[2rem] p-8 flex flex-col items-center bg-white transform border-2 ${plan.recommended ? 'shadow-2xl scale-105 border-indigo-500 z-10 hover:scale-110 hover:-translate-y-4 hover:border-indigo-600' : 'shadow-md hover:shadow-2xl border-gray-100 mt-4 hover:scale-105 hover:-translate-y-2 hover:border-indigo-400'}`}>
                             {plan.recommended && (
                                 <div className="absolute -top-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold px-6 py-1.5 rounded-full text-sm shadow-md flex items-center gap-2">
                                     <StarFilled /> LỰA CHỌN TỐT NHẤT

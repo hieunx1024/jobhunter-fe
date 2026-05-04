@@ -1,5 +1,5 @@
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import RecruiterLayout from './layouts/RecruiterLayout';
@@ -35,7 +35,12 @@ import ChatbotWidget from './components/Chatbot/ChatbotWidget';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPage from './pages/PrivacyPage';
+
 function App() {
+  const location = useLocation();
+  const hideChatbotPaths = ['/login', '/register', '/select-role'];
+  const shouldHideChatbot = hideChatbotPaths.includes(location.pathname);
+
   return (
     <>
       <Routes>
@@ -111,7 +116,7 @@ function App() {
 
         <Route path="*" element={<div className="text-center mt-20 text-xl font-bold text-gray-400">404 Not Found</div>} />
       </Routes>
-      <ChatbotWidget />
+      {!shouldHideChatbot && <ChatbotWidget />}
     </>
   );
 }

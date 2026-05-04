@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Table, Button, Modal, Form, Input, Select, Space, Popconfirm, message, Card, DatePicker, Tag } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Popconfirm, message, Card, Tag, Input } from 'antd';
+import { DeleteOutlined, SearchOutlined, EnvironmentOutlined, DollarOutlined, BankOutlined } from '@ant-design/icons';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
-import dayjs from 'dayjs';
 
 const JobManagement = () => {
-    const [form] = Form.useForm();
     const queryClient = useQueryClient();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingId, setEditingId] = useState(null);
     const [searchText, setSearchText] = useState('');
 
     const [pagination, setPagination] = useState({
@@ -27,34 +23,10 @@ const JobManagement = () => {
                 size: pagination.pageSize,
             };
             if (searchText) {
-                params.filter = `name~'${searchText}'`;
+                params.filter = `name~~'${searchText}'`;
             }
             const res = await axiosClient.get(ENDPOINTS.JOBS.BASE, { params });
             return res.data;
-        },
-    });
-
-    const createMutation = useMutation({
-        mutationFn: (values) => axiosClient.post(ENDPOINTS.JOBS.BASE, values),
-        onSuccess: () => {
-            message.success('Tạo Job thành công');
-            handleCancel();
-            queryClient.invalidateQueries(['admin-jobs']);
-        },
-        onError: (error) => {
-            message.error(error.response?.data?.message || 'Có lỗi xảy ra');
-        },
-    });
-
-    const updateMutation = useMutation({
-        mutationFn: (values) => axiosClient.put(ENDPOINTS.JOBS.BASE, { ...values, id: editingId }),
-        onSuccess: () => {
-            message.success('Cập nhật Job thành công');
-            handleCancel();
-            queryClient.invalidateQueries(['admin-jobs']);
-        },
-        onError: (error) => {
-            message.error(error.response?.data?.message || 'Có lỗi xảy ra');
         },
     });
 
@@ -78,90 +50,75 @@ const JobManagement = () => {
         setPagination({ ...pagination, current: 1 });
     };
 
-    const showModal = (record = null) => {
-        if (record) {
-            setEditingId(record.id);
-            form.setFieldsValue({
-                ...record,
-                startDate: record.startDate ? dayjs(record.startDate) : null,
-                endDate: record.endDate ? dayjs(record.endDate) : null,
-            });
-        } else {
-            setEditingId(null);
-            form.resetFields();
-        }
-        setIsModalOpen(true);
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-        setEditingId(null);
-        form.resetFields();
-    };
-
-    const onFinish = (values) => {
-        // Convert dates back to ISO string or whatever backend expects
-        // Backend seems to expect ISO strings based on previous code
-        const submitData = {
-            ...values,
-            startDate: values.startDate ? values.startDate.toISOString() : null,
-            endDate: values.endDate ? values.endDate.toISOString() : null,
-        };
-
-        if (editingId) {
-            updateMutation.mutate(submitData);
-        } else {
-            createMutation.mutate(submitData);
-        }
-    };
-
     const columns = [
         {
-            title: 'Tên Job',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Việc làm',
+            key: 'job_info',
+            render: (_, record) => (
+                <div className="flex flex-col">
+                    <span className="font-bold text-gray-800 text-base">{record.name}</span>
+                    <span className="text-gray-500 text-xs flex items-center gap-1 mt-1">
+                        <BankOutlined /> {record.company?.name || 'N/A'}
+                    </span>
+                </div>
+            )
         },
         {
             title: 'Mức lương',
             dataIndex: 'salary',
             key: 'salary',
-            render: (val) => val?.toLocaleString()
+            render: (val) => (
+                <div className="flex items-center gap-1.5 text-green-600 font-semibold">
+                    <DollarOutlined />
+                    {val?.toLocaleString()} VNĐ
+                </div>
+            )
         },
         {
             title: 'Địa điểm',
             dataIndex: 'location',
             key: 'location',
+            render: (text) => (
+                <div className="flex items-center gap-1.5 text-gray-600">
+                    <EnvironmentOutlined className="text-red-400" />
+                    {text}
+                </div>
+            )
         },
         {
             title: 'Level',
             dataIndex: 'level',
             key: 'level',
-            render: (level) => <Tag color="blue">{level}</Tag>
-        },
-        {
-            title: 'Công ty',
-            dataIndex: 'company',
-            key: 'company',
-            render: (company) => company?.name || 'N/A'
+            render: (level) => {
+                let color = "default";
+                if (level === 'SENIOR') color = "volcano";
+                else if (level === 'MIDDLE') color = "blue";
+                else if (level === 'JUNIOR') color = "cyan";
+                else color = "green";
+                
+                return <Tag bordered={false} color={color} className="font-bold px-3 rounded-md">{level}</Tag>;
+            }
         },
         {
             title: 'Hành động',
             key: 'action',
+            width: 100,
             render: (_, record) => (
                 <Space size="middle">
-                    <Button
-                        icon={<EditOutlined />}
-                        onClick={() => showModal(record)}
-                        type="text"
-                        className="text-brand-900"
-                    />
                     <Popconfirm
-                        title="Xóa job này?"
+                        title="Xóa công việc này?"
+                        description="Hành động này không thể hoàn tác. Các ứng tuyển liên quan có thể bị ảnh hưởng."
                         onConfirm={() => deleteMutation.mutate(record.id)}
-                        okText="Yes"
-                        cancelText="No"
+                        okText="Xác nhận xóa"
+                        cancelText="Hủy"
+                        okButtonProps={{ danger: true }}
                     >
-                        <Button icon={<DeleteOutlined />} type="text" danger />
+                        <Button 
+                            icon={<DeleteOutlined />} 
+                            type="text" 
+                            danger 
+                            className="hover:bg-red-50 flex items-center justify-center h-9 w-9 rounded-lg"
+                        />
                     </Popconfirm>
                 </Space>
             ),
@@ -172,19 +129,27 @@ const JobManagement = () => {
     const total = data?.data?.meta?.total || 0;
 
     return (
-        <Card title="Quản lý Việc Làm" extra={
-            <Button type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} icon={<PlusOutlined />} onClick={() => showModal()}>
-                Thêm mới
-            </Button>
-        }>
-            <div className="mb-4">
-                <Input.Search
-                    placeholder="Tìm kiếm job..."
-                    onSearch={handleSearch}
-                    enterButton={<SearchOutlined />}
-                    allowClear
-                    className="max-w-md"
-                />
+        <Card 
+            title={<span className="text-xl font-bold text-gray-800">Quản lý Việc Làm</span>}
+            className="shadow-sm rounded-2xl border-blue-100"
+        >
+            <div className="mb-6 bg-gray-50 p-5 rounded-2xl border border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div className="w-full sm:w-96 relative group">
+                    <Input.Search
+                        placeholder="Tìm kiếm theo tiêu đề công việc..."
+                        onSearch={handleSearch}
+                        enterButton={
+                            <Button type="primary" className="bg-brand-900 flex items-center justify-center">
+                                <SearchOutlined /> Tìm kiếm
+                            </Button>
+                        }
+                        allowClear
+                        size="large"
+                    />
+                </div>
+                <div className="text-sm font-medium text-gray-500 bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm">
+                    Đang hiển thị: <span className="text-brand-900 font-bold text-base ml-1">{total}</span> vị trí tuyển dụng
+                </div>
             </div>
 
             <Table
@@ -201,94 +166,6 @@ const JobManagement = () => {
                 onChange={handleTableChange}
                 scroll={{ x: 1000 }}
             />
-
-            <Modal
-                title={editingId ? "Cập nhật Job" : "Tạo Job mới"}
-                open={isModalOpen}
-                onCancel={handleCancel}
-                onOk={form.submit}
-                width={800}
-                confirmLoading={createMutation.isPending || updateMutation.isPending}
-            >
-                <Form
-                    form={form}
-                    layout="vertical"
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                        name="name"
-                        label="Tên công việc"
-                        rules={[{ required: true }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <Form.Item
-                            name="salary"
-                            label="Mức lương"
-                            rules={[{ required: true }]}
-                        >
-                            <Input type="number" />
-                        </Form.Item>
-                        <Form.Item
-                            name="quantity"
-                            label="Số lượng"
-                            rules={[{ required: true }]}
-                        >
-                            <Input type="number" />
-                        </Form.Item>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <Form.Item
-                            name="location"
-                            label="Địa điểm"
-                            rules={[{ required: true }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            name="level"
-                            label="Level"
-                            rules={[{ required: true }]}
-                        >
-                            <Select>
-                                <Select.Option value="INTERN">Intern</Select.Option>
-                                <Select.Option value="FRESHER">Fresher</Select.Option>
-                                <Select.Option value="JUNIOR">Junior</Select.Option>
-                                <Select.Option value="MIDDLE">Middle</Select.Option>
-                                <Select.Option value="SENIOR">Senior</Select.Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <Form.Item
-                            name="startDate"
-                            label="Ngày bắt đầu"
-                            rules={[{ required: true }]}
-                        >
-                            <DatePicker className="w-full" />
-                        </Form.Item>
-                        <Form.Item
-                            name="endDate"
-                            label="Ngày kết thúc"
-                            rules={[{ required: true }]}
-                        >
-                            <DatePicker className="w-full" />
-                        </Form.Item>
-                    </div>
-
-                    <Form.Item
-                        name="description"
-                        label="Mô tả"
-                        rules={[{ required: true }]}
-                    >
-                        <Input.TextArea rows={4} />
-                    </Form.Item>
-                </Form>
-            </Modal>
         </Card>
     );
 };
