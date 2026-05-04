@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ENDPOINTS } from './endpoints';
 
 const axiosClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'https://job-matching-api-h3cs.onrender.com/api/v1',
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true, // Important for cookies (refresh token)
     headers: {
         'Content-Type': 'application/json',

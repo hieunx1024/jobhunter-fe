@@ -103,7 +103,8 @@ const CandidateProfilePage = () => {
                 }
             });
 
-            setCvUrl(response.data?.fileName || '');
+            const resData = response.data.data ? response.data.data : response.data;
+            setCvUrl(resData.fileName || '');
             setSuccessMessage('CV đã được tải lên thành công!');
             setTimeout(() => setSuccessMessage(''), 3000);
         } catch (error) {
