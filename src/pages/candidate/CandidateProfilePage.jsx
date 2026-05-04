@@ -131,7 +131,8 @@ const CandidateProfilePage = () => {
             submitData.append('age', formData.age || '');
             submitData.append('gender', formData.gender);
             
-            if (cvFile && !cvUrl) { 
+            if (cvFile) { 
+                // If a new file is selected, always include it in the update
                 submitData.append('file', cvFile);
             }
 
@@ -371,31 +372,27 @@ const CandidateProfilePage = () => {
                             </div>
 
                             {cvFile && (
-                                <button
-                                    onClick={handleUploadCv}
-                                    disabled={uploadingCv}
-                                    className="w-full py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                                >
-                                    {uploadingCv ? (
-                                        <>
-                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                            <span>Đang tải lên...</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Upload className="w-5 h-5" />
-                                            <span>Tải lên CV</span>
-                                        </>
-                                    )}
-                                </button>
+                                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+                                    <div className="flex items-center space-x-2">
+                                        <FileText className="w-5 h-5 text-brand-900" />
+                                        <span className="text-sm font-medium text-gray-700 truncate max-w-[150px]">{cvFile.name}</span>
+                                    </div>
+                                    <button 
+                                        onClick={() => setCvFile(null)}
+                                        className="text-red-500 hover:text-red-700 p-1"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
                             )}
 
                             {/* Current CV */}
                             {cvUrl && (
                                 <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                                    <p className="text-sm font-semibold text-green-700 mb-3">✓ CV hiện tại</p>
+                                    <p className="text-sm font-semibold text-green-700 mb-3">✓ CV hiện tại trên hệ thống</p>
                                     <div className="flex items-center space-x-2">
                                         <button
+                                            type="button"
                                             onClick={handleViewCv}
                                             className="flex-1 py-2 bg-brand-900 text-white rounded-lg hover:bg-brand-900 transition-all flex items-center justify-center space-x-2 text-sm"
                                         >
@@ -403,6 +400,7 @@ const CandidateProfilePage = () => {
                                             <span>Xem</span>
                                         </button>
                                         <button
+                                            type="button"
                                             onClick={handleDeleteCv}
                                             className="flex-1 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all flex items-center justify-center space-x-2 text-sm"
                                         >
