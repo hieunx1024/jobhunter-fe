@@ -65,6 +65,7 @@ const Header = () => {
                     <nav className="hidden md:flex gap-8 h-full">
                         <NavLink to="/jobs" label="Việc làm" active={isActive('/jobs')} />
                         <NavLink to="/companies" label="Công ty" active={isActive('/companies')} />
+                        <NavLink to="/about" label="Giới thiệu" active={isActive('/about')} />
                         <NavLink to="/contact" label="Liên hệ" active={isActive('/contact')} />
                         <NavLink to="/privacy" label="Chính sách" active={isActive('/privacy')} />
                         {shouldShowRegisterCompany && (
@@ -149,6 +150,7 @@ const Header = () => {
                 <div className="md:hidden bg-white border-t border-gray-100 shadow-elevated py-4 flex flex-col gap-2 px-4 absolute top-[64px] left-0 w-full z-40 animate-fade-in" ref={mobileMenuRef}>
                     <MobileNavLink to="/jobs" label="Việc làm" onClick={() => setIsMobileMenuOpen(false)} />
                     <MobileNavLink to="/companies" label="Công ty" onClick={() => setIsMobileMenuOpen(false)} />
+                    <MobileNavLink to="/about" label="Giới thiệu" onClick={() => setIsMobileMenuOpen(false)} />
                     <MobileNavLink to="/contact" label="Liên hệ" onClick={() => setIsMobileMenuOpen(false)} />
                     <MobileNavLink to="/privacy" label="Chính sách bảo mật" onClick={() => setIsMobileMenuOpen(false)} />
                     {shouldShowRegisterCompany && (
