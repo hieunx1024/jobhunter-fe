@@ -33,6 +33,23 @@ const CandidateProfilePage = () => {
     const [uploadingCv, setUploadingCv] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
+    const fetchProfile = async () => {
+        try {
+            const response = await axiosClient.get(ENDPOINTS.PROFILE.BASE);
+            const profileData = response.data.data ? response.data.data : response.data;
+            if (profileData && profileData.cvs && profileData.cvs.length > 0) {
+                const latestCv = profileData.cvs[profileData.cvs.length - 1];
+                setCvUrl(latestCv.url);
+                setCvId(latestCv.id);
+            } else {
+                setCvUrl('');
+                setCvId(null);
+            }
+        } catch (e) {
+            console.error("Failed to load CV profile data", e);
+        }
+    };
+
     useEffect(() => {
         if (user) {
             setFormData({
@@ -42,22 +59,6 @@ const CandidateProfilePage = () => {
                 age: user.age || '',
                 gender: user.gender || ''
             });
-            
-            // Fetch CV list from Backend (authContext does not include CVs to minimize payload size)
-            const fetchProfile = async () => {
-                try {
-                    const response = await axiosClient.get(ENDPOINTS.PROFILE.BASE);
-                    const profileData = response.data.data ? response.data.data : response.data;
-                    if (profileData && profileData.cvs && profileData.cvs.length > 0) {
-                        // Retrieve the most recent or default CV
-                        const latestCv = profileData.cvs[profileData.cvs.length - 1];
-                        setCvUrl(latestCv.url);
-                        setCvId(latestCv.id);
-                    }
-                } catch (e) {
-                    console.error("Failed to load CV profile data", e);
-                }
-            };
             fetchProfile();
         }
     }, [user]);
@@ -107,6 +108,10 @@ const CandidateProfilePage = () => {
             setCvUrl(resData.fileName || '');
             setSuccessMessage('CV đã được tải lên thành công!');
             setTimeout(() => setSuccessMessage(''), 3000);
+            
+            // Refresh CV data immediately
+            await fetchProfile();
+            setCvFile(null); // Clear selected file after success
         } catch (error) {
             console.error('Error uploading CV:', error);
             alert('Không thể tải lên CV. Vui lòng thử lại.');
@@ -127,7 +132,6 @@ const CandidateProfilePage = () => {
             submitData.append('gender', formData.gender);
             
             if (cvFile && !cvUrl) { 
-                // Only append file if it's newly selected and not already uploaded via the separate button
                 submitData.append('file', cvFile);
             }
 
@@ -137,20 +141,13 @@ const CandidateProfilePage = () => {
                 }
             });
 
-            // Update user context
             if (response.data) {
-                // Determine if backend wrapped it in .data
                 const profileData = response.data.data ? response.data.data : response.data;
                 setUser(prev => ({
                     ...prev,
                     ...profileData
                 }));
-                // Optionally update cvUrl if backend returns it
-                if (profileData.cvs && profileData.cvs.length > 0) {
-                    const latestCv = profileData.cvs[profileData.cvs.length - 1];
-                    setCvUrl(latestCv.url);
-                    setCvId(latestCv.id);
-                }
+                await fetchProfile();
             }
 
             setSuccessMessage('Cập nhật thông tin thành công!');
@@ -166,6 +163,8 @@ const CandidateProfilePage = () => {
     const handleViewCv = () => {
         if (cvUrl) {
             openPDFDirectly(cvUrl, 'resume');
+        } else {
+            alert('Bạn chưa có CV nào. Vui lòng tải lên.');
         }
     };
 
@@ -175,17 +174,20 @@ const CandidateProfilePage = () => {
             setCvUrl('');
             return;
         }
-        if (window.confirm('Bạn có chắc muốn xóa CV này vĩnh viễn khỏi thư viện?')) {
+        if (window.confirm('Bạn có chắc muốn xóa CV này vĩnh viễn?')) {
             try {
                 await axiosClient.delete(`${ENDPOINTS.PROFILE.BASE}/cv/${cvId}`);
+                setSuccessMessage('Xóa CV thành công!');
+                setTimeout(() => setSuccessMessage(''), 3000);
+                // Reset state
                 setCvFile(null);
                 setCvUrl('');
                 setCvId(null);
-                setSuccessMessage('Xóa CV thành công!');
-                setTimeout(() => setSuccessMessage(''), 3000);
+                // Double check with server
+                fetchProfile();
             } catch (err) {
                 console.error(err);
-                alert("Bạn không có quyền tương tác với CV của người khác hoặc có lỗi xảy ra");
+                alert("Không thể xóa CV hoặc bạn không có quyền.");
             }
         }
     };
