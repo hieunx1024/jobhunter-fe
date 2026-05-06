@@ -7,6 +7,8 @@ import CandidateLayout from './layouts/CandidateLayout';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import SelectRolePage from './pages/auth/SelectRolePage';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 import HomePage from './pages/HomePage';
 import JobListPage from './pages/job/JobListPage';
 import JobDetailPage from './pages/job/JobDetailPage';
@@ -26,11 +28,13 @@ import HRJobManagement from './pages/hr/HRJobManagement';
 import HRResumeManagement from './pages/hr/HRResumeManagement';
 import HRCompanyManager from './pages/hr/HRCompanyManager';
 import HRPricing from './pages/hr/HRPricing';
+import HRProfilePage from './pages/hr/HRProfilePage';
 import PaymentSuccess from './pages/hr/PaymentSuccess';
 import CandidateDashboard from './pages/candidate/CandidateDashboard';
 import MyApplicationsPage from './pages/candidate/MyApplicationsPage';
 
 import CandidateProfilePage from './pages/candidate/CandidateProfilePage';
+import SavedJobsPage from './pages/candidate/SavedJobsPage';
 import ChatbotWidget from './components/Chatbot/ChatbotWidget';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
@@ -38,7 +42,7 @@ import PrivacyPage from './pages/PrivacyPage';
 
 function App() {
   const location = useLocation();
-  const hideChatbotPaths = ['/login', '/register', '/select-role'];
+  const hideChatbotPaths = ['/login', '/register', '/select-role', '/forgot-password', '/reset-password'];
   const shouldHideChatbot = hideChatbotPaths.includes(location.pathname);
 
   return (
@@ -47,6 +51,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/select-role" element={<SelectRolePage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
@@ -84,6 +90,7 @@ function App() {
           <Route path="resumes" element={<HRResumeManagement />} />
           <Route path="company" element={<HRCompanyManager />} />
           <Route path="pricing" element={<HRPricing />} />
+          <Route path="profile" element={<HRProfilePage />} />
         </Route>
 
         <Route path="/hr/payment/return" element={<PaymentSuccess />} />
@@ -96,6 +103,7 @@ function App() {
         }>
           <Route index element={<CandidateDashboard />} />
           <Route path="applications" element={<MyApplicationsPage />} />
+          <Route path="saved-jobs" element={<SavedJobsPage />} />
 
           <Route path="profile" element={<CandidateProfilePage />} />
         </Route>

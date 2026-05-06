@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
-import { MapPin, Globe, Users, ArrowLeft, Building, Mail, ExternalLink, Cpu, Heart, CheckCircle2 } from 'lucide-react';
+import { MapPin, Globe, Users, ArrowLeft, Building, Mail, ExternalLink, Cpu, Heart, CheckCircle2, Facebook } from 'lucide-react';
 import JobCard from '../../components/JobCard';
 
 const CompanyDetailPage = () => {
@@ -41,7 +41,7 @@ const CompanyDetailPage = () => {
             </div>
         </div>
     );
-    
+
     if (!company) return (
         <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center p-6 text-center">
             <div className="bg-white p-10 rounded-2xl shadow-sm border max-w-md">
@@ -60,22 +60,22 @@ const CompanyDetailPage = () => {
     // Parse Tech Stack from jobs
     const extractTechStack = (jobs) => {
         if (!jobs || jobs.length === 0) return [];
-        
+
         const keywords = [
-            'Java', 'Spring Boot', 'Spring', 'Hibernate', 'React', 'ReactJS', 'Vue', 'VueJS', 'Angular', 
-            'JavaScript', 'JS', 'TypeScript', 'TS', 'Node', 'NodeJS', 'Python', 'Django', 'Flask', 
-            'PHP', 'Laravel', 'C#', '.NET', 'ASP.NET', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP', 
+            'Java', 'Spring Boot', 'Spring', 'Hibernate', 'React', 'ReactJS', 'Vue', 'VueJS', 'Angular',
+            'JavaScript', 'JS', 'TypeScript', 'TS', 'Node', 'NodeJS', 'Python', 'Django', 'Flask',
+            'PHP', 'Laravel', 'C#', '.NET', 'ASP.NET', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP',
             'Cloud', 'SQL', 'PostgreSQL', 'MySQL', 'MongoDB', 'NoSQL', 'Redis', 'Kafka', 'RabbitMQ',
-            'Swift', 'Kotlin', 'Flutter', 'React Native', 'Android', 'iOS', 'AI', 'ML', 'Machine Learning', 
+            'Swift', 'Kotlin', 'Flutter', 'React Native', 'Android', 'iOS', 'AI', 'ML', 'Machine Learning',
             'Data Science', 'Big Data', 'UI/UX', 'Figma', 'DevOps', 'CI/CD'
         ];
-        
+
         const allText = jobs.map(j => `${j.name} ${j.description}`).join(' ').toLowerCase();
         const found = keywords.filter(kw => {
             const regex = new RegExp(`\\b${kw.toLowerCase().replace('.', '\\.')}\\b`, 'i');
             return regex.test(allText);
         });
-        
+
         return found.slice(0, 10); // Limit to 10 tags
     };
 
@@ -116,7 +116,7 @@ const CompanyDetailPage = () => {
                             </div>
                         )}
                     </div>
-                    
+
                     <div className="flex-1 text-center md:text-left">
                         <h1 className="text-[26px] font-bold text-[#1A202C] leading-tight mb-3">
                             {company.name}
@@ -127,39 +127,28 @@ const CompanyDetailPage = () => {
                                 {company.address || 'Hà Nội, Việt Nam'}
                             </div>
                             <div className="flex items-center gap-1.5">
-                                <Globe className="w-4 h-4 text-[#2563EB]" />
-                                <a href={company.website || '#'} target="_blank" rel="noopener noreferrer" className="hover:text-[#2563EB] hover:underline">
-                                    {company.website ? company.website.replace(/^https?:\/\//, '') : 'website.com'}
-                                </a>
-                            </div>
-                            <div className="flex items-center gap-1.5">
                                 <Users className="w-4 h-4 text-[#2563EB]" />
                                 100-500 nhân viên
                             </div>
                         </div>
                     </div>
-                    
-                    <div className="flex-shrink-0 w-full md:w-auto">
-                        <button className="w-full md:w-auto px-8 py-3 bg-[#2563EB] hover:bg-[#1B4F8A] text-white font-semibold rounded-lg shadow-sm transition-all duration-200">
-                            Theo dõi
-                        </button>
-                    </div>
+
                 </div>
 
                 {/* Main Content Layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_32%] gap-[32px] mt-[32px] pb-[60px]">
-                    
+
                     {/* Left Column */}
                     <div className="flex flex-col gap-[20px]">
-                        
+
                         {/* 1. Giới thiệu công ty */}
                         <section className="bg-white rounded-2xl p-[28px] shadow-sm border border-gray-100">
                             <h2 className="text-[18px] font-semibold text-[#1A202C] mb-6 border-l-4 border-[#2563EB] pl-[12px] flex items-center">
                                 Giới thiệu công ty
                             </h2>
                             <div className="text-[15px] text-[#1A202C] leading-[1.7] whitespace-pre-wrap">
-                                {company.description ? 
-                                    company.description.replace(/\\n|\\r\\n/g, '\n') : 
+                                {company.description ?
+                                    company.description.replace(/\\n|\\r\\n/g, '\n') :
                                     'Công ty hiện chưa cập nhật thông tin giới thiệu. Vui lòng quay lại sau.'
                                 }
                             </div>
@@ -173,8 +162,8 @@ const CompanyDetailPage = () => {
                             {techStack.length > 0 ? (
                                 <div className="flex flex-wrap gap-[10px]">
                                     {techStack.map((tech, idx) => (
-                                        <div 
-                                            key={idx} 
+                                        <div
+                                            key={idx}
                                             className="px-[16px] py-[6px] bg-[#EFF6FF] text-[#2563EB] text-[13px] font-medium rounded-full flex items-center gap-2 border border-[#DBEAFE]"
                                         >
                                             <Cpu className="w-3.5 h-3.5" />
@@ -194,8 +183,8 @@ const CompanyDetailPage = () => {
                             </h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {defaultBenefits.map((benefit, idx) => (
-                                    <div 
-                                        key={idx} 
+                                    <div
+                                        key={idx}
                                         className="flex items-center gap-4 p-[16px_20px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover:border-[#2563EB] hover:bg-white transition-all duration-200 group"
                                     >
                                         <span className="text-[32px] group-hover:scale-110 transition-transform">{benefit.icon}</span>
@@ -212,7 +201,7 @@ const CompanyDetailPage = () => {
                                     Vị trí đang tuyển dụng ({jobsData?.meta?.total || 0})
                                 </h2>
                             </div>
-                            
+
                             <div className="flex flex-col gap-[16px]">
                                 {isLoadingJobs ? (
                                     [1, 2, 3].map(i => (
@@ -242,57 +231,50 @@ const CompanyDetailPage = () => {
                                 <h3 className="text-[18px] font-semibold text-[#1A202C] mb-6 flex items-center gap-2">
                                     Thông tin liên hệ
                                 </h3>
-                                
+
                                 <div className="space-y-5">
                                     <div className="flex items-start gap-4">
                                         <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
                                             <Mail className="w-5 h-5" />
                                         </div>
-                                        <div className="min-w-0">
-                                            <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Email</p>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Email liên hệ</p>
                                             <p className="text-[14px] text-[#1A202C] truncate font-medium" title={jobsData?.result?.[0]?.createdBy || company.createdBy}>
                                                 {jobsData?.result?.[0]?.createdBy || company.createdBy || 'hr@company.com'}
                                             </p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
-                                            <Globe className="w-5 h-5" />
+                                    {company.githubLink && (
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
+                                                <Globe className="w-5 h-5" />
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Website chính thức</p>
+                                                <a href={company.githubLink} target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#2563EB] truncate font-medium hover:underline block">
+                                                    {company.githubLink.replace(/^https?:\/\/(www\.)?/, '')}
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div className="min-w-0">
-                                            <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Website</p>
-                                            <a href={company.website || '#'} target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#2563EB] truncate font-medium hover:underline">
-                                                {company.website ? company.website.replace(/^https?:\/\//, '') : 'www.company.com'}
-                                            </a>
-                                        </div>
-                                    </div>
+                                    )}
 
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
-                                            <MapPin className="w-5 h-5" />
+                                    {company.facebookLink && (
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
+                                                <Facebook className="w-5 h-5" />
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Facebook Fanpage</p>
+                                                <a href={company.facebookLink} target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#2563EB] truncate font-medium hover:underline block">
+                                                    {company.facebookLink.replace(/^https?:\/\/(www\.)?facebook\.com\//, '') || 'Facebook'}
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div className="min-w-0">
-                                            <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Địa chỉ</p>
-                                            <p className="text-[14px] text-[#1A202C] font-medium leading-relaxed">
-                                                {company.address || 'Hà Nội, Việt Nam'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="mt-8">
-                                    <a 
-                                        href={company.website || '#'} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 border-[1.5px] border-[#2563EB] text-[#2563EB] font-semibold rounded-lg hover:bg-[#F0F7FF] transition-all duration-200"
-                                    >
-                                        Xem website <ExternalLink className="w-4 h-4" />
-                                    </a>
+                                    )}
                                 </div>
                             </div>
-                            
+
                             {/* Stats Card (Optional but looks professional) */}
                             <div className="bg-gradient-to-br from-[#1B4F8A] to-[#0A2540] rounded-2xl p-6 text-white shadow-md overflow-hidden relative">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>

@@ -10,7 +10,8 @@ import {
     ChevronLeft,
     ChevronRight,
     Menu,
-    X
+    X,
+    Bookmark
 } from 'lucide-react';
 
 const CandidateLayout = () => {
@@ -28,6 +29,7 @@ const CandidateLayout = () => {
     const menuItems = [
         { path: '/candidate', icon: LayoutGrid, label: 'Dashboard', exact: true },
         { path: '/candidate/applications', icon: ClipboardList, label: 'Ứng tuyển của tôi' },
+        { path: '/candidate/saved-jobs', icon: Bookmark, label: 'Việc làm đã lưu' },
         { path: '/candidate/profile', icon: UserCircle2, label: 'Hồ sơ cá nhân' },
     ];
 

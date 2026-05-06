@@ -81,7 +81,10 @@ const RecruiterLayout = () => {
                 key: 'profile',
                 label: 'Hồ sơ cá nhân',
                 icon: <User size={16} />,
-                onClick: () => navigate('/profile'),
+                onClick: () => navigate('/hr/profile'),
+            },
+            {
+                type: 'divider',
             },
             {
                 key: 'logout',

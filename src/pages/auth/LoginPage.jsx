@@ -43,7 +43,7 @@ const LoginPage = () => {
             const res = await login(data.username, data.password);
             const loggedInUser = res?.user || user;
             const role = loggedInUser?.role?.name || loggedInUser?.role || '';
-            
+
             if (role === 'SUPER_ADMIN' || role === 'ADMIN' || role === 'MANAGER') {
                 navigate('/admin');
             } else if (role === 'HR' || role === 'ROLE_HR') {
@@ -72,12 +72,12 @@ const LoginPage = () => {
                         JobHunter
                     </Link>
                 </div>
-                
+
                 <div className="relative z-10 max-w-md mt-20">
                     <h1 className="text-4xl font-bold mb-6 leading-tight">Khám phá cơ hội nghề nghiệp tuyệt vời</h1>
                     <p className="text-blue-100 text-lg">Hàng ngàn việc làm chất lượng cao đang chờ đón bạn. Tham gia ngay để xây dựng sự nghiệp mơ ước.</p>
                 </div>
-                
+
                 <div className="relative z-10 flex items-center gap-4 text-sm font-medium text-blue-100">
                     <span>10.000+ Việc làm</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
@@ -93,7 +93,7 @@ const LoginPage = () => {
             <div className="flex-1 flex items-center justify-center bg-background p-6 sm:p-12 relative">
                 {/* Decorative background element for mobile */}
                 <div className="absolute top-0 left-0 w-full h-64 bg-primary lg:hidden rounded-b-[2.5rem]"></div>
-                
+
                 <div className="max-w-md w-full bg-white rounded-2xl shadow-elevated p-8 relative z-10 border border-gray-100/50">
                     <div className="text-center mb-8">
                         <Link to="/" className="lg:hidden inline-flex items-center gap-2 text-xl font-bold text-gray-900 mb-8">
@@ -118,7 +118,7 @@ const LoginPage = () => {
                                     const res = await loginGoogle(credentialResponse.credential);
                                     const loggedInUser = res?.user || user;
                                     const role = loggedInUser?.role?.name || loggedInUser?.role || '';
-                                    
+
                                     if (role === 'SUPER_ADMIN' || role === 'ADMIN' || role === 'MANAGER') {
                                         navigate('/admin');
                                     } else if (role === 'HR' || role === 'ROLE_HR') {
@@ -161,16 +161,17 @@ const LoginPage = () => {
                         </div>
 
                         <div>
-                            <div className="flex items-center justify-between mb-1.5">
-                                <label className="block text-sm font-semibold text-gray-700">Mật khẩu</label>
-                                <a href="#" className="text-sm font-medium text-primary hover:underline">Quên mật khẩu?</a>
-                            </div>
+                            <label className="block text-sm font-semibold text-gray-700">Mật khẩu</label>
                             <input
+
                                 {...register('password')}
                                 type="password"
                                 className={`w-full h-11 px-4 rounded-lg border ${errors.password ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:border-primary focus:ring-primary/20'} outline-none transition-all focus:ring-4 text-sm bg-gray-50/50 focus:bg-white`}
                                 placeholder="••••••••"
                             />
+                            <div className="flex items-center justify-between mb-1.5">
+                                <Link to="/forgot-password" className="text-sm font-medium text-primary hover:underline">Quên mật khẩu?</Link>
+                            </div>
                             {errors.password && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.password.message}</p>}
                         </div>
 

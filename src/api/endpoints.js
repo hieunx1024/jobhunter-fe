@@ -10,6 +10,8 @@ export const ENDPOINTS = {
         GET_ACCOUNT: `${API_BASE_URL}/auth/account`,
         CHANGE_PASSWORD: `${API_BASE_URL}/auth/change-password`,
         SOCIAL_ONBOARDING: `${API_BASE_URL}/auth/social-onboarding`,
+        FORGOT_PASSWORD: `${API_BASE_URL}/auth/forgot-password`,
+        RESET_PASSWORD: `${API_BASE_URL}/auth/reset-password`,
     },
     USERS: {
         BASE: `${API_BASE_URL}/users`,

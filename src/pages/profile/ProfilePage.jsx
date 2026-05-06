@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -19,9 +20,21 @@ const schema = yup.object().shape({
 
 const ProfilePage = () => {
     const { user, fetchAccount } = useAuth();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('info');
     const [loading, setLoading] = useState(false);
     const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            const role = user.role?.name || user.role || '';
+            if (role === 'CANDIDATE' || role === 'ROLE_CANDIDATE') {
+                navigate('/candidate/profile', { replace: true });
+            } else if (role === 'HR' || role === 'ROLE_HR') {
+                navigate('/hr/profile', { replace: true });
+            }
+        }
+    }, [user, navigate]);
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm({
         resolver: yupResolver(schema),

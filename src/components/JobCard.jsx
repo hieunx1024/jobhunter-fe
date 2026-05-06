@@ -1,9 +1,62 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, DollarSign, Clock, Building2, CalendarDays, Bookmark } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const JobCard = ({ job }) => {
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
+    const [savedJobs, setSavedJobs] = useState(() => {
+        const saved = localStorage.getItem('savedJobs');
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    useEffect(() => {
+        const handleSync = () => {
+            const saved = localStorage.getItem('savedJobs');
+            setSavedJobs(saved ? JSON.parse(saved) : []);
+        };
+        window.addEventListener('savedJobsUpdated', handleSync);
+        return () => window.removeEventListener('savedJobsUpdated', handleSync);
+    }, []);
+
+    const isSaved = savedJobs.some(sj => sj.id === job?.id);
+
+    const toggleSaveJob = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!isAuthenticated) {
+            toast.info("Vui lòng đăng nhập để lưu việc làm");
+            navigate('/login', { state: { from: `/jobs/${job.id}` } });
+            return;
+        }
+
+        if (!job) return;
+
+        let updatedSavedJobs;
+        if (isSaved) {
+            updatedSavedJobs = savedJobs.filter(sj => sj.id !== job.id);
+            toast.success("Đã bỏ lưu việc làm");
+        } else {
+            updatedSavedJobs = [...savedJobs, {
+                ...job,
+                savedAt: new Date().toISOString()
+            }];
+            toast.success("Đã lưu việc làm thành công!");
+        }
+
+        setSavedJobs(updatedSavedJobs);
+        localStorage.setItem('savedJobs', JSON.stringify(updatedSavedJobs));
+        
+        // Dispatch custom event to sync save states across other cards if they are on screen
+        window.dispatchEvent(new Event('savedJobsUpdated'));
+    };
+
     return (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#2563EB] transition-all duration-200 p-5 flex flex-col h-full group/card relative">
             <div className="flex items-start gap-4">
@@ -31,8 +84,11 @@ const JobCard = ({ job }) => {
                         </div>
                     </div>
                 </div>
-                <button className="absolute top-5 right-5 text-gray-400 hover:text-[#2563EB] transition-all duration-200">
-                    <Bookmark className="w-5 h-5 hover:fill-[#2563EB]" />
+                <button 
+                    onClick={toggleSaveJob}
+                    className="absolute top-5 right-5 text-gray-400 hover:text-[#2563EB] transition-all duration-200 z-10"
+                >
+                    <Bookmark className={`w-5 h-5 ${isSaved ? 'text-[#2563EB] fill-[#2563EB]' : 'hover:fill-[#2563EB]'}`} />
                 </button>
             </div>
 

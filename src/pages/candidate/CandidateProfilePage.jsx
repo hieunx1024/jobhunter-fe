@@ -14,8 +14,11 @@ import {
     Eye,
     Download,
     Trash2,
-    CheckCircle
+    CheckCircle,
+    KeyRound,
+    Lock
 } from 'lucide-react';
+import ChangePasswordModal from '../../components/profile/ChangePasswordModal';
 
 const CandidateProfilePage = () => {
     const { user, setUser } = useAuth();
@@ -32,6 +35,7 @@ const CandidateProfilePage = () => {
     const [loading, setLoading] = useState(false);
     const [uploadingCv, setUploadingCv] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
 
     const fetchProfile = async () => {
         try {
@@ -335,6 +339,28 @@ const CandidateProfilePage = () => {
                             </button>
                         </form>
                     </div>
+
+                    {/* Security Card */}
+                    <div className="bg-white rounded-2xl shadow-lg p-8 mt-6">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
+                            <KeyRound className="w-6 h-6 text-primary" />
+                            <span>Bảo mật tài khoản</span>
+                        </h2>
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 bg-gray-50 border border-gray-100 rounded-xl">
+                            <div className="text-left">
+                                <p className="font-semibold text-gray-800 text-sm">Mật khẩu đăng nhập</p>
+                                <p className="text-xs text-gray-500 mt-1">Nên thay đổi mật khẩu định kỳ để nâng cao tính bảo mật cho tài khoản của bạn.</p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setIsChangePasswordModalOpen(true)}
+                                className="px-6 py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-all flex items-center gap-2 flex-shrink-0 active:scale-95 shadow-md shadow-gray-900/10"
+                            >
+                                <Lock className="w-4 h-4" />
+                                Đổi mật khẩu
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 {/* CV Upload Section */}
@@ -460,6 +486,11 @@ const CandidateProfilePage = () => {
                     </div>
                 </div>
             </div>
+
+            <ChangePasswordModal
+                open={isChangePasswordModalOpen}
+                onCancel={() => setIsChangePasswordModalOpen(false)}
+            />
         </div>
     );
 };

@@ -106,7 +106,17 @@ const Header = () => {
                                             <p className="text-sm font-medium text-gray-900">{user?.name}</p>
                                             <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                                         </div>
-                                        <Link to="/profile" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors" onClick={() => setIsProfileOpen(false)}>
+                                        <Link 
+                                            to={
+                                                user?.role?.name === 'HR' || user?.role === 'ROLE_HR' || user?.role === 'HR'
+                                                ? '/hr/profile' 
+                                                : user?.role?.name === 'CANDIDATE' || user?.role === 'ROLE_CANDIDATE' || user?.role === 'CANDIDATE'
+                                                ? '/candidate/profile' 
+                                                : '/profile'
+                                            } 
+                                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors" 
+                                            onClick={() => setIsProfileOpen(false)}
+                                        >
                                             <User className="mr-3 h-4 w-4" /> Hồ sơ cá nhân
                                         </Link>
                                         <div className="sm:hidden border-t border-gray-100 mt-1 pt-1">
