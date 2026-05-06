@@ -14,9 +14,9 @@ const HRPricing = () => {
             name: 'Free',
             price: 0,
             features: [
-                'Đăng 2 tin tuyển dụng miễn phí',
-                'Hiển thị tiêu chuẩn',
-                'Quản lý hồ sơ cơ bản'
+                'Đăng tối đa 3 tin tuyển dụng miễn phí',
+                'Hiển thị tin tuyển dụng tiêu chuẩn',
+                'Quản lý danh sách hồ sơ ứng tuyển cơ bản'
             ],
             type: 'free'
         },
@@ -27,9 +27,9 @@ const HRPricing = () => {
             recommended: true,
             features: [
                 'Đăng tối đa 20 tin tuyển dụng',
-                'Đẩy Top tin trong 7 ngày',
-                'Lưu trữ hồ sơ không giới hạn',
-                'Hỗ trợ qua Email/Chat'
+                'Tự động làm mới tin (đẩy lên đầu trang) khi gia hạn',
+                'Xem thông tin hồ sơ và tải CV trực tiếp',
+                'Hỗ trợ giải đáp thắc mắc qua Email nhanh chóng'
             ],
             type: 'pro'
         },
@@ -38,11 +38,11 @@ const HRPricing = () => {
             name: 'Enterprise',
             price: 2000000,
             features: [
-                'Không giới hạn tin đăng',
-                'Đẩy Top tin thường xuyên',
-                'Quản lý đánh giá kỹ năng tự động',
-                'Hỗ trợ chuyên gia 24/7',
-                'Gợi ý CV bằng AI'
+                'Không giới hạn số tin tuyển dụng',
+                'Ưu tiên làm mới tin đăng (đẩy top) không giới hạn',
+                'Hệ thống quản lý trạng thái hồ sơ chuyên nghiệp',
+                'Lọc ứng viên phù hợp theo yêu cầu Kỹ năng (Skills)',
+                'Hỗ trợ riêng ưu tiên trực tiếp từ Quản trị viên'
             ],
             type: 'ent'
         }
@@ -108,7 +108,7 @@ const HRPricing = () => {
                                 <h3 className={`text-xl font-bold uppercase tracking-wider mb-4 ${plan.recommended ? 'text-indigo-600' : 'text-gray-500'}`}>{plan.name}</h3>
                                 <div className="flex justify-center items-end gap-1">
                                     <span className="text-4xl font-extrabold text-gray-900">{plan.price.toLocaleString()}</span>
-                                    <span className="text-gray-500 font-medium mb-1 tracking-wider"> VND</span>
+                                    <span className="text-gray-500 font-medium mb-1 tracking-wider"> VNĐ</span>
                                 </div>
                                 <p className="text-gray-400 mt-2 text-sm">/tháng</p>
                             </div>

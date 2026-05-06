@@ -4,7 +4,7 @@ import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import JobCard from '../../components/JobCard';
 import Pagination from '../../components/Pagination';
-import { Search, MapPin, Filter, FileText, Sparkles, X, Briefcase, DollarSign } from 'lucide-react';
+import { Search, MapPin, Filter, FileText, Sparkles, X, Briefcase, Coins } from 'lucide-react';
 import { Select } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 
@@ -155,7 +155,7 @@ const JobListPage = () => {
                                 )}
                                 {minSalary && (
                                     <span className="inline-flex items-center gap-1 bg-primary-light text-primary text-xs px-3 py-1 rounded-full font-medium">
-                                        <DollarSign className="w-3 h-3" /> {Number(minSalary).toLocaleString('vi-VN')} VNĐ
+                                        <Coins className="w-3 h-3" /> {Number(minSalary).toLocaleString('vi-VN')} VNĐ
                                     </span>
                                 )}
                                 {selectedSkills.length > 0 && selectedSkills.map(id => {
@@ -240,7 +240,7 @@ const JobListPage = () => {
                         <div>
                             <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Mức lương tối thiểu</div>
                             <div className="relative">
-                                <DollarSign className="absolute left-3 top-2.5 text-gray-400 w-4 h-4" />
+                                <Coins className="absolute left-3 top-2.5 text-gray-400 w-4 h-4" />
                                 <select
                                     className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors appearance-none cursor-pointer"
                                     value={minSalary}

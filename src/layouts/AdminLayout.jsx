@@ -5,6 +5,7 @@ import {
     LayoutDashboard,
     Users,
     Building2,
+    ClipboardCheck,
     Briefcase,
     FileText,
     LogOut,
@@ -49,6 +50,12 @@ const AdminLayout = () => {
             icon: <Building2 size={20} />,
             label: 'Quản lý Công ty',
             onClick: () => navigate('/admin/companies'),
+        },
+        {
+            key: '/admin/company-approvals',
+            icon: <ClipboardCheck size={20} />,
+            label: 'Phê duyệt Công ty',
+            onClick: () => navigate('/admin/company-approvals'),
         },
         {
             key: '/admin/jobs',

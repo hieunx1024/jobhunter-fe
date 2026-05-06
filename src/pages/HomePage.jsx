@@ -6,6 +6,7 @@ import { ENDPOINTS } from '../api/endpoints';
 import JobCard from '../components/JobCard';
 import JobCardSkeleton from '../components/JobCardSkeleton';
 import { useState } from 'react';
+import { getFileUrl } from '../utils/fileUtils';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -158,7 +159,7 @@ const HomePage = () => {
                                 <div className="flex flex-col items-center w-full">
                                     <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mb-4 border border-gray-100 shadow-sm p-2 group-hover:border-primary/30 transition-colors">
                                         {company.logo ? (
-                                            <img src={company.logo} alt={company.name} className="w-full h-full object-contain" />
+                                            <img src={getFileUrl(company.logo, 'company')} alt={company.name} className="w-full h-full object-contain" />
                                         ) : (
                                             <Building2 className="h-8 w-8 text-gray-400" />
                                         )}

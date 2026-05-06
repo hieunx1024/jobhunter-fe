@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Table, Button, Space, Popconfirm, message, Card, Tag, Input } from 'antd';
-import { DeleteOutlined, SearchOutlined, EnvironmentOutlined, DollarOutlined, BankOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SearchOutlined, EnvironmentOutlined, BankOutlined } from '@ant-design/icons';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 
@@ -68,10 +68,9 @@ const JobManagement = () => {
             dataIndex: 'salary',
             key: 'salary',
             render: (val) => (
-                <div className="flex items-center gap-1.5 text-green-600 font-semibold">
-                    <DollarOutlined />
-                    {val?.toLocaleString()} VNĐ
-                </div>
+                <span className="inline-flex items-center text-emerald-600 font-bold bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100/60 text-xs">
+                    {val ? `${val.toLocaleString()} VNĐ` : 'Thỏa thuận'}
+                </span>
             )
         },
         {

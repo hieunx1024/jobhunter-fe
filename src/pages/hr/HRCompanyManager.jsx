@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Input, Button, message, Spin, Upload, Alert } from 'antd';
-import { UploadOutlined, SaveOutlined, PlusOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { UploadOutlined, SaveOutlined, PlusOutlined, InfoCircleOutlined, FileTextOutlined } from '@ant-design/icons';
 import axios from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import { useAuth } from '../../context/AuthContext';
+import { openPDFDirectly, getFileUrl } from '../../utils/fileUtils';
 
 const { TextArea } = Input;
 
@@ -13,7 +14,9 @@ const HRCompanyManager = () => {
     const [submitting, setSubmitting] = useState(false);
     const [company, setCompany] = useState(null);
     const [hasCompany, setHasCompany] = useState(false);
+    const [registration, setRegistration] = useState(null);
     const { user, fetchAccount } = useAuth();
+    const logoUrlWatcher = Form.useWatch('logo', form);
 
     useEffect(() => {
         checkAndFetchCompany();
@@ -25,6 +28,9 @@ const HRCompanyManager = () => {
     const checkAndFetchCompany = async () => {
         try {
             setLoading(true);
+
+            // Fetch registration info first
+            await fetchMyRegistration();
 
             // Check user context first
             if (user?.company?.id) {
@@ -38,6 +44,23 @@ const HRCompanyManager = () => {
             console.error('Error checking company:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    /**
+     * Fetch HR's own company registration requests
+     */
+    const fetchMyRegistration = async () => {
+        try {
+            const res = await axios.get(ENDPOINTS.COMPANY_REGISTRATIONS.BASE);
+            const data = res.data?.data || res.data;
+            if (data?.result && data.result.length > 0) {
+                // Sort descending by ID to get the newest request first
+                const sorted = [...data.result].sort((a, b) => b.id - a.id);
+                setRegistration(sorted[0]);
+            }
+        } catch (error) {
+            console.error("Error fetching registration details:", error);
         }
     };
 
@@ -181,7 +204,7 @@ const HRCompanyManager = () => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            const logoUrl = response.data?.data?.fileName;
+            const logoUrl = response.data?.data?.fileName || response.data?.fileName;
             form.setFieldsValue({ logo: logoUrl });
             message.success('Tải logo thành công');
         } catch (error) {
@@ -211,19 +234,44 @@ const HRCompanyManager = () => {
                 </div>
             </div>
 
-            {/* Important Terms and Conditions Alert */}
-            <Alert
-                title={
-                    <span className="font-bold text-blue-800">Quy định quan trọng</span>
-                }
-                description={
-                    <span className="text-blue-700">Mỗi tài khoản HR chỉ được đại diện cho một doanh nghiệp duy nhất. Sau khi đăng ký, bạn chỉ có thể chỉnh sửa thông tin công ty đó, không thể chuyển sang công ty khác.</span>
-                }
-                type="info"
-                icon={<InfoCircleOutlined className="text-brand-900 mt-1" />}
-                showIcon
-                className="mb-8 rounded-2xl border-blue-100 bg-blue-50"
-            />
+
+            {/* Verification Status Card */}
+            {registration && (
+                <div className="mb-8 p-6 rounded-2xl bg-white border border-gray-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                        <div className={`p-3 rounded-xl ${
+                            registration.status === 'APPROVED' ? 'bg-green-50 text-green-600' :
+                            registration.status === 'REJECTED' ? 'bg-red-50 text-red-600' :
+                            'bg-yellow-50 text-yellow-600'
+                        }`}>
+                            <InfoCircleOutlined className="text-xl" />
+                        </div>
+                        <div>
+                            <h3 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                Trạng thái xác thực tài khoản:
+                                {registration.status === 'APPROVED' && <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-green-100 text-green-800">ĐÃ XÁC MINH</span>}
+                                {registration.status === 'REJECTED' && <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-red-100 text-red-800">BỊ TỪ CHỐI</span>}
+                                {registration.status === 'PENDING' && <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-yellow-100 text-yellow-800">ĐANG CHỜ DUYỆT</span>}
+                            </h3>
+                            <p className="text-xs text-gray-500 mt-1">
+                                {registration.status === 'APPROVED' ? 'Tài khoản của bạn đã được xác thực pháp lý thành công và có toàn quyền đăng tin tuyển dụng.' :
+                                 registration.status === 'REJECTED' ? `Hồ sơ bị từ chối. Lý do: ${registration.rejectionReason || 'Không có lý do cụ thể.'}` :
+                                 'Hồ sơ đăng ký đang chờ Ban quản trị duyệt.'}
+                            </p>
+                        </div>
+                    </div>
+                    {registration.verificationDocument && (
+                        <Button 
+                            type="default" 
+                            className="border-gray-200 hover:border-brand-900 hover:text-brand-900 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1"
+                            onClick={() => openPDFDirectly(registration.verificationDocument, 'company')}
+                            icon={<FileTextOutlined />}
+                        >
+                            Xem tài liệu minh chứng đã nộp
+                        </Button>
+                    )}
+                </div>
+            )}
 
             {/* Display banner during pending registration state */}
             {company?.isPendingRegistration && (
@@ -309,11 +357,11 @@ const HRCompanyManager = () => {
                                 </Upload>
                             </Form.Item>
 
-                            {form.getFieldValue('logo') && (
+                            {logoUrlWatcher && (
                                 <div className="mb-4">
                                     <p className="text-sm text-gray-600 mb-2">Xem trước logo:</p>
                                     <img
-                                        src={form.getFieldValue('logo')}
+                                        src={getFileUrl(logoUrlWatcher, 'company')}
                                         alt="Company Logo"
                                         className="w-32 h-32 object-contain border rounded"
                                     />

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Table, Button, Modal, Input, Space, Popconfirm, message, Card, Tooltip, Tag } from 'antd';
+import { Table, Button, Modal, Input, Space, Popconfirm, message, Card, Tooltip, Tag, Tabs } from 'antd';
 import { CheckOutlined, CloseOutlined, EyeOutlined, FileTextOutlined } from '@ant-design/icons';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
+import { openPDFDirectly, getFileUrl } from '../../utils/fileUtils';
 
 const CompanyApprovalsPage = () => {
     const queryClient = useQueryClient();
+    const [activeTab, setActiveTab] = useState('PENDING');
     const [viewingRequest, setViewingRequest] = useState(null);
     const [rejectReason, setRejectReason] = useState('');
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
@@ -17,14 +19,14 @@ const CompanyApprovalsPage = () => {
         pageSize: 10,
     });
 
-    // Fetch Pending Registrations
+    // Fetch Registrations dynamically based on selected tab status
     const { data, isLoading } = useQuery({
-        queryKey: ['company-registrations', pagination.current, pagination.pageSize],
+        queryKey: ['company-registrations', activeTab, pagination.current, pagination.pageSize],
         queryFn: async () => {
             const params = {
                 page: pagination.current,
                 size: pagination.pageSize,
-                filter: "status:'PENDING'"
+                filter: `status:'${activeTab}'`
             };
             const res = await axiosClient.get(ENDPOINTS.COMPANY_REGISTRATIONS.BASE, { params });
             return res.data;
@@ -67,6 +69,26 @@ const CompanyApprovalsPage = () => {
         setPagination(newPagination);
     };
 
+    const handleTabChange = (key) => {
+        setActiveTab(key);
+        setPagination(prev => ({ ...prev, current: 1 }));
+    };
+
+    const tabItems = [
+        {
+            key: 'PENDING',
+            label: 'Chờ phê duyệt',
+        },
+        {
+            key: 'APPROVED',
+            label: 'Đã phê duyệt',
+        },
+        {
+            key: 'REJECTED',
+            label: 'Bị từ chối',
+        }
+    ];
+
     const columns = [
         {
             title: 'Tên Công Ty',
@@ -95,10 +117,31 @@ const CompanyApprovalsPage = () => {
             dataIndex: 'verificationDocument',
             key: 'verificationDocument',
             render: (doc) => doc ? (
-                <a href={doc} target="_blank" rel="noreferrer" className="text-brand-900 hover:underline flex items-center gap-1">
-                    <FileTextOutlined /> Xem
-                </a>
+                <Button 
+                    type="link" 
+                    onClick={() => openPDFDirectly(doc, 'company')} 
+                    className="text-brand-900 p-0 hover:underline flex items-center gap-1"
+                    icon={<FileTextOutlined />}
+                >
+                    Xem
+                </Button>
             ) : <span className="text-gray-400">Không có</span>
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
+            render: (status, record) => {
+                if (status === 'APPROVED') return <Tag color="success">Đã phê duyệt</Tag>;
+                if (status === 'REJECTED') {
+                    return (
+                        <Tooltip title={record.rejectionReason || 'Không có lý do'}>
+                            <Tag color="error" className="cursor-pointer">Bị từ chối</Tag>
+                        </Tooltip>
+                    );
+                }
+                return <Tag color="warning">Chờ phê duyệt</Tag>;
+            }
         },
         {
             title: 'Ngày gửi',
@@ -114,19 +157,23 @@ const CompanyApprovalsPage = () => {
                     <Tooltip title="Xem chi tiết">
                         <Button icon={<EyeOutlined />} onClick={() => setViewingRequest(record)} />
                     </Tooltip>
-                    <Tooltip title="Phê duyệt">
-                        <Popconfirm
-                            title="Phê duyệt công ty này?"
-                            onConfirm={() => handleApprove(record.id)}
-                            okText="Yes"
-                            cancelText="No"
-                        >
-                            <Button type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} icon={<CheckOutlined />} className="bg-green-600" />
-                        </Popconfirm>
-                    </Tooltip>
-                    <Tooltip title="Từ chối">
-                        <Button danger icon={<CloseOutlined />} onClick={() => handleRejectClick(record.id)} />
-                    </Tooltip>
+                    {record.status === 'PENDING' && (
+                        <>
+                            <Tooltip title="Phê duyệt">
+                                <Popconfirm
+                                    title="Phê duyệt công ty này?"
+                                    onConfirm={() => handleApprove(record.id)}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <Button type="primary" style={{ backgroundColor: "#102a43", borderColor: "#102a43" }} icon={<CheckOutlined />} className="bg-green-600" />
+                                </Popconfirm>
+                            </Tooltip>
+                            <Tooltip title="Từ chối">
+                                <Button danger icon={<CloseOutlined />} onClick={() => handleRejectClick(record.id)} />
+                            </Tooltip>
+                        </>
+                    )}
                 </Space>
             ),
         },
@@ -137,6 +184,8 @@ const CompanyApprovalsPage = () => {
 
     return (
         <Card title="Phê duyệt Công ty">
+            <Tabs activeKey={activeTab} items={tabItems} onChange={handleTabChange} className="mb-4" />
+            
             <Table
                 columns={columns}
                 dataSource={dataSource}
@@ -173,7 +222,7 @@ const CompanyApprovalsPage = () => {
                 title="Chi tiết đăng ký"
                 open={!!viewingRequest}
                 onCancel={() => setViewingRequest(null)}
-                footer={[
+                footer={viewingRequest?.status === 'PENDING' ? [
                     <Button key="reject" danger onClick={() => {
                         handleRejectClick(viewingRequest.id);
                         setViewingRequest(null);
@@ -186,26 +235,46 @@ const CompanyApprovalsPage = () => {
                     }}>
                         Phê duyệt
                     </Button>,
+                ] : [
+                    <Button key="close" onClick={() => setViewingRequest(null)}>
+                        Đóng
+                    </Button>
                 ]}
                 width={700}
             >
                 {viewingRequest && (
-                    <div className="space-y-4">
+                    <div className="space-y-4 pt-2">
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="text-sm text-gray-500 block">Tên công ty</label>
-                                <div className="font-medium text-lg">{viewingRequest.companyName}</div>
+                                <div className="font-medium text-lg text-brand-900">{viewingRequest.companyName}</div>
                             </div>
                             <div>
-                                <label className="text-sm text-gray-500 block">Địa chỉ</label>
-                                <div className="font-medium">{viewingRequest.address}</div>
+                                <label className="text-sm text-gray-500 block">Trạng thái</label>
+                                <div className="mt-1">
+                                    {viewingRequest.status === 'APPROVED' && <Tag color="success">Đã phê duyệt</Tag>}
+                                    {viewingRequest.status === 'REJECTED' && <Tag color="error">Bị từ chối</Tag>}
+                                    {viewingRequest.status === 'PENDING' && <Tag color="warning">Đang chờ</Tag>}
+                                </div>
                             </div>
+                        </div>
+
+                        {viewingRequest.status === 'REJECTED' && (
+                            <div className="bg-red-50 p-4 rounded text-red-700 border border-red-100">
+                                <label className="text-sm font-semibold block mb-1">Lý do từ chối:</label>
+                                <div className="whitespace-pre-wrap">{viewingRequest.rejectionReason || 'Không có lý do cụ thể'}</div>
+                            </div>
+                        )}
+
+                        <div>
+                            <label className="text-sm text-gray-500 block">Địa chỉ</label>
+                            <div className="font-medium">{viewingRequest.address}</div>
                         </div>
 
                         <div>
                             <label className="text-sm text-gray-500 block">Mô tả</label>
                             <div className="bg-gray-50 p-4 rounded text-gray-700 whitespace-pre-wrap border">
-                                {viewingRequest.description}
+                                {viewingRequest.description || 'Không có mô tả.'}
                             </div>
                         </div>
 
@@ -224,10 +293,26 @@ const CompanyApprovalsPage = () => {
                             </div>
                         </div>
 
+                        <div className="border-t pt-4">
+                            <label className="text-sm text-gray-500 block">Tài liệu xác thực</label>
+                            {viewingRequest.verificationDocument ? (
+                                <Button 
+                                    type="link" 
+                                    onClick={() => openPDFDirectly(viewingRequest.verificationDocument, 'company')} 
+                                    className="text-brand-900 p-0 hover:underline flex items-center gap-1.5 font-semibold text-sm"
+                                    icon={<FileTextOutlined />}
+                                >
+                                    Xem tài liệu xác thực
+                                </Button>
+                            ) : (
+                                <span className="text-gray-400">Không có</span>
+                            )}
+                        </div>
+
                         {viewingRequest.logo && (
-                            <div>
+                            <div className="border-t pt-4">
                                 <label className="text-sm text-gray-500 block mb-2">Logo</label>
-                                <img src={viewingRequest.logo} alt="Company Logo" className="h-24 object-contain border rounded p-2" />
+                                <img src={getFileUrl(viewingRequest.logo, 'company')} alt="Company Logo" className="h-24 object-contain border rounded p-2 bg-white" />
                             </div>
                         )}
                     </div>

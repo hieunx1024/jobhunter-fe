@@ -4,6 +4,7 @@ import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import { MapPin, Globe, Users, ArrowLeft, Building, Mail, ExternalLink, Cpu, Heart, CheckCircle2, Facebook } from 'lucide-react';
 import JobCard from '../../components/JobCard';
+import { getFileUrl } from '../../utils/fileUtils';
 
 const CompanyDetailPage = () => {
     const { id } = useParams();
@@ -109,7 +110,7 @@ const CompanyDetailPage = () => {
                 <div className="bg-white rounded-2xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100 flex flex-col md:flex-row items-center md:items-end gap-6">
                     <div className="w-[80px] h-[80px] bg-white rounded-full border-[3px] border-white shadow-md -mt-[40px] md:mt-0 flex-shrink-0 overflow-hidden">
                         {company.logo ? (
-                            <img src={company.logo} alt={company.name} className="w-full h-full object-contain p-2" />
+                            <img src={getFileUrl(company.logo, 'company')} alt={company.name} className="w-full h-full object-contain p-2" />
                         ) : (
                             <div className="w-full h-full bg-[#F1F5F9] flex items-center justify-center text-[#64748B]">
                                 <Building className="w-10 h-10" />

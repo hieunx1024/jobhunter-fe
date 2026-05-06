@@ -2,7 +2,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
-import { MapPin, DollarSign, Calendar, Clock, Building2, ArrowLeft, CheckCircle, Share2, Briefcase, FileText, Send, User } from 'lucide-react';
+import { MapPin, Coins, Calendar, Clock, Building2, ArrowLeft, CheckCircle, Share2, Briefcase, FileText, Send, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Dropdown, Menu } from 'antd';
 import { FacebookOutlined, LinkedinOutlined, MailOutlined, CopyOutlined } from '@ant-design/icons';
+import { getFileUrl } from '../../utils/fileUtils';
 
 const JobDetailPage = () => {
     const { id } = useParams();
@@ -207,10 +208,10 @@ const JobDetailPage = () => {
                                     <Briefcase className="w-4 h-4 text-gray-400" />
                                     {job.level || 'Chưa cập nhật'}
                                 </span>
-                                <span className="flex items-center gap-1">
-                                    <DollarSign className="w-4 h-4 text-gray-400" />
-                                    {job.salary ? `${job.salary.toLocaleString()} VND` : 'Thỏa thuận'}
-                                </span>
+                                 <span className="flex items-center gap-1">
+                                     <Coins className="w-4 h-4 text-gray-400" />
+                                     {job.salary ? `${job.salary.toLocaleString()} VNĐ` : 'Thỏa thuận'}
+                                 </span>
                             </div>
                             <div className="text-xs text-gray-400 mt-3 flex items-center gap-1">
                                 <Clock className="w-3.5 h-3.5" />
@@ -261,7 +262,7 @@ const JobDetailPage = () => {
                         <div className="mb-4">
                             <span className="text-sm text-gray-500 block mb-1">Mức lương</span>
                             <div className="text-xl font-bold text-accent">
-                                {job.salary ? `${job.salary.toLocaleString()} VND` : 'Thỏa thuận'}
+                                {job.salary ? `${job.salary.toLocaleString()} VNĐ` : 'Thỏa thuận'}
                             </div>
                             <div className="text-sm text-gray-500 mt-2 flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
@@ -359,7 +360,7 @@ const JobDetailPage = () => {
                         <div className="flex gap-4 mb-4">
                             <div className="w-16 h-16 rounded-xl border border-gray-100 p-2 flex items-center justify-center shrink-0">
                                 {job.company?.logo ? (
-                                    <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain" />
+                                    <img src={getFileUrl(job.company.logo, 'company')} alt={job.company.name} className="w-full h-full object-contain" />
                                 ) : (
                                     <Building2 className="w-8 h-8 text-gray-300" />
                                 )}

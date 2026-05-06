@@ -37,7 +37,20 @@
   .ant-picker {
     height: 40px !important;
     border-radius: 10px !important;
-    border-color: #E5E7EB !important;
+    border: 1px solid #E5E7EB !important;
+  }
+
+  /* Fix inner input of affix wrapper to prevent double borders */
+  .ant-input-affix-wrapper .ant-input,
+  .ant-input-affix-wrapper .ant-input:focus,
+  .ant-input-affix-wrapper .ant-input:focus-visible,
+  .ant-form-item-has-error .ant-input-affix-wrapper .ant-input,
+  .ant-form-item-has-error .ant-input-affix-wrapper .ant-input:focus,
+  .ant-form-item-has-error .ant-input-affix-wrapper .ant-input:focus-visible {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
   }
 
   /* Fix Input.Search / Input.Group border radius overlap */
@@ -69,7 +82,11 @@
     /* Fix overlap hiding border */
   }
 
-  .ant-form-item-has-error .ant-input {
+  /* Style error states correctly on both standalone inputs and affix wrappers */
+  .ant-form-item-has-error .ant-input,
+  .ant-form-item-has-error .ant-input-affix-wrapper,
+  .ant-form-item-has-error .ant-select-selector,
+  .ant-form-item-has-error .ant-picker {
     border-color: #EF4444 !important;
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
   }

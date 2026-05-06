@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MapPin, DollarSign, Clock, Building2, CalendarDays, Bookmark } from 'lucide-react';
+import { MapPin, Coins, Clock, Building2, CalendarDays, Bookmark, Sparkles } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import { getFileUrl } from '../utils/fileUtils';
 
 const JobCard = ({ job }) => {
     const { isAuthenticated } = useAuth();
@@ -57,12 +58,23 @@ const JobCard = ({ job }) => {
         window.dispatchEvent(new Event('savedJobsUpdated'));
     };
 
+    const isPremium = job.activeSubscriptionCount > 0;
+
     return (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#2563EB] transition-all duration-200 p-5 flex flex-col h-full group/card relative">
+        <div className={`rounded-2xl border shadow-sm transition-all duration-200 p-5 flex flex-col h-full group/card relative ${
+            isPremium 
+                ? 'border-[#F59E0B]/50 hover:border-[#F59E0B] bg-gradient-to-br from-amber-50/20 via-white to-amber-50/10 shadow-amber-50/40' 
+                : 'bg-white border-gray-100 hover:shadow-md hover:border-[#2563EB]'
+        }`}>
+            {isPremium && (
+                <div className="absolute top-0 left-6 -translate-y-1/2 bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm flex items-center gap-1 z-10 select-none">
+                    <Sparkles className="w-3 h-3 fill-white" /> Nổi bật
+                </div>
+            )}
             <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
                     {job.company?.logo ? (
-                        <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain p-1.5" />
+                        <img src={getFileUrl(job.company.logo, 'company')} alt={job.company.name} className="w-full h-full object-contain p-1.5" />
                     ) : (
                         <Building2 className="w-6 h-6 text-gray-400" />
                     )}
@@ -73,14 +85,13 @@ const JobCard = ({ job }) => {
                             {job.name}
                         </h3>
                     </Link>
-                    <div className="flex items-center gap-2 text-[14px] text-[#64748B]">
-                        <Link to={`/companies/${job.company?.id}`} className="hover:text-[#2563EB] transition-colors font-medium">
+                    <div className="flex flex-col gap-0.5 mt-1 text-[13px] text-[#64748B]">
+                        <Link to={`/companies/${job.company?.id}`} className="hover:text-[#2563EB] transition-colors font-medium truncate block text-[14px]" title={job.company?.name}>
                             {job.company?.name || 'Company Name'}
                         </Link>
-                        <span>•</span>
                         <div className="flex items-center gap-1">
-                            <MapPin className="w-3.5 h-3.5" />
-                            <span className="truncate max-w-[150px]" title={job.location}>{job.location}</span>
+                            <MapPin className="w-3.5 h-3.5 text-[#94A3B8]" />
+                            <span className="truncate" title={job.location}>{job.location}</span>
                         </div>
                     </div>
                 </div>
@@ -93,16 +104,16 @@ const JobCard = ({ job }) => {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
-                <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#F0FDF4] text-[#16A34A] text-[13px] font-medium">
-                    <DollarSign className="w-3.5 h-3.5 mr-0.5" />
-                    {job.salary ? job.salary.toLocaleString() : 'Thỏa thuận'}
+                <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#F0FDF4] text-[#16A34A] text-[13px] font-semibold">
+                    <Coins className="w-3.5 h-3.5 mr-1" />
+                    {job.salary ? `${job.salary.toLocaleString()} VNĐ` : 'Thỏa thuận'}
                 </div>
                 <div className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#F1F5F9] text-[#475569] text-[13px] font-medium">
                     {job.type || 'Full-time'}
                 </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between">
+            <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
                     <Clock className="w-3.5 h-3.5" />
                     {job.createdAt ? formatDistanceToNow(new Date(job.createdAt), { addSuffix: true, locale: vi }) : 'Mới đăng'}

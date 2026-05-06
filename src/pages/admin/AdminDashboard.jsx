@@ -33,7 +33,7 @@ const AdminDashboard = () => {
     );
 
     const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount || 0);
+        return `${(amount || 0).toLocaleString('vi-VN')} VNĐ`;
     };
 
     const chartData = [

@@ -82,3 +82,17 @@ export const openPDFDirectly = async (fileName, folder = 'resume') => {
         isOpening = false;
     }
 };
+
+/**
+ * Get fully qualified URL for images or uploaded files
+ */
+export const getFileUrl = (fileName, folder = 'company') => {
+    if (!fileName) return '';
+    if (typeof fileName === 'string' && (fileName.startsWith('http://') || fileName.startsWith('https://'))) {
+        return fileName;
+    }
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+    // Remove the "/api/v1" suffix to get the backend base host URL, then append the whitelisted "/storage/" path
+    const hostUrl = apiUrl.replace(/\/api\/v1\/?$/, '');
+    return `${hostUrl}/storage/${folder}/${fileName}`;
+};

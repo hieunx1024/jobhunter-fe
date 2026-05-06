@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Building2, ArrowRight, Briefcase } from 'lucide-react';
+import { getFileUrl } from '../utils/fileUtils';
 
 const CompanyCard = ({ company }) => {
     return (
@@ -7,7 +8,7 @@ const CompanyCard = ({ company }) => {
             <div className="flex items-start gap-4 mb-4 z-10">
                 <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100 flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
                     {company.logo ? (
-                        <img src={company.logo} alt={company.name} className="w-full h-full object-contain p-2" />
+                        <img src={getFileUrl(company.logo, 'company')} alt={company.name} className="w-full h-full object-contain p-2" />
                     ) : (
                         <Building2 className="w-8 h-8 text-brand-900" />
                     )}
