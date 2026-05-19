@@ -12,7 +12,6 @@ import { useAuth } from '../../context/AuthContext';
 const RegisterCompanyPage = () => {
     const navigate = useNavigate();
     const { user, fetchAccount } = useAuth();
-    const [verificationMethod, setVerificationMethod] = useState('FILE');
     const [uploading, setUploading] = useState(false);
     const [uploadedFileName, setUploadedFileName] = useState('');
     const [uploadingLogo, setUploadingLogo] = useState(false);
@@ -259,86 +258,49 @@ const RegisterCompanyPage = () => {
                             </div>
 
                             <div className="flex flex-col">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Hình thức xác thực công ty</label>
-                                <div className="flex gap-2 p-1 bg-gray-100 rounded-lg mb-3 w-fit">
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            setVerificationMethod('FILE');
-                                            setValue('verificationDocument', uploadedFileName ? verificationDocument : '');
-                                        }}
-                                        className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${verificationMethod === 'FILE' ? 'bg-white text-brand-900 shadow-sm' : 'text-gray-500 hover:text-gray-800'}`}
-                                    >
-                                        Tải tài liệu lên (.pdf, .png...)
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            setVerificationMethod('LINK');
-                                            setValue('verificationDocument', uploadedFileName ? '' : verificationDocument);
-                                        }}
-                                        className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${verificationMethod === 'LINK' ? 'bg-white text-brand-900 shadow-sm' : 'text-gray-500 hover:text-gray-800'}`}
-                                    >
-                                        Nhập liên kết (Drive/Dropbox...)
-                                    </button>
-                                </div>
-
-                                {verificationMethod === 'FILE' ? (
-                                    <div className="space-y-2">
-                                        {uploadedFileName ? (
-                                            <div className="flex items-center justify-between p-3 border border-green-200 bg-green-50 rounded-xl">
-                                                <div className="flex items-center gap-2 overflow-hidden mr-2">
-                                                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
-                                                    <div className="overflow-hidden">
-                                                        <div className="font-semibold text-gray-800 text-xs truncate">{uploadedFileName}</div>
-                                                        <div className="text-[10px] text-gray-500">Đã tải lên</div>
-                                                    </div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Tài liệu xác thực công ty</label>
+                                <div className="space-y-2">
+                                    {uploadedFileName ? (
+                                        <div className="flex items-center justify-between p-3 border border-green-200 bg-green-50 rounded-xl">
+                                            <div className="flex items-center gap-2 overflow-hidden mr-2">
+                                                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                                                <div className="overflow-hidden">
+                                                    <div className="font-semibold text-gray-800 text-xs truncate">{uploadedFileName}</div>
+                                                    <div className="text-[10px] text-gray-500">Đã tải lên</div>
                                                 </div>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setUploadedFileName('');
-                                                        setValue('verificationDocument', '');
-                                                    }}
-                                                    className="text-[11px] font-bold text-red-600 hover:underline flex-shrink-0"
-                                                >
-                                                    Thay đổi
-                                                </button>
                                             </div>
-                                        ) : (
-                                            <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50/50 transition duration-200">
-                                                <div className="flex flex-col items-center text-center">
-                                                    <FileText className={`w-8 h-8 mb-1.5 ${uploading ? 'text-blue-500 animate-bounce' : 'text-gray-400'}`} />
-                                                    <span className="text-xs font-bold text-gray-700">
-                                                        {uploading ? 'Đang tải lên...' : 'Chọn file tài liệu pháp lý'}
-                                                    </span>
-                                                    <span className="text-[10px] text-gray-400 mt-0.5">
-                                                        PDF, PNG, JPG, DOCX (Max 10MB)
-                                                    </span>
-                                                </div>
-                                                <input
-                                                    type="file"
-                                                    className="hidden"
-                                                    onChange={handleFileUpload}
-                                                    disabled={uploading}
-                                                />
-                                            </label>
-                                        )}
-                                        {errors.verificationDocument && <span className="text-red-500 text-xs">{errors.verificationDocument.message}</span>}
-                                    </div>
-                                ) : (
-                                    <div className="space-y-1">
-                                        <div className="relative">
-                                            <FileText className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
-                                            <input
-                                                {...register('verificationDocument', { required: 'Vui lòng nhập liên kết tài liệu xác thực' })}
-                                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-                                                placeholder="Link Google Drive chứa giấy phép kinh doanh..."
-                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setUploadedFileName('');
+                                                    setValue('verificationDocument', '');
+                                                }}
+                                                className="text-[11px] font-bold text-red-600 hover:underline flex-shrink-0"
+                                            >
+                                                Thay đổi
+                                            </button>
                                         </div>
-                                        {errors.verificationDocument && <span className="text-red-500 text-xs mt-1">{errors.verificationDocument.message}</span>}
-                                    </div>
-                                )}
+                                    ) : (
+                                        <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50/50 transition duration-200">
+                                            <div className="flex flex-col items-center text-center">
+                                                <FileText className={`w-8 h-8 mb-1.5 ${uploading ? 'text-blue-500 animate-bounce' : 'text-gray-400'}`} />
+                                                <span className="text-xs font-bold text-gray-700">
+                                                    {uploading ? 'Đang tải lên...' : 'Chọn file tài liệu pháp lý'}
+                                                </span>
+                                                <span className="text-[10px] text-gray-400 mt-0.5">
+                                                    PDF, PNG, JPG, DOCX (Max 10MB)
+                                                </span>
+                                            </div>
+                                            <input
+                                                type="file"
+                                                className="hidden"
+                                                onChange={handleFileUpload}
+                                                disabled={uploading}
+                                            />
+                                        </label>
+                                    )}
+                                    {errors.verificationDocument && <span className="text-red-500 text-xs">{errors.verificationDocument.message}</span>}
+                                </div>
                             </div>
 
                             <div>

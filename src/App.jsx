@@ -43,7 +43,9 @@ import PrivacyPage from './pages/PrivacyPage';
 function App() {
   const location = useLocation();
   const hideChatbotPaths = ['/login', '/register', '/select-role', '/forgot-password', '/reset-password'];
-  const shouldHideChatbot = hideChatbotPaths.includes(location.pathname);
+  const shouldHideChatbot = hideChatbotPaths.includes(location.pathname) || 
+                            location.pathname.startsWith('/hr') || 
+                            location.pathname.startsWith('/admin');
 
   return (
     <>

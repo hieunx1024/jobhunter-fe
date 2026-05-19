@@ -29,7 +29,7 @@ const CompanyListPage = () => {
                 sort: 'updatedAt,desc'
             };
             if (debouncedSearch) {
-                params.filter = `name~'${debouncedSearch}'`;
+                params.filter = `lower(name) ~ '${debouncedSearch.toLowerCase()}'`;
             }
             // Use PUBLIC endpoint
             const res = await axiosClient.get(ENDPOINTS.COMPANIES.PUBLIC, { params });

@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { VIETNAM_PROVINCES } from '../../utils/vietnamProvinces';
 import { toast } from 'react-toastify';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
@@ -11,7 +12,17 @@ import { User, Mail, ShieldCheck, MapPin, Calendar, Edit3, KeyRound, Loader2, Sa
 
 const schema = yup.object().shape({
     name: yup.string().required('Tên hiển thị không được để trống'),
-    age: yup.number().typeError('Tuổi phải là số').required('Tuổi không được để trống').min(18, 'Phải trên 18 tuổi').max(100, 'Tuổi không hợp lệ'),
+    dateOfBirth: yup.string().required('Ngày sinh không được để trống').test('is-18', 'Phải trên 18 tuổi', value => {
+        if (!value) return false;
+        const birthDate = new Date(value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age >= 18;
+    }),
     gender: yup.string().required('Vui lòng chọn giới tính'),
     address: yup.string().required('Địa chỉ không được để trống'),
 });
@@ -29,7 +40,7 @@ const HRProfilePage = () => {
     useEffect(() => {
         if (user) {
             setValue('name', user.name);
-            setValue('age', user.age);
+            setValue('dateOfBirth', user.dateOfBirth);
             setValue('gender', user.gender);
             setValue('address', user.address);
         }
@@ -41,7 +52,7 @@ const HRProfilePage = () => {
             const submitData = new FormData();
             submitData.append('name', data.name);
             submitData.append('address', data.address);
-            submitData.append('age', data.age);
+            submitData.append('dateOfBirth', data.dateOfBirth);
             submitData.append('gender', data.gender);
 
             await axiosClient.post(ENDPOINTS.PROFILE.BASE, submitData, {
@@ -103,13 +114,15 @@ const HRProfilePage = () => {
                             <User className={`w-5 h-5 ${activeTab === 'info' ? 'text-primary' : 'text-gray-400'}`} />
                             Thông tin chung
                         </button>
-                        <button
-                            onClick={() => setActiveTab('password')}
-                            className={`w-full flex items-center gap-3 px-5 py-4 rounded-xl transition-all duration-200 font-medium ${activeTab === 'password' ? 'bg-white shadow-sm border border-gray-100 text-primary' : 'text-gray-600 hover:bg-white/60 hover:text-gray-900'}`}
-                        >
-                            <ShieldCheck className={`w-5 h-5 ${activeTab === 'password' ? 'text-primary' : 'text-gray-400'}`} />
-                            Đổi mật khẩu
-                        </button>
+                        {user?.provider !== 'GOOGLE' && (
+                            <button
+                                onClick={() => setActiveTab('password')}
+                                className={`w-full flex items-center gap-3 px-5 py-4 rounded-xl transition-all duration-200 font-medium ${activeTab === 'password' ? 'bg-white shadow-sm border border-gray-100 text-primary' : 'text-gray-600 hover:bg-white/60 hover:text-gray-900'}`}
+                            >
+                                <ShieldCheck className={`w-5 h-5 ${activeTab === 'password' ? 'text-primary' : 'text-gray-400'}`} />
+                                Đổi mật khẩu
+                            </button>
+                        )}
                     </div>
 
                     {/* Content Panel */}
@@ -135,15 +148,14 @@ const HRProfilePage = () => {
 
                                             <div>
                                                 <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                                    <Calendar className="w-4 h-4 text-gray-400" /> Tuổi
+                                                    <Calendar className="w-4 h-4 text-gray-400" /> Ngày sinh
                                                 </label>
                                                 <input
-                                                    type="number"
-                                                    {...register('age')}
-                                                    className={`w-full px-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none ${errors.age ? 'border-red-500' : 'border-gray-200'}`}
-                                                    placeholder="Nhập tuổi"
+                                                    type="date"
+                                                    {...register('dateOfBirth')}
+                                                    className={`w-full px-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-200'}`}
                                                 />
-                                                {errors.age && <p className="mt-1 text-sm text-red-500">{errors.age.message}</p>}
+                                                {errors.dateOfBirth && <p className="mt-1 text-sm text-red-500">{errors.dateOfBirth.message}</p>}
                                             </div>
 
                                             <div className="sm:col-span-2">
@@ -164,12 +176,15 @@ const HRProfilePage = () => {
                                                 <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                                     <MapPin className="w-4 h-4 text-gray-400" /> Địa chỉ
                                                 </label>
-                                                <textarea
+                                                <select
                                                     {...register('address')}
-                                                    rows="3"
-                                                    className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none resize-none ${errors.address ? 'border-red-500' : 'border-gray-200'}`}
-                                                    placeholder="Nhập địa chỉ của bạn"
-                                                ></textarea>
+                                                    className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none ${errors.address ? 'border-red-500' : 'border-gray-200'} appearance-none`}
+                                                >
+                                                    <option value="">Chọn Tỉnh/Thành phố</option>
+                                                    {VIETNAM_PROVINCES.map(province => (
+                                                        <option key={province} value={province}>{province}</option>
+                                                    ))}
+                                                </select>
                                                 {errors.address && <p className="mt-1 text-sm text-red-500">{errors.address.message}</p>}
                                             </div>
                                         </div>

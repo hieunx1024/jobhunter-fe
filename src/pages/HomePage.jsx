@@ -116,7 +116,7 @@ const HomePage = () => {
             <section className="max-w-screen-xl mx-auto px-6 pt-16">
                 <div className="flex justify-between items-end mb-8">
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-900">Việc Làm Mới Nhất</h2>
+                        <h2 className="text-2xl font-bold text-gray-900">Việc Làm Nổi Bật</h2>
                         <p className="text-gray-500 mt-1 text-sm">Những cơ hội nghề nghiệp tốt nhất được cập nhật liên tục.</p>
                     </div>
                     <Link to="/jobs" className="text-primary text-sm font-semibold hover:underline flex items-center gap-1">
@@ -157,9 +157,9 @@ const HomePage = () => {
                                 className="bg-white p-6 rounded-xl border border-gray-100 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center group h-full justify-between"
                             >
                                 <div className="flex flex-col items-center w-full">
-                                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mb-4 border border-gray-100 shadow-sm p-2 group-hover:border-primary/30 transition-colors">
+                                    <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mb-4 border border-gray-100 shadow-sm group-hover:border-primary/30 transition-colors overflow-hidden">
                                         {company.logo ? (
-                                            <img src={getFileUrl(company.logo, 'company')} alt={company.name} className="w-full h-full object-contain" />
+                                            <img src={getFileUrl(company.logo, 'company')} alt={company.name} className="w-full h-full object-cover" />
                                         ) : (
                                             <Building2 className="h-8 w-8 text-gray-400" />
                                         )}

@@ -110,7 +110,7 @@ const CompanyDetailPage = () => {
                 <div className="bg-white rounded-2xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.10)] border border-gray-100 flex flex-col md:flex-row items-center md:items-end gap-6">
                     <div className="w-[80px] h-[80px] bg-white rounded-full border-[3px] border-white shadow-md -mt-[40px] md:mt-0 flex-shrink-0 overflow-hidden">
                         {company.logo ? (
-                            <img src={getFileUrl(company.logo, 'company')} alt={company.name} className="w-full h-full object-contain p-2" />
+                            <img src={getFileUrl(company.logo, 'company')} alt={company.name} className="w-full h-full object-cover" />
                         ) : (
                             <div className="w-full h-full bg-[#F1F5F9] flex items-center justify-center text-[#64748B]">
                                 <Building className="w-10 h-10" />
@@ -177,23 +177,7 @@ const CompanyDetailPage = () => {
                             )}
                         </section>
 
-                        {/* 3. Phúc lợi */}
-                        <section className="bg-white rounded-2xl p-[28px] shadow-sm border border-gray-100">
-                            <h2 className="text-[18px] font-semibold text-[#1A202C] mb-6 border-l-4 border-[#2563EB] pl-[12px] flex items-center">
-                                Phúc lợi
-                            </h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {defaultBenefits.map((benefit, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="flex items-center gap-4 p-[16px_20px] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover:border-[#2563EB] hover:bg-white transition-all duration-200 group"
-                                    >
-                                        <span className="text-[32px] group-hover:scale-110 transition-transform">{benefit.icon}</span>
-                                        <span className="text-[14px] font-medium text-[#1A202C]">{benefit.label}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
+
 
                         {/* 4. Danh sách tuyển dụng */}
                         <section id="jobs-section" className="bg-white rounded-2xl p-[28px] shadow-sm border border-gray-100">
@@ -227,70 +211,42 @@ const CompanyDetailPage = () => {
                     {/* Right Column - Sticky */}
                     <aside className="relative">
                         <div className="sticky top-6 flex flex-col gap-6">
-                            {/* Contact Card */}
+
+
+                            {/* 3. Phúc lợi */}
                             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                                 <h3 className="text-[18px] font-semibold text-[#1A202C] mb-6 flex items-center gap-2">
-                                    Thông tin liên hệ
+                                    Phúc lợi công ty
                                 </h3>
-
-                                <div className="space-y-5">
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
-                                            <Mail className="w-5 h-5" />
+                                <div className="flex flex-col gap-3">
+                                    {defaultBenefits.map((benefit, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="flex items-center gap-3 p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover:border-[#2563EB] hover:bg-white transition-all duration-200 group"
+                                        >
+                                            <span className="text-[24px] group-hover:scale-110 transition-transform">{benefit.icon}</span>
+                                            <span className="text-[14px] font-medium text-[#1A202C]">{benefit.label}</span>
                                         </div>
-                                        <div className="min-w-0 flex-1">
-                                            <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Email liên hệ</p>
-                                            <p className="text-[14px] text-[#1A202C] truncate font-medium" title={jobsData?.result?.[0]?.createdBy || company.createdBy}>
-                                                {jobsData?.result?.[0]?.createdBy || company.createdBy || 'hr@company.com'}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {company.githubLink && (
-                                        <div className="flex items-start gap-4">
-                                            <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
-                                                <Globe className="w-5 h-5" />
-                                            </div>
-                                            <div className="min-w-0 flex-1">
-                                                <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Website chính thức</p>
-                                                <a href={company.githubLink} target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#2563EB] truncate font-medium hover:underline block">
-                                                    {company.githubLink.replace(/^https?:\/\/(www\.)?/, '')}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {company.facebookLink && (
-                                        <div className="flex items-start gap-4">
-                                            <div className="w-10 h-10 bg-[#EFF6FF] rounded-lg flex items-center justify-center flex-shrink-0 text-[#2563EB]">
-                                                <Facebook className="w-5 h-5" />
-                                            </div>
-                                            <div className="min-w-0 flex-1">
-                                                <p className="text-[12px] font-semibold text-[#64748B] uppercase tracking-wider mb-0.5">Facebook Fanpage</p>
-                                                <a href={company.facebookLink} target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#2563EB] truncate font-medium hover:underline block">
-                                                    {company.facebookLink.replace(/^https?:\/\/(www\.)?facebook\.com\//, '') || 'Facebook'}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    )}
+                                    ))}
                                 </div>
                             </div>
 
-                            {/* Stats Card (Optional but looks professional) */}
-                            <div className="bg-gradient-to-br from-[#1B4F8A] to-[#0A2540] rounded-2xl p-6 text-white shadow-md overflow-hidden relative">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
-                                <h4 className="text-[16px] font-bold mb-4 relative z-10">Tại sao chọn chúng tôi?</h4>
-                                <ul className="space-y-3 relative z-10">
-                                    <li className="flex items-start gap-2 text-[13px] text-white/90">
-                                        <CheckCircle2 className="w-4 h-4 text-[#4ade80] flex-shrink-0" />
+                            {/* Why Choose Us Card */}
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                <h3 className="text-[18px] font-semibold text-[#1A202C] mb-4 flex items-center gap-2">
+                                    Tại sao chọn chúng tôi?
+                                </h3>
+                                <ul className="space-y-3">
+                                    <li className="flex items-start gap-2 text-[14px] text-[#475569]">
+                                        <CheckCircle2 className="w-4 h-4 text-[#16A34A] flex-shrink-0 mt-0.5" />
                                         Môi trường làm việc năng động, sáng tạo.
                                     </li>
-                                    <li className="flex items-start gap-2 text-[13px] text-white/90">
-                                        <CheckCircle2 className="w-4 h-4 text-[#4ade80] flex-shrink-0" />
+                                    <li className="flex items-start gap-2 text-[14px] text-[#475569]">
+                                        <CheckCircle2 className="w-4 h-4 text-[#16A34A] flex-shrink-0 mt-0.5" />
                                         Lộ trình thăng tiến rõ ràng, minh bạch.
                                     </li>
-                                    <li className="flex items-start gap-2 text-[13px] text-white/90">
-                                        <CheckCircle2 className="w-4 h-4 text-[#4ade80] flex-shrink-0" />
+                                    <li className="flex items-start gap-2 text-[14px] text-[#475569]">
+                                        <CheckCircle2 className="w-4 h-4 text-[#16A34A] flex-shrink-0 mt-0.5" />
                                         Chế độ đãi ngộ hấp dẫn, cạnh tranh.
                                     </li>
                                 </ul>

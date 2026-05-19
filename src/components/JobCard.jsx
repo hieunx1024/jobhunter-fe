@@ -74,7 +74,7 @@ const JobCard = ({ job }) => {
             <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
                     {job.company?.logo ? (
-                        <img src={getFileUrl(job.company.logo, 'company')} alt={job.company.name} className="w-full h-full object-contain p-1.5" />
+                        <img src={getFileUrl(job.company.logo, 'company')} alt={job.company.name} className="w-full h-full object-cover" />
                     ) : (
                         <Building2 className="w-6 h-6 text-gray-400" />
                     )}

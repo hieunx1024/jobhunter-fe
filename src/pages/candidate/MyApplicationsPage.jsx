@@ -24,6 +24,7 @@ const MyApplicationsPage = () => {
     });
     const [filterStatus, setFilterStatus] = useState('ALL');
     const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
     const [stats, setStats] = useState({
         total: 0,
         pending: 0,
@@ -37,8 +38,19 @@ const MyApplicationsPage = () => {
     }, []);
 
     useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        setPagination(prev => ({ ...prev, current: 1 }));
+    }, [debouncedSearch, filterStatus]);
+
+    useEffect(() => {
         fetchApplications();
-    }, [pagination.current, pagination.pageSize, filterStatus]);
+    }, [pagination.current, pagination.pageSize, filterStatus, debouncedSearch]);
 
     const fetchStats = async () => {
         try {
@@ -59,13 +71,16 @@ const MyApplicationsPage = () => {
                 sort: 'createdAt,desc'
             };
 
+            let filterArray = [];
             if (filterStatus !== 'ALL') {
-                queryParams.filter = `status:'${filterStatus}'`;
+                filterArray.push(`status:'${filterStatus}'`);
             }
-
-            // Note: Search term implementation depends on backend support. 
-            // For now, client-side search is removed because it conflicts with server-side pagination.
-            // If search is needed, backend must support searching resumes by job name (requires join).
+            if (debouncedSearch) {
+                filterArray.push(`job.name~'${debouncedSearch}'`);
+            }
+            if (filterArray.length > 0) {
+                queryParams.filter = filterArray.join(' and ');
+            }
 
             const response = await axiosClient.get(ENDPOINTS.RESUMES.MY_HISTORY, {
                 params: queryParams

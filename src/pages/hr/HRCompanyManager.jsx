@@ -1,10 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Card, Form, Input, Button, message, Spin, Upload, Alert } from 'antd';
+import ReactDOM from 'react-dom';
+
+// Polyfill for findDOMNode in React 19 for react-quill
+if (!ReactDOM.findDOMNode) {
+    ReactDOM.findDOMNode = (instance) => {
+        if (!instance) return null;
+        if (instance instanceof HTMLElement) return instance;
+        return null;
+    };
+}
+
+import { Card, Form, Input, Button, message, Spin, Upload, Alert, Select } from 'antd';
 import { UploadOutlined, SaveOutlined, PlusOutlined, InfoCircleOutlined, FileTextOutlined } from '@ant-design/icons';
 import axios from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import { useAuth } from '../../context/AuthContext';
 import { openPDFDirectly, getFileUrl } from '../../utils/fileUtils';
+import { VIETNAM_PROVINCES } from '../../utils/vietnamProvinces';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const { TextArea } = Input;
 
@@ -308,26 +322,31 @@ const HRCompanyManager = () => {
 
                             <Form.Item
                                 name="address"
-                                label="Địa chỉ"
-                                rules={[{ required: true, message: 'Vui lòng nhập địa chỉ' }]}
+                                label="Địa chỉ (Tỉnh/Thành phố)"
+                                rules={[{ required: true, message: 'Vui lòng chọn Tỉnh/Thành phố' }]}
                             >
-                                <Input placeholder="Nhập địa chỉ công ty" size="large" />
+                                <Select placeholder="Chọn Tỉnh/Thành phố" size="large">
+                                    {VIETNAM_PROVINCES.map(province => (
+                                        <Select.Option key={province} value={province}>{province}</Select.Option>
+                                    ))}
+                                </Select>
                             </Form.Item>
 
                             <Form.Item
                                 name="description"
                                 label="Mô tả công ty"
                             >
-                                <TextArea
-                                    rows={6}
+                                <ReactQuill
+                                    theme="snow"
                                     placeholder="Nhập mô tả về công ty..."
+                                    style={{ height: '250px', marginBottom: '50px' }}
                                 />
                             </Form.Item>
                             <Form.Item
                                 name="logo"
-                                label="Logo công ty (URL)"
+                                hidden
                             >
-                                <Input placeholder="URL logo" size="large" />
+                                <Input />
                             </Form.Item>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

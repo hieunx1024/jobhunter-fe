@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { VIETNAM_PROVINCES } from '../../utils/vietnamProvinces';
 import { toast } from 'react-toastify';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
@@ -12,7 +13,17 @@ import { LockOutlined } from '@ant-design/icons';
 
 const schema = yup.object().shape({
     name: yup.string().required('Tên hiển thị không được để trống'),
-    age: yup.number().typeError('Tuổi phải là số').required('Tuổi không được để trống').min(18, 'Phải trên 18 tuổi').max(100, 'Tuổi không hợp lệ'),
+    dateOfBirth: yup.string().required('Ngày sinh không được để trống').test('is-18', 'Phải trên 18 tuổi', value => {
+        if (!value) return false;
+        const birthDate = new Date(value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age >= 18;
+    }),
     gender: yup.string().required('Vui lòng chọn giới tính'),
     address: yup.string().required('Địa chỉ không được để trống'),
 });
@@ -44,7 +55,7 @@ const ProfilePage = () => {
     useEffect(() => {
         if (user) {
             setValue('name', user.name);
-            setValue('age', user.age);
+            setValue('dateOfBirth', user.dateOfBirth);
             setValue('gender', user.gender); // Ensure gender matches user data (MALE/FEMALE)
             setValue('address', user.address);
         }
@@ -56,7 +67,7 @@ const ProfilePage = () => {
             const submitData = new FormData();
             submitData.append('name', data.name);
             submitData.append('address', data.address);
-            submitData.append('age', data.age);
+            submitData.append('dateOfBirth', data.dateOfBirth);
             submitData.append('gender', data.gender);
 
             await axiosClient.post(ENDPOINTS.PROFILE.BASE, submitData, {
@@ -87,12 +98,14 @@ const ProfilePage = () => {
                     >
                         Thông tin chung
                     </button>
-                    <button
-                        className={`flex-1 py-4 text-center font-medium transition-colors ${activeTab === 'password' ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}
-                        onClick={() => setActiveTab('password')}
-                    >
-                        Đổi mật khẩu
-                    </button>
+                    {user?.provider !== 'GOOGLE' && (
+                        <button
+                            className={`flex-1 py-4 text-center font-medium transition-colors ${activeTab === 'password' ? 'text-brand-600 border-b-2 border-brand-600 bg-brand-50/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'}`}
+                            onClick={() => setActiveTab('password')}
+                        >
+                            Đổi mật khẩu
+                        </button>
+                    )}
                 </div>
 
                 <div className="p-8">
@@ -128,14 +141,13 @@ const ProfilePage = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Tuổi</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Ngày sinh</label>
                                     <input
-                                        type="number"
-                                        {...register('age')}
-                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all ${errors.age ? 'border-red-500' : 'border-gray-300'}`}
-                                        placeholder="Nhập tuổi"
+                                        type="date"
+                                        {...register('dateOfBirth')}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
                                     />
-                                    {errors.age && <p className="mt-1 text-sm text-red-500">{errors.age.message}</p>}
+                                    {errors.dateOfBirth && <p className="mt-1 text-sm text-red-500">{errors.dateOfBirth.message}</p>}
                                 </div>
 
                                 <div>
@@ -153,13 +165,16 @@ const ProfilePage = () => {
                                 </div>
 
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Địa chỉ</label>
-                                    <textarea
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Địa chỉ (Tỉnh/Thành phố)</label>
+                                    <select
                                         {...register('address')}
-                                        rows="3"
                                         className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
-                                        placeholder="Nhập địa chỉ của bạn"
-                                    ></textarea>
+                                    >
+                                        <option value="">Chọn Tỉnh/Thành phố</option>
+                                        {VIETNAM_PROVINCES.map(province => (
+                                            <option key={province} value={province}>{province}</option>
+                                        ))}
+                                    </select>
                                     {errors.address && <p className="mt-1 text-sm text-red-500">{errors.address.message}</p>}
                                 </div>
                             </div>

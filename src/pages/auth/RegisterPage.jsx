@@ -2,6 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { VIETNAM_PROVINCES } from '../../utils/vietnamProvinces';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axiosClient from '../../api/axiosClient';
@@ -17,7 +18,17 @@ const schema = yup.object().shape({
     email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'),
     password: yup.string().required('Mật khẩu là bắt buộc').min(6, 'Mật khẩu tối thiểu 6 ký tự'),
     gender: yup.string().required('Giới tính là bắt buộc'),
-    age: yup.number().typeError('Tuổi phải là số').required('Tuổi là bắt buộc').min(18, 'Phải trên 18 tuổi'),
+    dateOfBirth: yup.string().required('Ngày sinh là bắt buộc').test('is-18', 'Phải trên 18 tuổi', value => {
+        if (!value) return false;
+        const birthDate = new Date(value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age >= 18;
+    }),
     address: yup.string().required('Địa chỉ là bắt buộc'),
     role: yup.string().required('Vui lòng chọn vai trò'),
 });
@@ -216,14 +227,13 @@ const RegisterPage = () => {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Tuổi</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Ngày sinh</label>
                                         <input
-                                            {...register('age')}
-                                            type="number"
-                                            className={`w-full h-11 px-4 rounded-lg border ${errors.age ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:border-primary focus:ring-primary/20'} outline-none transition-all focus:ring-4 text-sm bg-gray-50/50 focus:bg-white`}
-                                            placeholder="22"
+                                            {...register('dateOfBirth')}
+                                            type="date"
+                                            className={`w-full h-11 px-4 rounded-lg border ${errors.dateOfBirth ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:border-primary focus:ring-primary/20'} outline-none transition-all focus:ring-4 text-sm bg-gray-50/50 focus:bg-white`}
                                         />
-                                        {errors.age && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.age.message}</p>}
+                                        {errors.dateOfBirth && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.dateOfBirth.message}</p>}
                                     </div>
 
                                     <div>
@@ -242,13 +252,16 @@ const RegisterPage = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Địa chỉ</label>
-                                    <input
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Địa chỉ (Tỉnh/Thành phố)</label>
+                                    <select
                                         {...register('address')}
-                                        type="text"
-                                        className={`w-full h-11 px-4 rounded-lg border ${errors.address ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:border-primary focus:ring-primary/20'} outline-none transition-all focus:ring-4 text-sm bg-gray-50/50 focus:bg-white`}
-                                        placeholder="Hà Nội"
-                                    />
+                                        className={`w-full h-11 px-4 rounded-lg border ${errors.address ? 'border-red-500 focus:ring-red-100' : 'border-gray-300 focus:border-primary focus:ring-primary/20'} outline-none transition-all focus:ring-4 text-sm bg-gray-50/50 focus:bg-white appearance-none`}
+                                    >
+                                        <option value="">Chọn Tỉnh/Thành phố</option>
+                                        {VIETNAM_PROVINCES.map(province => (
+                                            <option key={province} value={province}>{province}</option>
+                                        ))}
+                                    </select>
                                     {errors.address && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.address.message}</p>}
                                 </div>
 

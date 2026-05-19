@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import axiosClient from '../../api/axiosClient';
 import { ENDPOINTS } from '../../api/endpoints';
 import { openPDFDirectly } from '../../utils/fileUtils';
+import { VIETNAM_PROVINCES } from '../../utils/vietnamProvinces';
 import {
     User,
     Mail,
@@ -26,7 +27,7 @@ const CandidateProfilePage = () => {
         name: '',
         email: '',
         address: '',
-        age: '',
+        dateOfBirth: '',
         gender: ''
     });
     const [cvFile, setCvFile] = useState(null);
@@ -60,7 +61,7 @@ const CandidateProfilePage = () => {
                 name: user.name || '',
                 email: user.email || '',
                 address: user.address || '',
-                age: user.age || '',
+                dateOfBirth: user.dateOfBirth || '',
                 gender: user.gender || ''
             });
             fetchProfile();
@@ -132,7 +133,7 @@ const CandidateProfilePage = () => {
             const submitData = new FormData();
             submitData.append('name', formData.name);
             submitData.append('address', formData.address);
-            submitData.append('age', formData.age || '');
+            submitData.append('dateOfBirth', formData.dateOfBirth || '');
             submitData.append('gender', formData.gender);
             
             if (cvFile) { 
@@ -268,18 +269,21 @@ const CandidateProfilePage = () => {
                             {/* Address */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                    Địa chỉ
+                                    Địa chỉ (Tỉnh/Thành phố)
                                 </label>
                                 <div className="relative">
-                                    <MapPin className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
-                                    <textarea
+                                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                    <select
                                         name="address"
                                         value={formData.address}
                                         onChange={handleInputChange}
-                                        rows="3"
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Nhập địa chỉ"
-                                    />
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+                                    >
+                                        <option value="">Chọn Tỉnh/Thành phố</option>
+                                        {VIETNAM_PROVINCES.map(province => (
+                                            <option key={province} value={province}>{province}</option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
 
@@ -287,17 +291,14 @@ const CandidateProfilePage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                        Tuổi
+                                        Ngày sinh
                                     </label>
                                     <input
-                                        type="number"
-                                        name="age"
-                                        value={formData.age}
+                                        type="date"
+                                        name="dateOfBirth"
+                                        value={formData.dateOfBirth}
                                         onChange={handleInputChange}
-                                        min="18"
-                                        max="100"
                                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Nhập tuổi"
                                     />
                                 </div>
 
@@ -341,26 +342,28 @@ const CandidateProfilePage = () => {
                     </div>
 
                     {/* Security Card */}
-                    <div className="bg-white rounded-2xl shadow-lg p-8 mt-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
-                            <KeyRound className="w-6 h-6 text-primary" />
-                            <span>Bảo mật tài khoản</span>
-                        </h2>
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 bg-gray-50 border border-gray-100 rounded-xl">
-                            <div className="text-left">
-                                <p className="font-semibold text-gray-800 text-sm">Mật khẩu đăng nhập</p>
-                                <p className="text-xs text-gray-500 mt-1">Nên thay đổi mật khẩu định kỳ để nâng cao tính bảo mật cho tài khoản của bạn.</p>
+                    {user?.provider !== 'GOOGLE' && (
+                        <div className="bg-white rounded-2xl shadow-lg p-8 mt-6">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
+                                <KeyRound className="w-6 h-6 text-primary" />
+                                <span>Bảo mật tài khoản</span>
+                            </h2>
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 bg-gray-50 border border-gray-100 rounded-xl">
+                                <div className="text-left">
+                                    <p className="font-semibold text-gray-800 text-sm">Mật khẩu đăng nhập</p>
+                                    <p className="text-xs text-gray-500 mt-1">Nên thay đổi mật khẩu định kỳ để nâng cao tính bảo mật cho tài khoản của bạn.</p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsChangePasswordModalOpen(true)}
+                                    className="px-6 py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-all flex items-center gap-2 flex-shrink-0 active:scale-95 shadow-md shadow-gray-900/10"
+                                >
+                                    <Lock className="w-4 h-4" />
+                                    Đổi mật khẩu
+                                </button>
                             </div>
-                            <button
-                                type="button"
-                                onClick={() => setIsChangePasswordModalOpen(true)}
-                                className="px-6 py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-all flex items-center gap-2 flex-shrink-0 active:scale-95 shadow-md shadow-gray-900/10"
-                            >
-                                <Lock className="w-4 h-4" />
-                                Đổi mật khẩu
-                            </button>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* CV Upload Section */}
