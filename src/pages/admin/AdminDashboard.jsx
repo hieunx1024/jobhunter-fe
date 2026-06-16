@@ -46,14 +46,7 @@ const AdminDashboard = () => {
 
     const CHART_COLORS = ['#3b82f6', '#10b981', '#db2777', '#d97706', '#8b5cf6'];
 
-    const timeSeriesData = [
-        { name: 'T1', users: 5, companies: 2, jobs: 9, resumes: 7, sub: 0 },
-        { name: 'T2', users: 6, companies: 3, jobs: 10, resumes: 8, sub: 0 },
-        { name: 'T3', users: 7, companies: 3, jobs: 12, resumes: 10, sub: 1 },
-        { name: 'T4', users: 8, companies: 4, jobs: 13, resumes: 11, sub: 1 },
-        { name: 'T5', users: 9, companies: 4, jobs: 13, resumes: 12, sub: 1 },
-        { name: 'T6', users: 11, companies: 5, jobs: 14, resumes: 13, sub: 2 },
-    ];
+    const timeSeriesData = statsData?.timeSeriesData || [];
 
     const pieData = [
         { name: 'Ứng viên', value: statsData?.totalCandidates || 0 },

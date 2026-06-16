@@ -1,5 +1,5 @@
 
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import RecruiterLayout from './layouts/RecruiterLayout';
@@ -22,7 +22,6 @@ import ResumeManagement from './pages/admin/ResumeManagement';
 import ProfilePage from './pages/profile/ProfilePage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import RegisterCompanyPage from './pages/hr/RegisterCompanyPage';
-import CompanyApprovalsPage from './pages/admin/CompanyApprovalsPage';
 import HRDashboard from './pages/hr/HRDashboard';
 import HRJobManagement from './pages/hr/HRJobManagement';
 import HRResumeManagement from './pages/hr/HRResumeManagement';
@@ -119,7 +118,7 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="users" element={<UserManagement />} />
           <Route path="companies" element={<CompanyManagement />} />
-          <Route path="company-approvals" element={<CompanyApprovalsPage />} />
+          <Route path="company-approvals" element={<Navigate to="/admin/companies?tab=approvals" replace />} />
           <Route path="jobs" element={<JobManagement />} />
           <Route path="resumes" element={<ResumeManagement />} />
         </Route>

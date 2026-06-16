@@ -52,12 +52,6 @@ const AdminLayout = () => {
             onClick: () => navigate('/admin/companies'),
         },
         {
-            key: '/admin/company-approvals',
-            icon: <ClipboardCheck size={20} />,
-            label: 'Phê duyệt Công ty',
-            onClick: () => navigate('/admin/company-approvals'),
-        },
-        {
             key: '/admin/jobs',
             icon: <Briefcase size={20} />,
             label: 'Việc làm',

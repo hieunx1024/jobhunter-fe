@@ -25,6 +25,20 @@ axiosClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+    failedQueue.forEach((prom) => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+    failedQueue = [];
+};
+
 // Response interceptor to handle token refresh
 axiosClient.interceptors.response.use(
     (response) => response,
@@ -37,22 +51,39 @@ axiosClient.interceptors.response.use(
 
         // 1. If error is 401 and it's NOT a refresh request or a login/register request
         if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== ENDPOINTS.AUTH.REFRESH && !isAuthContext) {
+            if (isRefreshing) {
+                return new Promise((resolve, reject) => {
+                    failedQueue.push({ resolve, reject });
+                })
+                .then((token) => {
+                    originalRequest.headers.Authorization = `Bearer ${token}`;
+                    return axiosClient(originalRequest);
+                })
+                .catch((err) => Promise.reject(err));
+            }
+
             originalRequest._retry = true;
+            isRefreshing = true;
 
             try {
-                // Call refresh token endpoint
-                // Note: We use axios (global) or a separate instance to avoid this interceptor
+                // Call refresh token endpoint using global axios to avoid interceptor loop
                 const res = await axios.get(ENDPOINTS.AUTH.REFRESH, { withCredentials: true });
 
                 if (res.data && res.data.data && res.data.data.access_token) {
                     const newAccessToken = res.data.data.access_token;
                     localStorage.setItem('access_token', newAccessToken);
 
-                    // Update header and retry
+                    // Update headers
                     originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                    processQueue(null, newAccessToken);
+                    isRefreshing = false;
+
                     return axiosClient(originalRequest);
                 }
             } catch (refreshError) {
+                processQueue(refreshError, null);
+                isRefreshing = false;
+
                 // Refresh failed (cookie expired/missing) -> Logout
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('user_info');
